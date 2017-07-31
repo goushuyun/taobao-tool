@@ -1,41 +1,34 @@
 const index = r => require(['../pages/index.vue'], r)
-const first = r => require(['../pages/first/index.vue'], r)
-const f_first = r => require(['../pages/first/f_first.vue'], r)
-const f_second = r => require(['../pages/first/f_second.vue'], r)
-
-const second = r => require(['../pages/second/index.vue'], r)
-const s_first = r => require(['../pages/second/s_first.vue'], r)
-const s_second = r => require(['../pages/second/s_second.vue'], r)
+const stock = r => require(['../pages/stock/index.vue'], r)
+const batch = r => require(['../pages/stock/batch.vue'], r)
+const single = r => require(['../pages/stock/single.vue'], r)
+const list = r => require(['../pages/stock/list.vue'], r)
+const out = r => require(['../pages/stock/out.vue'], r)
 
 export default [{
   path: '/',
   name: 'index',
   component: index,
   children: [{
-    path: '/first',
-    name: 'first',
-    component: first,
+    path: '/stock',
+    name: 'stock',
+    component: stock,
     children: [{
-      path: '/first/f_first',
-      name: 'f_first',
-      component: f_first
+      path: '/stock/batch',
+      name: 'batch',
+      component: batch
     }, {
-      path: '/first/f_second',
-      name: 'f_second',
-      component: f_second
-    }]
-  }, {
-    path: '/second',
-    name: 'second',
-    component: second,
-    children: [{
-      path: '/second/s_first',
-      name: 's_first',
-      component: s_first
+      path: '/stock/single',
+      name: 'single',
+      component: single
     }, {
-      path: '/second/s_second',
-      name: 's_second',
-      component: s_second
+      path: '/stock/list',
+      name: 'list',
+      component: list
+    }, {
+      path: '/stock/out',
+      name: 'out',
+      component: out
     }]
   }]
 }]

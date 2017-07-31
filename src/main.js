@@ -16,9 +16,7 @@ const router = new VueRouter({
 import Vuex from "vuex"
 Vue.use(Vuex)
 import vuexObj from './config/store'
-var store = new Vuex.Store({
-  vuexObj
-})
+var store = new Vuex.Store(vuexObj)
 
 const app = new Vue({
   router: router,

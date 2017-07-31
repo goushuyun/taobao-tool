@@ -1,10 +1,8 @@
 <template lang="html">
   <div class="container">
-    <div class="content_top_bar">
-      子菜单二
-    </div>
+    <div class="content_top_bar">库存查看</div>
     <div class="content_inner">
-      老虎不在家，我就打他妈
+      一二三四五，上山打老虎
     </div>
   </div>
 </template>

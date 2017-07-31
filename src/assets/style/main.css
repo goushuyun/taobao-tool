@@ -43,7 +43,7 @@
 }
 
 .sec_left_bar .menu {
-  border-top: 1px solid #E4E8F1;
+  border-top: 1px solid #DFE6EC;
   box-sizing: border-box;
   padding-top: 6px;
 }
@@ -67,7 +67,7 @@
   width: 100%;
   height: 50px;
   line-height: 50px;
-  border-left: 1px solid #E4E8F1;
+  border-left: 1px solid #DFE6EC;
   background-color: #EEF1F6;
   box-sizing: border-box;
   padding: 0 16px;

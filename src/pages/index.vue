@@ -5,9 +5,8 @@
         <img :src="'http://image1.goushuyun.cn/goushuyun_logo.png'" class="shop_logo">
       </div>
       <div class="left_middle">
-        <el-menu theme="dark" :router="true" default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-          <el-menu-item index="1" :route="{name:'f_first'}"><i class="el-icon-menu"></i>一页</el-menu-item>
-          <el-menu-item index="2" :route="{name:'s_first'}"><i class="el-icon-menu"></i>二页</el-menu-item>
+        <el-menu theme="dark" :router="true" :default-active="menu_active" class="el-menu-vertical-demo" @select="menuSelect">
+          <el-menu-item index="1" :route="{name:'batch'}"><i class="fa fa-book" aria-hidden="true"></i>库存</el-menu-item>
         </el-menu>
       </div>
       <transition name="el-zoom-in-center">
@@ -25,9 +24,9 @@
       </transition>
       <transition name="el-zoom-in-center">
         <div v-show="!show_btns" class="left_bottom" @mouseover="show_btns = true">
-            <div class="username">
-                {{user_name}}
-            </div>
+          <div class="username">
+            {{user_name}}
+          </div>
         </div>
       </transition>
     </div>
@@ -45,12 +44,23 @@ export default {
       user_name: '冯忠森'
     }
   },
+  computed: {
+    menu_active() {
+      let vuex_active = this.$store.state.menu_active
+      let local_active = localStorage.getItem('menu_active')
+      if (vuex_active) {
+        return vuex_active
+      } else if (local_active) {
+        return local_active
+      } else {
+        return '1'
+      }
+    }
+  },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    menuSelect(index) {
+      this.$store.commit('setMenuActive', index)
+      localStorage.setItem('menu_active', index)
     }
   }
 }
@@ -58,65 +68,63 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  height: 100%;
-  font-size: 14px;
-  .left_bar {
-    .left_top {
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    height: 100%;
+    font-size: 14px;
+    .left_bar {
+        .left_top {
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-      .shop_logo {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-      }
-    }
-
-    .left_middle {
-      i.icon {
-        color: white;
-        font-size: 13px;
-        padding: 0 8px;
-      }
-
-      i.fa {
-        width: 14px;
-        padding-right: 10px;
-      }
-    }
-
-    .left_bottom {
-      position: absolute;
-      bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      width: 100%;
-      height: 50px;
-      line-height: 50px;
-      color: #FFFFFF;
-
-      .btn_area {
-        height: 22px;
-        width: 22px;
-        line-height: 22px;
-        border-radius: 50px;
-        border: 1px solid #FFFFFF;
-        text-align: center;
-
-        img {
-          height: 22px;
-          width: 22px;
+            .shop_logo {
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+            }
         }
 
-        &:hover {
-          cursor: pointer;
+        .left_middle {
+            i.icon {
+                color: white;
+                font-size: 13px;
+                padding: 0 8px;
+            }
+
+            i.fa {
+                width: 14px;
+                padding-right: 6px;
+            }
         }
-      }
+
+        .left_bottom {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            color: #FFFFFF;
+
+            .btn_area {
+                height: 22px;
+                width: 22px;
+                line-height: 22px;
+                border-radius: 50px;
+                border: 1px solid #FFFFFF;
+                text-align: center;
+
+                img {
+                    height: 22px;
+                    width: 22px;
+                }
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
     }
-  }
 }
-
 </style>
