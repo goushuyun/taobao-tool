@@ -10,10 +10,10 @@
           <span>11</span>
         </el-form-item>
         <el-form-item label="出库量：" label-width="100px">
-          <el-input style="width: 80px;" size="small" v-model.trim="out" @keyup.enter.native="confirmOut"></el-input>
+          <el-input style="width: 80px;" size="small" v-model.trim="out" @keyup.enter.native="test"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="primary" @click="confirmOut">出库</el-button>
+          <el-button size="small" type="primary" @click="test">出库</el-button>
         </el-form-item>
       </el-form>
       <el-table :data="tableData" border style="width: 100%">
@@ -31,51 +31,12 @@
 </template>
 
 <script>
+import mixin from "./out.js"
 export default {
-  data() {
-    return {
-      isbn: '',
-      out: '',
-      tableData: [{
-        isbn: '9787123456789',
-        title: '数据结构',
-        price: '15.00',
-        stock: '大仓库',
-        shelf: 'A货架',
-        floor: '1层',
-        moment: 10,
-        out: 1
-      }, {
-        isbn: '9787123456789',
-        title: '数据结构',
-        price: '15.00',
-        stock: '大仓库',
-        shelf: 'A货架',
-        floor: '1层',
-        moment: 10,
-        out: 1
-      }, {
-        isbn: '9787123456789',
-        title: '数据结构',
-        price: '15.00',
-        stock: '大仓库',
-        shelf: 'A货架',
-        floor: '1层',
-        moment: 10,
-        out: 1
-      }]
-    }
-  },
-  mathods: {
-    getData() {
-
-    },
-    confirmOut() {
-
-    }
-  }
+  mixins: [mixin]
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+@import "./out.scss"
 </style>

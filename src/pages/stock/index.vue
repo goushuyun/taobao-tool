@@ -8,6 +8,8 @@
           <el-menu-item index="2" :route="{name:'single'}">单本上架</el-menu-item>
           <el-menu-item index="3" :route="{name:'out'}">图书出库</el-menu-item>
           <el-menu-item index="4" :route="{name:'list'}">库存查看</el-menu-item>
+          <el-menu-item index="5" :route="{name:'setting'}">仓库设置</el-menu-item>
+          <el-menu-item index="6" :route="{name:'book'}">书籍维护</el-menu-item>
         </el-menu>
       </div>
     </div>

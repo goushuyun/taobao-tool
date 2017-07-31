@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container">
-    <div class="content_top_bar">批量上架</div>
+    <div class="content_top_bar">书籍维护</div>
     <div class="content_inner">
       一二三四五，上山打老虎
     </div>
@@ -8,12 +8,12 @@
 </template>
 
 <script>
+import mixin from "./book.js"
 export default {
-  mounted() {
-    this.$store.commit('setSubMenuActive', '1')
-  }
+  mixins: [mixin]
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+@import "./book.scss"
 </style>

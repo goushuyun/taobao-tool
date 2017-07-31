@@ -1,9 +1,11 @@
 const index = r => require(['../pages/index.vue'], r)
 const stock = r => require(['../pages/stock/index.vue'], r)
-const batch = r => require(['../pages/stock/batch.vue'], r)
-const single = r => require(['../pages/stock/single.vue'], r)
-const list = r => require(['../pages/stock/list.vue'], r)
-const out = r => require(['../pages/stock/out.vue'], r)
+const batch = r => require(['../pages/stock/batch/batch.vue'], r)
+const single = r => require(['../pages/stock/single/single.vue'], r)
+const list = r => require(['../pages/stock/list/list.vue'], r)
+const out = r => require(['../pages/stock/out/out.vue'], r)
+const book = r => require(['../pages/stock/book/book.vue'], r)
+const setting = r => require(['../pages/stock/setting/setting.vue'], r)
 
 export default [{
   path: '/',
@@ -29,6 +31,14 @@ export default [{
       path: '/stock/out',
       name: 'out',
       component: out
+    }, {
+      path: '/stock/book',
+      name: 'book',
+      component: book
+    }, {
+      path: '/stock/setting',
+      name: 'setting',
+      component: setting
     }]
   }]
 }]
