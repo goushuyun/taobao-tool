@@ -19,7 +19,7 @@
           <el-input size="small" v-model.trim="form.isbn" icon="search"></el-input>
         </el-form-item>
       </el-form>
-      <div class="card" v-if="false">
+      <div class="card" v-if="true">
         <div class="header">选择图书</div>
         <div class="body">
           <el-radio-group v-model="radio" style="width: 100%;">
@@ -45,7 +45,7 @@
           <el-button size="small" type="default" style="width: 60px;">确定</el-button>
         </div>
       </div>
-      <div class="card" v-else>
+      <div class="card">
         <div class="header">新增图书</div>
         <div class="body">
           <el-form ref="book_info" :model="book_info" :rules="rules" label-width="80px" style="width: 300px;">

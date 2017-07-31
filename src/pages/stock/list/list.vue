@@ -35,8 +35,8 @@
           <el-table-column prop="title" label="书名"></el-table-column>
           <el-table-column prop="moment" label="库存量" width="80"></el-table-column>
           <el-table-column prop="remark" label="备注"></el-table-column>
-          <el-table-column prop="stock" label="操作" width="100">
-            <template scope="scope" >
+          <el-table-column label="操作" width="100">
+            <template scope="scope">
               <el-button type="text">查看详情</el-button>
             </template>
           </el-table-column>
