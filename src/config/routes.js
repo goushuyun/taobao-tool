@@ -1,4 +1,5 @@
-const index = r => require(['../pages/index.vue'], r)
+const login = r => require(['../pages/login/login.vue'], r)
+const index = r => require(['../pages/index/index.vue'], r)
 const stock = r => require(['../pages/stock/index.vue'], r)
 const batch = r => require(['../pages/stock/batch/batch.vue'], r)
 const single = r => require(['../pages/stock/single/single.vue'], r)
@@ -8,6 +9,10 @@ const book = r => require(['../pages/stock/book/book.vue'], r)
 const setting = r => require(['../pages/stock/setting/setting.vue'], r)
 
 export default [{
+  path: '/login',
+  name: 'login',
+  component: login
+}, {
   path: '/',
   name: 'index',
   component: index,

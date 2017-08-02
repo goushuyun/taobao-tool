@@ -3,7 +3,7 @@ import Axios from 'axios'
 import Vue from 'vue'
 import conf from './basis.js'
 const axios = Axios.create({
-  baseURL: conf.base_url, //购书云
+  baseURL: conf.base_url,
   headers: {
     'Content-Type': 'application/json'
   }
