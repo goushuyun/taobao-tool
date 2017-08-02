@@ -49,8 +49,8 @@ export default {
             /* 倒计时 */
             register_timer_second: 60,
             registe_timer_disabled: false,
-            update_pwd_timer_second: 60,
-            update_pwd_timer_disabled: false,
+            // update_pwd_timer_second: 60,
+            // update_pwd_timer_disabled: false,
 
             sign: {
                 mobile: '',
@@ -88,11 +88,22 @@ export default {
         }
     },
     mounted() {
-        $('.mobile input').focus()
-        localStorage.removeItem('store')
-        localStorage.removeItem('token')
+        if (this.checkToken() === false) {
+            $('.mobile input').focus()
+        }
     },
     methods: {
+        checkToken() {
+            var token = localStorage.getItem('token')
+            if (token == null) {
+                return false
+            } else {
+                this.$message.info('已经登录了！')
+                this.$router.replace({
+                  name: 'index'
+                })
+            }
+        },
         handleClick(tab, e) {
             this.activeName = tab.name
             this.sign.password = ''
@@ -130,13 +141,12 @@ export default {
                             //put adminInfo into admin
                             // localStorage.setItem('adminInfo', JSON.stringify(resp.data.data))
                             this.$router.push({
-                                name: 'index'
+                                name: 'batch'
                             })
+                        } else if (resp.data.message == 'not_found') {
+                          this.$message.error("用户名或密码错误")
+                          $('.mobile input').focus()
                         }
-                        // else if (resp.data.message == 'notFound') {
-                        //   this.$message.error("用户名或密码错误")
-                        //   $('.mobile input').focus()
-                        // }
                         this.btn_loading = false
                     })
                 } else {
