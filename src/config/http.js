@@ -33,6 +33,7 @@ axios.interceptors.response.use(function(response) {
       confirmButtonText: '确定',
       type: 'warning',
       callback: action => {
+        localStorage.removeItem('token')
         window.location.href = conf.home_href
       }
     });
