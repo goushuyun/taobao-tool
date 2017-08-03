@@ -1,0 +1,42 @@
+@import "../../../assets/style/common.scss";
+
+div.book_info{
+    background-color: $git_bg_grey;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 6px 0;
+    div.image_box{
+        width: 200px;
+        height: 200px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img.book_image{
+            height: 100%;
+        }
+    }
+
+    ul.info_detail{
+        align-self: flex-start;
+        padding-left: 16px;
+        padding-top: 12px;
+        line-height: 22px;
+        li{
+            font-size: 13px;
+            padding: 2px 0;
+            display: flex;
+            justify-content: flex-start;
+            color: $font_second;
+            span.key{
+                min-width: 60px;
+                line-height: 22px;
+            }
+            span.val{
+                line-height: 22px;
+            }
+        }
+    }
+}
