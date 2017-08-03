@@ -7,25 +7,24 @@
           <el-input size="small" type="number" :min="1" style="width: 100px;" v-model="stock"></el-input>
         </el-form-item>
         <el-form-item label="库存位置">
-          <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位" @select="handleSelect"></el-autocomplete> -
-          <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位" @select="handleSelect"></el-autocomplete> -
-          <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数" @select="handleSelect"></el-autocomplete>
+          <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位"></el-autocomplete> -
+          <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位"></el-autocomplete> -
+          <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数"></el-autocomplete>
         </el-form-item>
       </el-form>
-      <el-form :inline="true">
-        <el-form-item label="ISBN">
-          <el-input size="small" v-model.trim="isbn" style="width: 280px;" @keyup.enter.native="saveMapRow">
-            <el-button slot="append" @click="saveMapRow">入库</el-button>
-          </el-input>
-        </el-form-item>
-      </el-form>
+      <div style="margin-bottom: 24px;">
+        <label for="isbn" style="margin-right: 7px;">ISBN</label>
+        <el-input id="isbn" size="small" v-model.trim="isbn" style="width: 281px;" @keyup.enter.native="getLocationId">
+          <el-button slot="append" @click="getLocationId">入库</el-button>
+        </el-input>
+      </div>
       <div class="card">
         <div class="header">入库情况（只展示最近10本书的入库情况）</div>
         <div class="body">
           <el-table :data="records" border style="width: 100%">
             <el-table-column prop="isbn" label="ISBN" width="200"></el-table-column>
             <el-table-column prop="location" label="库位-架位-层数"></el-table-column>
-            <el-table-column prop="moment" label="入库量" width="80"></el-table-column>
+            <el-table-column prop="stock" label="入库量" width="80"></el-table-column>
             <el-table-column prop="status" label="状态" width="100">
               <template scope="scope">
                 <el-tag v-if="scope.row.status == 1" type="success">入库成功</el-tag>
@@ -35,9 +34,10 @@
           </el-table>
         </div>
       </div>
-      <el-dialog title="选择图书" :visible.sync="dialogTableVisible">
+      <el-dialog title="选择图书" :visible.sync="select_dialog">
+        <p>如果未找到对应的图书，点击 <el-button type="text" @click="preAddBook">新增图书</el-button> 完善图书信息后添加</p>
         <el-radio-group v-model="radio" style="width: 100%;">
-          <div v-for="(book,index) in tableData" class="radio_item">
+          <div v-for="(book,index) in candidate_books" class="radio_item">
             <el-radio :label="index" class="radio">
               <div class="label">
                 <div class="image_wrap">
@@ -55,16 +55,16 @@
           </div>
         </el-radio-group>
         <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogTableVisible = false">取 消</el-button>
-          <el-button size="small" type="primary" @click="dialogTableVisible = false">确 定</el-button>
+          <el-button size="small" @click="cancelSelect">取 消</el-button>
+          <el-button size="small" type="primary" @click="confirmSelect">确 定</el-button>
         </div>
       </el-dialog>
 
-      <el-dialog title="选择图书" :visible.sync="dialogFormVisible">
+      <el-dialog title="新增图书" :visible.sync="add_dialog">
         <div class="body">
           <el-form ref="book_info" :model="book_info" :rules="rules" label-width="80px" style="width: 300px;">
             <el-form-item label="ISBN" prop="isbn">
-              <el-input id="isbn" size="small" :autofocus="true" icon="search" :on-icon-click="search" v-model.trim="book_info.isbn" v-on:keyup.enter.native="search"></el-input>
+              <el-input id="isbn" size="small" v-model.trim="book_info.isbn"></el-input>
             </el-form-item>
             <el-form-item label="书 名" prop="title">
               <el-input size="small" :maxlength="30" v-model.trim="book_info.title"></el-input>
@@ -95,8 +95,8 @@
           </el-upload>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogFormVisible = false">取 消</el-button>
-          <el-button size="small" type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button size="small" @click="add_dialog = false">取 消</el-button>
+          <el-button size="small" type="primary" @click="confirmAdd('book_info')">确 定</el-button>
         </div>
       </el-dialog>
     </div>
