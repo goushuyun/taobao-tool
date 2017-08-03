@@ -149,6 +149,7 @@ export default {
          * 商品入库
          */
         saveMapRow() {
+            console.log('saveMapRow');
             axios.post( '/v1/stock/save_map_row', {
                 "goods_id": "23452345sfgsdfg", //required
                 "location_id": "a2823b4a-c574-4fed-9695-8adf82231844", //required
