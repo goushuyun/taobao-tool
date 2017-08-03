@@ -2,6 +2,9 @@ html,
 body,
 #app {
     height: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 
 /*一级菜单*/
@@ -16,14 +19,13 @@ body,
 }
 
 #content {
-    position: fixed;
-    top: 0;
-    left: 90px;
-    right: 0;
-    bottom: 0;
+    padding-left: 90px;
+    height: 100%;
+    width: 100%;
     background-image: url("/src/assets/image/taobao_tool_bc.jpg");
     /*background-attachment: fixed;*/
     background-size: 100%, 100%;
+    box-sizing: border-box;
 }
 
 

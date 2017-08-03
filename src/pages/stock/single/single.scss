@@ -1,29 +1,25 @@
-.el-select {
-  width: 160px;
+.el-autocomplete input,
+.el-input {
+    width: 160px;
 }
 
 .card {
-  border-top: 1px solid #d1dbe5;
-  padding: 10px;
+    border-top: 1px solid #d1dbe5;
+    padding: 10px;
+}
 
-  .header {
+.header {
     height: 36px;
     line-height: 36px;
     margin-bottom: 10px;
-  }
+}
 
-  .footer {
-    height: 36px;
-    line-height: 36px;
-    margin-top: 10px;
-  }
-
-  .body {
+.body {
     position: relative;
-  }
+}
 
-  .avatar-uploader,
-  .el-upload {
+.avatar-uploader,
+.el-upload {
     border: 1px dashed #bfcbd9;
     border-radius: 6px;
     cursor: pointer;
@@ -39,37 +35,36 @@
     justify-content: center;
 
     img {
-      max-height: 230px;
-      max-width: 230px;
+        max-height: 230px;
+        max-width: 230px;
     }
 
     &:hover {
-      border-color: #20a0ff;
+        border-color: #20a0ff;
     }
-  }
+}
 
-  .avatar-uploader-icon {
+.avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
     width: 230px;
     height: 230px;
     line-height: 230px;
     text-align: center;
-  }
 }
 
 .radio_item {
-  width: 100%;
-  padding: 0 14px;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 0 14px;
+    box-sizing: border-box;
 
-  .label,
-  .radio {
-    display: flex;
-    align-items: center;
-  }
+    .label,
+    .radio {
+        display: flex;
+        align-items: center;
+    }
 
-  &:hover {
-    background-color: #EEF1F6;
-  }
+    &:hover {
+        background-color: #EEF1F6;
+    }
 }
