@@ -53,7 +53,7 @@
 <script>
 import mixin from "./list.js"
 export default {
-  mixins: [mixin]
+    mixins: [mixin]
 }
 </script>
 

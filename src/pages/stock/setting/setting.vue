@@ -37,7 +37,7 @@
 <script>
 import mixin from "./setting.js"
 export default {
-  mixins: [mixin]
+    mixins: [mixin]
 }
 </script>
 

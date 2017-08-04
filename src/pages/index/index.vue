@@ -7,6 +7,7 @@
       <div class="left_middle">
         <el-menu theme="dark" :router="true" :default-active="menu_active" class="el-menu-vertical-demo" @select="menuSelect">
           <el-menu-item index="1" :route="{name:'batch'}"><i class="fa fa-book" aria-hidden="true"></i>库存</el-menu-item>
+          <el-menu-item index="2" :route="{name:'maintain'}"><i class="fa fa-book" aria-hidden="true"></i>图书</el-menu-item>
         </el-menu>
       </div>
       <transition name="el-zoom-in-center">

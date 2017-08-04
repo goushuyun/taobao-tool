@@ -30,8 +30,15 @@ export default {
                     name: 'login'
                 })
             } else {
+                var index = localStorage.getItem('menu_active')
+                var name = 'batch'
+                if (index === '1') {
+                    name = 'batch'
+                } else if (index === '2') {
+                    name = 'maintain'
+                }
                 this.$router.replace({
-                    name: 'batch'
+                    name: name
                 })
             }
         },

@@ -76,16 +76,13 @@
 </template>
 
 <script>
-
 import mixin from "./out.js"
 export default {
     mixins: [mixin],
-    data(){
+    data() {
         return {
-            isbn: '',
-
+            isbn: ''
         }
     }
 }
-
 </script>
