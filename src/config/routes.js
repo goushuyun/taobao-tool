@@ -7,43 +7,55 @@ const list = r => require(['../pages/stock/list/list.vue'], r)
 const out = r => require(['../pages/stock/out/out.vue'], r)
 const book = r => require(['../pages/stock/book/book.vue'], r)
 const setting = r => require(['../pages/stock/setting/setting.vue'], r)
+const choo_book_dialog = r => require(['../component/choose_book/choose_book.vue'], r)
 
-export default [{
-  path: '/login',
-  name: 'login',
-  component: login
-}, {
-  path: '/',
-  name: 'index',
-  component: index,
-  children: [{
-    path: '/stock',
-    name: 'stock',
-    component: stock,
-    children: [{
-      path: '/stock/batch',
-      name: 'batch',
-      component: batch
-    }, {
-      path: '/stock/single',
-      name: 'single',
-      component: single
-    }, {
-      path: '/stock/list',
-      name: 'list',
-      component: list
-    }, {
-      path: '/stock/out',
-      name: 'out',
-      component: out
-    }, {
-      path: '/stock/book',
-      name: 'book',
-      component: book
-    }, {
-      path: '/stock/setting',
-      name: 'setting',
-      component: setting
-    }]
-  }]
-}]
+export default[
+    {
+        path: '/choo_book_dialog',
+        name: 'choo_book_dialog',
+        component: choo_book_dialog
+    },
+	{
+		path : '/login',
+		name : 'login',
+		component : login
+	}, {
+		path : '/',
+		name : 'index',
+		component : index,
+		children : [
+			{
+				path: '/stock',
+				name: 'stock',
+				component: stock,
+				children: [
+					{
+						path: '/stock/batch',
+						name: 'batch',
+						component: batch
+					}, {
+						path: '/stock/single',
+						name: 'single',
+						component: single
+					}, {
+						path: '/stock/list',
+						name: 'list',
+						component: list
+					}, {
+						path: '/stock/out',
+						name: 'out',
+						component: out
+					}, {
+						path: '/stock/book',
+						name: 'book',
+						component: book
+					}, {
+						path: '/stock/setting',
+						name: 'setting',
+						component: setting
+					}
+				]
+			}
+		]
+	}
+]

@@ -1,0 +1,45 @@
+@import "../../assets/style/common.scss";
+
+.alert{
+    margin-bottom: 12px;
+    background-color: $git_bg_green;
+    padding: 4px 12px;
+}
+
+.isbn_code, .base_info{
+    font-size: 13px;
+    color: $font_second;
+    padding: 6px;
+    line-height: 20px;
+}
+
+.check_box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// book list
+ul#book_list{
+    li.item{
+        padding: 8px 0;
+
+        &:hover{
+            background-color: $git_bg_grey;
+            cursor: pointer;
+        }
+
+        div.image_box{
+            display: flex;
+            justify-content: center;
+            height: 100px;
+            img{
+                height: 100%;
+            }
+        }
+    }
+
+    li.item:not(:last-child){
+        border-bottom: 1px solid $border_grey_lighter;
+    }
+}
