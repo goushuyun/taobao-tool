@@ -96,7 +96,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button size="small" @click="add_dialog = false">取 消</el-button>
-          <el-button size="small" type="primary" @click="confirmAdd('book_info')">确 定</el-button>
+          <el-button size="small" type="primary" @click="submitAudit('book_info')">确 定</el-button>
         </div>
       </el-dialog>
     </div>

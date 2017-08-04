@@ -48,6 +48,17 @@ function priceInt(price) {
     return parseInt(price * 100)
 }
 
+function copyObject(obj) {
+    var resObj = {}
+    try {
+        resObj = JSON.parse(JSON.stringify(obj))
+    } catch (e) {
+        console.log(e);
+    } finally {
+        return resObj
+    }
+}
+
 // 判断两个对象是否相等
 function isObjectValueEqual(a, b) {
     return JSON.stringify(a) == JSON.stringify(b);
@@ -61,5 +72,6 @@ export {
     isISBNFormat,
     priceFloat,
     priceInt,
+    copyObject,
     isObjectValueEqual
 }
