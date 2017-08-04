@@ -40,13 +40,20 @@ module.exports = {
 	//     'vue$': 'vue/dist/vue.esm.js'
 	//   }
 	// },
-	devServer: {
-		historyApiFallback: true,
-		noInfo: true
-	},
 	performance: {
 		hints: false
 	},
+	// webpack-dev-server CLI
+    devServer: {
+		historyApiFallback: true,
+		noInfo: true,
+        proxy: {
+            '/v1/*': {
+                target: 'http://127.0.0.1:8848/',
+                secure: false
+            }
+        }
+    },
 	devtool: '#eval-source-map'
 }
 
