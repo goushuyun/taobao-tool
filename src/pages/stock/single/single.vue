@@ -106,7 +106,7 @@
 <script>
 import mixin from "./single.js"
 export default {
-  mixins: [mixin]
+    mixins: [mixin]
 }
 </script>
 

@@ -1,4 +1,4 @@
 export default {
-  base_url: 'http://127.0.0.1:8848/',
-  login: 'http://tao.goushuyun.cn/#/login'
+    base_url: 'http://pc.tao.goushuyun.cn/',
+    login: 'http://tao.goushuyun.cn/#/login'
 }

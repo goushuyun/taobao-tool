@@ -100,7 +100,7 @@ export default {
             } else {
                 this.$message.info('已经登录了！')
                 this.$router.replace({
-                  name: 'index'
+                    name: 'index'
                 })
             }
         },
@@ -144,8 +144,8 @@ export default {
                                 name: 'batch'
                             })
                         } else if (resp.data.message == 'not_found') {
-                          this.$message.error("用户名或密码错误")
-                          $('.mobile input').focus()
+                            this.$message.error("用户名或密码错误")
+                            $('.mobile input').focus()
                         }
                         this.btn_loading = false
                     })

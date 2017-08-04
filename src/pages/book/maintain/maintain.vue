@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container">
-    <div class="content_top_bar">书籍维护</div>
+    <div class="content_top_bar">信息维护</div>
     <div class="content_inner">
       <el-row class="hearder">
         <el-col>
@@ -48,12 +48,12 @@
 </template>
 
 <script>
-import mixin from "./book.js"
+import mixin from "./maintain.js"
 export default {
-  mixins: [mixin]
+    mixins: [mixin]
 }
 </script>
 
 <style lang="scss" scoped>
-@import "./book.scss"
+@import "./maintain.scss"
 </style>

@@ -1,11 +1,10 @@
-html,
-body,
-#app {
+html, body, #app {
     height: 100%;
     overflow: hidden;
     padding: 0;
     margin: 0;
 }
+
 
 /*一级菜单*/
 
