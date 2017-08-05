@@ -9,13 +9,13 @@ export default {
             status: '0', //0:所有状态的申请 1:待审核   2:审核通过  3:审核失败的
             audit_list: [],
             modify_dialog: {
-                visible: true,
+                visible: false,
                 apply_list: [],
                 total_count: 0,
                 newest: []
             },
             add_dialog: {
-                visible: true,
+                visible: false,
                 other_books: [],
                 total_count: 0,
                 newest: []

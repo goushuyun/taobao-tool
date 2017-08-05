@@ -108,16 +108,7 @@ html, body, #app {
 }
 
 
-/*分页栏*/
-
-.pagination {
-    margin-top: 15px;
-}
-
-.card {
-    border-top: 1px solid #d1dbe5;
-    padding: 10px;
-}
+/* 页面基本布局 */
 
 .gsy-card {
     width: 100%;
@@ -130,20 +121,12 @@ html, body, #app {
     margin-bottom: 15px;
 }
 
-.gsy-body {}
+.gsy-body {
+    position: relative;
+}
 
 .gsy-footer {
     margin-top: 15px;
-}
-
-.header {
-    height: 36px;
-    line-height: 36px;
-    margin-bottom: 10px;
-}
-
-.body {
-    position: relative;
 }
 
 .ellipsis {
