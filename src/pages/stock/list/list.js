@@ -86,7 +86,7 @@ export default {
                 params: {
                     book
                 }
-            }
+            })
         },
         handleSizeChange(size) {
             this.size = size
