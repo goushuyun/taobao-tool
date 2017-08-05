@@ -21,7 +21,7 @@ html, body, #app {
     padding-left: 90px;
     height: 100%;
     width: 100%;
-    background-image: url("/src/assets/image/taobao_tool_bc.jpg");
+    background-image: url("../image/taobao_tool_bc.jpg");
     /*background-attachment: fixed;*/
     box-sizing: border-box;
 }
