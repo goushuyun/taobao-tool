@@ -31,7 +31,7 @@ export default {
                 books: []
             },
             add_dialog: {
-                visible: true,
+                visible: false,
                 audit_list: []
             },
             add_book_info: {

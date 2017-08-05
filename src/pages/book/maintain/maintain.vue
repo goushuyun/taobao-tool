@@ -5,7 +5,7 @@
       <div class="gsy-card">
         <el-row class="gsy-header">
           <el-col>
-            <el-input size="small" placeholder="请输入内容" v-model="input">
+            <el-input size="small" placeholder="请输入内容" v-model="isbn">
               <template slot="prepend">ISBN</template>
             </el-input>
             <el-button size="small" type="primary">搜索</el-button>
@@ -13,7 +13,7 @@
           </el-col>
         </el-row>
         <div class="gsy-body" v-loading="loading" element-loading-text="拼命加载中">
-          <el-table :data="tableData" border style="width: 100%">
+          <el-table :data="goods" border style="width: 100%">
             <el-table-column type="index"></el-table-column>
             <el-table-column label="封面" width="100">
               <template scope="scope" >
@@ -22,7 +22,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="isbn" label="ISBN" width="160"></el-table-column>
+            <el-table-column prop="isbn_no" label="ISBN" width="160"></el-table-column>
             <el-table-column prop="title" label="书名" min-width="200"></el-table-column>
             <el-table-column prop="price" label="定价" width="80"></el-table-column>
             <el-table-column prop="publisher" label="出版社" width="200"></el-table-column>
@@ -30,12 +30,7 @@
             <el-table-column prop="edition" label="版次" width="80"></el-table-column>
             <el-table-column label="操作" width="140">
               <template scope="scope">
-                <el-tooltip class="item" effect="dark" content="编辑书籍信息" placement="top">
-                  <el-button type="primary" size="small">编辑</el-button>
-                </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="添加此isbn对应的其他书籍" placement="top">
-                  <el-button type="primary" size="small">添加</el-button>
-                </el-tooltip>
+                <el-button type="text" @click="openBookDialog(scope.$index)">查看详情</el-button>
               </template>
             </el-table-column>
           </el-table>
