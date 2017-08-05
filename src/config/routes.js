@@ -15,7 +15,7 @@ const book = r => require(['../pages/book/index.vue'], r)
 const apply = r => require(['../pages/book/apply/apply.vue'], r)
 const review = r => require(['../pages/book/review/review.vue'], r)
 const maintain = r => require(['../pages/book/maintain/maintain.vue'], r)
-const detail = r => require(['../pages/common/detail/detail.vue'], r)
+const detail = r => require(['../pages/book/detail/detail.vue'], r)
 
 export default[
 	{

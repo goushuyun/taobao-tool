@@ -138,6 +138,8 @@ export default {
                             //login success
                             //put token into localStorage
                             localStorage.setItem("token", resp.data.token)
+                            localStorage.setItem("user_id", resp.data.data.id)
+                            localStorage.setItem("user_name", resp.data.data.name)
                             //put adminInfo into admin
                             // localStorage.setItem('adminInfo', JSON.stringify(resp.data.data))
                             this.$router.push({

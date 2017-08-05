@@ -11,22 +11,6 @@ export default {
                 publisher: '电子工业出版社',
                 author: '谭浩强',
                 edition: '第四版'
-            }, {
-                image: '',
-                isbn: '9787123456789',
-                title: '数据结构',
-                price: '15.00',
-                publisher: '电子工业出版社',
-                author: '谭浩强',
-                edition: '第四版'
-            }, {
-                image: '',
-                isbn: '9787123456789',
-                title: '数据结构',
-                price: '15.00',
-                publisher: '电子工业出版社',
-                author: '谭浩强',
-                edition: '第四版'
             }],
 
             loading: false,

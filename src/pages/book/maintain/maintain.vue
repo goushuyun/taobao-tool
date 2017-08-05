@@ -2,7 +2,7 @@
   <div class="container">
     <div class="content_top_bar">信息维护</div>
     <div class="content_inner">
-      <el-row class="hearder">
+      <el-row class="header">
         <el-col>
           <el-input size="small" placeholder="请输入内容" v-model="input">
             <template slot="prepend">ISBN</template>
