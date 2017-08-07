@@ -9,8 +9,6 @@ var wopts = {
 
 export default {
 	methods : {
-		getToken() {},
-
 		json_key_replace(json_str) {
 			return JSON.parse(json_str.replace(/ISBN/g, 'isbn').replace(/库位/g, 'warehouse').replace(/架位/g, 'shelf').replace(/层数/g, 'floor').replace(/数量/g, 'num'))
 		},

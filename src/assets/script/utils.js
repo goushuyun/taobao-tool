@@ -1,9 +1,9 @@
 import axios from "../../config/http"
 
-function getToken(key) {
+function getToken(zone, key) {
     return new Promise((resolve, reject) => {
         axios.post('/v1/mediastore/getUpToken', {
-            zone: 0,
+            zone,
             key
         }).then(resp => {
             if (resp.data.code == '00000') {
