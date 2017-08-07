@@ -33,22 +33,23 @@
               <el-table-column label="库存量" width="80" prop="stock"></el-table-column>
               <el-table-column label="出货量">
                 <template scope="scope">
-                  <el-input size="mini" style="max-width: 100px;" v-model.number="scope.row.out_number">
-                    <template slot="append">本</template>
+                  <el-input size="mini" style="max-width: 100px;" v-model.number="scope.row.out_number" @blur="modify_out_number">
+                      <template slot="append">本</template>
                   </el-input>
                 </template>
               </el-table-column>
             </el-table>
 
             <footer style="margin-top: 22px;" v-show="map_row_count > 0">
-              <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page.sync="page"
-              :page-size="size"
-              layout="total, prev, pager, next"
-              :total="map_row_count">
-            </el-pagination>
+                <el-pagination
+                  @size-change="handleSizeChange"
+                  @current-change="handleCurrentChange"
+                  :current-page="page"
+                  :page-sizes="[10, 20, 50, 100]"
+                  :page-size="size"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="map_row_count">
+                </el-pagination>
           </footer>
         </el-col>
 
@@ -56,7 +57,7 @@
           <div class="book_info">
 
             <div class="image_box">
-              <img class="book_image" :src="'http://otxkmhj3k.bkt.clouddn.com/' + book_info.image" alt="">
+              <img class="book_image" :src="image_url + book_info.image" alt="">
             </div>
 
             <ul class="info_detail">
@@ -94,6 +95,8 @@
 
 <script>
 import mixin from "./out.js"
+
+import config from '../../../config/basis.js'
 export default {
     mixins: [mixin],
     data() {
@@ -109,7 +112,7 @@ export default {
                 stock: 0
             },
 
-            isbn: '9787115383440', //current goods isbn
+            isbn: '9787115411280', //current goods isbn
             size: 10,
             page: 1,
 
@@ -122,6 +125,12 @@ export default {
             // 库位罗列
             location_list: [],
 
+        }
+    },
+    computed: {
+        // 七牛 图片 URL域名
+        image_url(){
+            return config.image_url
         }
     }
 }

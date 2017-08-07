@@ -34,12 +34,16 @@ export default {
                 }
             }
 
-
         },
         handleSelectionChange(val){
 
             console.log(val);
 
+        },
+        modify_out_number(row){
+            console.log('------------');
+            console.log('------------');
+            console.log(row);
         },
         output() {
             // handle every map_row's output
