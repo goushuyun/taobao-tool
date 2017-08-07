@@ -5,8 +5,8 @@
       <div class="menu">
         <el-menu :router="true" :default-active="sub_menu_active" class="el-menu-vertical-demo" @select="subMenuSelect">
           <el-menu-item index="2-1" :route="{name:'maintain'}">信息维护</el-menu-item>
-          <el-menu-item index="2-2" :route="{name:'review'}">等待审核</el-menu-item>
-          <el-menu-item index="2-3" :route="{name:'apply'}">申请列表</el-menu-item>
+          <el-menu-item index="2-2" :route="{name:'apply'}">我的申请</el-menu-item>
+          <el-menu-item index="2-3" :route="{name:'review'}">待审核</el-menu-item>
         </el-menu>
       </div>
     </div>

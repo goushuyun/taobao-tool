@@ -21,7 +21,7 @@ html, body, #app {
     padding-left: 90px;
     height: 100%;
     width: 100%;
-    background-image: url("/src/assets/image/taobao_tool_bc.jpg");
+    background-image: url("../image/taobao_tool_bc.jpg");
     /*background-attachment: fixed;*/
     box-sizing: border-box;
 }
@@ -108,25 +108,25 @@ html, body, #app {
 }
 
 
-/*分页栏*/
+/* 页面基本布局 */
 
-.pagination {
-    margin-top: 15px;
+.gsy-card {
+    width: 100%;
 }
 
-.card {
-    border-top: 1px solid #d1dbe5;
-    padding: 10px;
+.gsy-header {
+    border-bottom: 1px solid #d1dbe5;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
 }
 
-.card .header {
-    height: 36px;
-    line-height: 36px;
-    margin-bottom: 10px;
-}
-
-.card .body {
+.gsy-body {
     position: relative;
+}
+
+.gsy-footer {
+    margin-top: 15px;
 }
 
 .ellipsis {
