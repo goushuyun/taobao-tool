@@ -1,5 +1,5 @@
 import axios from "../../../config/http.js"
-import {getToken, s2ab}
+import {getToken, s2ab} from '../../../assets/script/utils.js'
 
 var wopts = {
 	bookType: 'xlsx',

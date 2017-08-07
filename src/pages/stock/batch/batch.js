@@ -83,7 +83,7 @@ export default {
 				// 校验数据
 				this.distinguish_data(this.excel_json)
 				// 上传数据
-				this.upload_data(this.correct_json， file.name)
+				this.upload_data(this.correct_json, file.name)
 			}
 
 			reader.readAsArrayBuffer(file)
