@@ -8,6 +8,12 @@ module.exports = {
         publicPath: '/dist/',
         filename: 'build.js'
     },
+    externals: {
+        "vue": 'Vue',
+        "vue-router": 'VueRouter',
+        "vuex": 'Vuex',
+        "element-ui": 'ElementUI'
+    },
     module: {
         loaders: [{
             test: /\.vue$/,
