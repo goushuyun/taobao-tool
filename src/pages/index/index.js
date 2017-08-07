@@ -2,7 +2,7 @@ export default {
     data() {
         return {
             show_btns: false,
-            user_name: '冯忠森'
+            user_name: ''
         }
     },
     computed: {
@@ -20,6 +20,7 @@ export default {
     },
     mounted() {
         this.checkToken()
+        this.user_name = localStorage.getItem('user_name')
     },
     methods: {
         checkToken() {

@@ -20,7 +20,6 @@ export default {
             total_count: 0
         }
     },
-    mounted() {},
     mounted() {
         this.user_id = localStorage.getItem('user_id')
         this.getAuditList()

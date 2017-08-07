@@ -9,34 +9,38 @@
 <div class="container">
     <div class="content_top_bar">批量上架</div>
     <div class="content_inner">
-        <header>
-            <div class="download_demo">
-                <el-button @click="download_demo" type="text"><i class="fa fa-file-excel-o" aria-hidden="true"></i> 下载模版Excel</el-button>
-            </div>
-            <!-- <a href=""></a> -->
-            <input type="file" @change="onchange">
-            <p @click="view_blur_data">你有 <span class="emphasis"> 3 条模糊数据 </span>需要处理</p>
-        </header>
+       <div class="gsy-card">
+           <div class="gsy-header">
+              <header>
+                  <div class="download_demo">
+                    <el-button @click="download_demo" type="text"><i class="fa fa-file-excel-o" aria-hidden="true"></i> 下载模版Excel</el-button>
+                  </div>
+                  <!-- <a href=""></a> -->
+                  <input type="file" @change="onchange">
+                  <p @click="view_blur_data">你有 <span class="emphasis"> 3 条模糊数据 </span>需要处理</p>
+              </header>
+           </div>
+           <div class="gsy-body">
+               <el-table>
+                   <el-table-column label="导入时间">
 
-        <el-table>
-            <el-table-column label="导入时间">
+                   </el-table-column>
+                   <el-table-column label="文件">
 
-            </el-table-column>
-            <el-table-column label="文件">
+                   </el-table-column>
+                   <el-table-column label="进度">
 
-            </el-table-column>
-            <el-table-column label="进度">
+                   </el-table-column>
+                   <el-table-column label="导入结果">
 
-            </el-table-column>
-            <el-table-column label="导入结果">
-
-            </el-table-column>
-        </el-table>
-
-        <footer>
-            <el-pagination :current-page="page" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
-            </el-pagination>
-        </footer>
+                   </el-table-column>
+               </el-table>
+           </div>
+           <div class="gsy-footer">
+               <el-pagination :current-page="page" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+               </el-pagination>
+           </div>
+       </div>
     </div>
 
     <!-- upload feedback dialog -->
