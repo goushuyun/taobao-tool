@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="container">
+      
     <div class="sec_left_bar">
       <div class="title">库存管理</div>
       <div class="menu">
@@ -12,6 +13,7 @@
         </el-menu>
       </div>
     </div>
+
     <div class="sec_content">
       <router-view></router-view>
     </div>

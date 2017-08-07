@@ -1,0 +1,56 @@
+@import "../../../assets/style/common.scss";
+
+header{
+    display: flex;
+    align-items: center;
+    margin-bottom: 28px;
+
+    .download_demo{
+        padding-right: 22px;
+    }
+
+    p{
+        text-align: right;
+        color: $font_third;
+        .emphasis{
+            color: $jd_red;
+        }
+
+        &:hover {
+            cursor: pointer;
+            color: $font_second;
+        }
+    }
+}
+
+
+footer{
+    margin-top: 28px;
+}
+
+
+// dialog part
+.progress{
+    text-align: center;
+}
+
+
+div.feedback_info{
+    background-color: $git_bg_grey;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-top: 22px;
+
+    p {
+        color: $font_third;
+        line-height: 26px;
+
+        .key_number{
+            display: inline-block;
+            width: 60px;
+            text-align: center;
+            color: $font_second;
+        }
+
+    }
+}

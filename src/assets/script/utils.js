@@ -3,7 +3,7 @@ import axios from "../../config/http"
 function getToken(key) {
     return new Promise((resolve, reject) => {
         axios.post('/v1/mediastore/getUpToken', {
-            zone: 1,
+            zone: 0,
             key
         }).then(resp => {
             if (resp.data.code == '00000') {
@@ -64,6 +64,14 @@ function isObjectValueEqual(a, b) {
     return JSON.stringify(a) == JSON.stringify(b);
 }
 
+function s2ab(s) {
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i = 0; i != s.length; ++i)
+        view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+}
+
 export {
     getToken,
     testMobile,
@@ -73,5 +81,6 @@ export {
     priceFloat,
     priceInt,
     copyObject,
-    isObjectValueEqual
+    isObjectValueEqual,
+    s2ab
 }
