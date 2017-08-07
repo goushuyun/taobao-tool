@@ -22,7 +22,7 @@
             <el-table ref="multipleTable" @selection-change="handleSelectionChange" stripe border style="width: 100%" :data="location_list">
               <el-table-column width="55">
                 <template scope="scope">
-                  <el-checkbox v-model="scope.row.check"></el-checkbox>
+                  <el-checkbox @change="handle_check_change(scope.$index)" :disabled="scope.row.out_number === 0" v-model="scope.row.check"></el-checkbox>
                 </template>
               </el-table-column>
               <el-table-column label="库位-货架-层数">
@@ -33,7 +33,7 @@
               <el-table-column label="库存量" width="80" prop="stock"></el-table-column>
               <el-table-column label="出货量">
                 <template scope="scope">
-                  <el-input size="mini" style="max-width: 100px;" v-model.number="scope.row.out_number" @blur="modify_out_number">
+                  <el-input size="mini" style="max-width: 100px;" type="number" v-model.number="scope.row.out_number" @click="handle_click_input(scope.$index)" @blur="modify_out_number(scope.$index)">
                       <template slot="append">本</template>
                   </el-input>
                 </template>
@@ -128,6 +128,17 @@ export default {
         }
     },
     computed: {
+        // actually total_out_number
+        actual_total_out_number(){
+            let total_out_number = 0
+
+            this.location_list.forEach(row=>{
+                if(row.check) total_out_number += row.out_number
+            })
+            return total_out_number
+        },
+
+
         // 七牛 图片 URL域名
         image_url(){
             return config.image_url

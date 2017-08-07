@@ -35,15 +35,42 @@ export default {
             }
 
         },
+        handle_check_change(index){
+            let row = this.location_list[index]
+
+            if(!row.check){
+                row.out_number = 0
+            }
+
+            this.total_out_number = this.actual_total_out_number
+            $('#out_input input').focus()   //focus on out input
+        },
         handleSelectionChange(val){
 
             console.log(val);
 
         },
-        modify_out_number(row){
-            console.log('------------');
-            console.log('------------');
-            console.log(row);
+        modify_out_number(index){
+            let row = this.location_list[index]
+
+            row.out_number = parseInt(row.out_number)
+
+            // 判断是否是合法的整数
+            if(row.out_number <= 0 || isNaN(row.out_number)){
+                row.out_number = 0
+            }
+
+            // 判断出货量是否多于库存
+            if(row.out_number > row.stock) {
+                row.out_number = row.stock
+            }
+
+            if(row.out_number > 0) row.check = true
+            this.total_out_number = this.actual_total_out_number
+        },
+        handle_click_input(index){
+            console.log(index);f
+            this.location_list[index].out_number = ''
         },
         output() {
             // handle every map_row's output
@@ -118,6 +145,7 @@ export default {
                 this.map_row_count = res.data.total
 
                 $('#out_input input').focus()   //focus on out input
+                this.total_out_number = ''
             })
 
         },
