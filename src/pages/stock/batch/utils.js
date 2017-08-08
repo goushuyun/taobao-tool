@@ -1,12 +1,5 @@
 import axios from "../../../config/http.js"
-import {getToken, s2ab} from '../../../assets/script/utils.js'
-
-var wopts = {
-	bookType: 'xlsx',
-	bookSST: false,
-	type: 'binary'
-};
-
+import {batch_upload_data, save_json_data_to_qiniu} from './promise_func.js'
 export default {
 	methods : {
 		json_key_replace(json_str) {
@@ -17,49 +10,79 @@ export default {
 			return JSON.parse(json_str.replace(/isbn/g, 'ISBN').replace(/warehouse/g, '库位').replace(/shelf/g, '架位').replace(/floor/g, '层数').replace(/num/g, '数量').replace(/error_reason/g, '错误原因'))
 		},
 
-		download_demo() {
-			this.visible = true
-		},
+
 
 		upload_data(data, filename) {
-			axios.post('/v1/stock/upload_goods_batch_data', {data}).then(res => {
-				console.log(res.data);
+			this.visible = true
+
+			this.process += 30
+
+			batch_upload_data({data}).then(res=>{
+
+				console.log(res);
+
+				this.fail_data_num += res.failed_data.length
+				this.success_data_num += res.success_num
+				this.blur_data_num += res.pending_check_num
+				this.process += 40
+
+				console.log('batch upload over ...');
+
+				var origin_filename = filename , fail_filename = filename + '_失败数据'
+				var origin_file_key = ''
+				var error_file_key = ''
 
 				// save upload_data to qiniu
-				this.save_json_data_to_qiniu(this.json_data, filename + '_全部数据')
-				// save error data to qiniu
-				this.save_json_data_to_qiniu(this.error_json, filename + '_失败数据')
+				save_json_data_to_qiniu(this.excel_json, filename).then(res=>{
+					origin_file_key = res.key
 
-			})
-		},
-		save_json_data_to_qiniu(json_data, filename) {
-			json_data = this.json_key_replace_reverse(JSON.stringify(json_data))
+					if(this.error_json.length > 0) {
+						// save error data to qiniu
+						save_json_data_to_qiniu(this.error_json, filename + '_失败数据').then(res=>{
+							error_file_key = res.key
 
-			// json to excel
-			let ws = XLSX.utils.json_to_sheet(json_data),
-				wb = new Workbook(),
-				sheet_name = 'sheet1'
-			wb.SheetNames.push(sheet_name)
-			wb.Sheets[sheet_name] = ws
+							// 插入上传记录
+							let params = {
+								success_num: this.success_data_num + this.blur_data_num,
+								failed_num: this.fail_data_num,
+								origin_file: origin_file_key,
+								origin_filename: origin_filename,
+								error_file: error_file_key
+							}
 
-			var wbout = XLSX.write(wb, {
-				bookType: 'xlsx',
-				bookSST: true,
-				type: 'binary'
-			});
-			var blob = new Blob([s2ab(wbout)], {type: "application/vnd.ms-excel"})
+							console.log(params);
+							axios.post('/v1/stock/save_goods_batch_upload_record', params).then(res=>{
+								console.log(res.data);
+								this.process += 30
+								this.dialog_title = '数据导入完成'
+								// this.visible = false
+							})
 
-			// 获取 qiniu token 准备上传
-			let key = filename + moment().unix() + '.xlsx'
-			getToken(key).then(res => {
-				var f = new FormData()
-				f.append('token', res.data.token)
-				f.append('file', blob)
-				f.append('key', key)
+						})
+					}else{
 
-				$.ajax({type: "POST", url: 'https://upload.qbox.me/', data: f, processData: false, contentType: false}).done(res => {
-					console.log(res);
+						// 插入上传记录
+						let params = {
+							success_num: this.success_data_num + this.blur_data_num,
+							failed_num: this.fail_data_num,
+							origin_file: origin_file_key,
+							origin_filename: origin_filename
+						}
+
+						console.log(params);
+						axios.post('/v1/stock/save_goods_batch_upload_record', params).then(res=>{
+							console.log(res.data);
+							this.process += 20
+							this.dialog_title = '数据导入完成'
+							// this.visible = false
+						})
+
+					}
+
+
 				})
+
+
 			})
 
 		}

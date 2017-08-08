@@ -43,6 +43,9 @@ export default {
 			console.log(JSON.stringify(this.correct_json));
 			console.log('----------error_json-------------');
 			console.log(JSON.stringify(this.error_json));
+
+			// 写入前端检测到的错误数量
+			this.fail_data_num = this.error_json.length
 			console.log('------------------------------------');
 		},
 
