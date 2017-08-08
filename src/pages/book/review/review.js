@@ -2,6 +2,7 @@ import {
     priceInt,
     priceFloat
 } from '../../../assets/script/utils.js'
+import config from '../../../config/basis.js'
 import axios from "../../../config/http.js"
 export default {
     data() {
@@ -127,9 +128,14 @@ export default {
                         total_count: resp.data.total_count
                     }
                     this.detail_dialog.total_count = result.total_count
-                    this.detail_dialog.apply_list = result.data
+                    this.detail_dialog.apply_list = result.data.map(el => {
+                        el.isbn_no = el.isbn
+                        return el
+                    })
                     console.log(this.detail_dialog.apply_list);
-                    this.getLocalBookInfoList()
+                    if (this.search_type === '0') {
+                        this.getLocalBookInfoList()
+                    }
                     this.detail_dialog.visible = true
                 }
             })
@@ -191,10 +197,11 @@ export default {
                     "feedback": "", //反馈结果
                     "ids": adopt_ids
                 }
+                var self = this
                 var callback = function() {
-                    this.$message.success('已通过该申请！')
-                    this.detail_dialog.apply_list.splice(index, 1)
-                    this.detail_dialog.visible = false
+                    self.$message.success('已通过该申请！')
+                    self.detail_dialog.apply_list.splice(index, 1)
+                    self.detail_dialog.visible = false
                 }
 
                 var refuse_ids = []
@@ -274,6 +281,7 @@ export default {
                 image: book.image,
                 price: book.price
             }
+            this.getToken()
         },
         submit() {
             var request = {
@@ -322,8 +330,39 @@ export default {
             this.detail_dialog.page = page
             this.showDetail(this.detail_dialog.index, true)
         },
-        beforeAvatarUpload() {},
-        handleAvatarSuccess() {},
-        handleAvatarError() {}
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG、JPEG、PNG 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPG && isLt2M;
+        },
+        handleAvatarSuccess(res, file, fileList) {
+            this.add_dialog.image = this.imagesFormData.key
+            this.getToken()
+        },
+        handleAvatarError(err, file, fileList) {
+            this.$message.error('上传失败，请重试');
+            this.getToken()
+        },
+        getToken() {
+            var time = moment().format('YYYYMMDDHHmmss')
+            var isbn = this.add_dialog.isbn
+            let key = time + isbn + '.png'
+            axios.post('/v1/mediastock/get_up_token', {
+                zone: config.bucket_zone,
+                key
+            }).then(resp => {
+                this.imagesFormData.key = key
+                this.imagesFormData.token = resp.data.data.token
+                return true
+            }).catch(() => {
+                return false
+            });
+        }
     }
 }

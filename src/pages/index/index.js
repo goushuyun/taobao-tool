@@ -47,6 +47,9 @@ export default {
             this.$store.commit('setMenuActive', index)
             localStorage.setItem('menu_active', index)
         },
+        goToGoushuyun() {
+            window.open('http://www.goushuyun.com')
+        },
         signOut() {
             this.$confirm('确定要退出吗？', '提示', {
                 confirmButtonText: '确定',

@@ -1,8 +1,10 @@
 import {
     priceFloat,
     priceInt,
-    unique
+    unique,
+    getToken
 } from '../../../assets/script/utils.js'
+import config from '../../../config/basis.js'
 import axios from "../../../config/http.js"
 export default {
     data() {
@@ -66,7 +68,6 @@ export default {
                 this.shelf_disabled = true
                 this.to_get_location_id = false
             }
-            // this.warehouse = value.replace(/![0-9a-zA-Z]/g, '')
         },
         shelf(value) {
             if (value) {
@@ -77,14 +78,12 @@ export default {
                 this.floor_disabled = true
                 this.to_get_location_id = false
             }
-            // this.shelf = value.replace(/[\w]/g, '')
         },
         floor(value) {
             if (value) {
                 this.to_get_location_id = true
             }
             this.to_get_location_id = true
-            // this.floor = value.replace(/[\w]/g, '')
         },
         records(value) {
             if (value.length > 10) {
@@ -234,6 +233,7 @@ export default {
             this.book_info.isbn = this.isbn
             this.cancelSelect()
             this.add_dialog = true
+            this.getToken()
         },
         /**
          * 确定提交新增图书申请
@@ -338,8 +338,39 @@ export default {
                 }
             })
         },
-        beforeAvatarUpload() {},
-        handleAvatarSuccess() {},
-        handleAvatarError() {}
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG、JPEG、PNG 格式!');
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPG && isLt2M;
+        },
+        handleAvatarSuccess(res, file, fileList) {
+            this.book_info.image = this.imagesFormData.key
+            this.getToken()
+        },
+        handleAvatarError(err, file, fileList) {
+            this.$message.error('上传失败，请重试');
+            this.getToken()
+        },
+        getToken() {
+            var time = moment().format('YYYYMMDDHHmmss')
+            var isbn = this.book_info.isbn
+            let key = time + isbn + '.png'
+            axios.post('/v1/mediastock/get_up_token', {
+                zone: config.bucket_zone,
+                key
+            }).then(resp => {
+                this.imagesFormData.key = key
+                this.imagesFormData.token = resp.data.data.token
+                return true
+            }).catch(() => {
+                return false
+            });
+        }
     }
 }

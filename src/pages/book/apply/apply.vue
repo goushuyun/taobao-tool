@@ -24,7 +24,7 @@
             <el-table-column prop="image" label="图片" width="100">
               <template scope="scope" >
                 <div class="image_wrap">
-                    <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + scope.row.image)" class="image"></img>
+                    <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                 </div>
               </template>
             </el-table-column>
@@ -62,7 +62,7 @@
               <el-table-column prop="image" label="图片" width="100">
                 <template scope="scope" >
                   <div class="image_wrap">
-                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + scope.row.image)" class="image"></img>
+                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                   </div>
                 </template>
               </el-table-column>
@@ -91,7 +91,7 @@
               <el-table-column prop="image" label="图片" width="100">
                 <template scope="scope" >
                   <div class="image_wrap">
-                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + scope.row.image)" class="image"></img>
+                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                   </div>
                 </template>
               </el-table-column>

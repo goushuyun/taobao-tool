@@ -38,10 +38,13 @@ export default {
                 "apply_user_id": this.user_id,
                 "search_type": this.search_type //0:修改图书申请 //1:新增一isbn 多图书信息的申请
             }
+            var self = this
             axios.post('/v1/book/get_audit_list', request).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {
-                        el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
+                        if (self.search_type == '1') {
+                            el.isbn_no = el.isbn
+                        }
                         el.price = priceFloat(el.price)
                         el.create_at = moment(el.create_at * 1000).format('YYYY-MM-DD HH:mm:ss')
                         return el
