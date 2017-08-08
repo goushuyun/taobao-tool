@@ -145,21 +145,29 @@ export default {
         handleAudit(request, cb) {
             axios.post('/v1/book/handle_book_audit_list', request).then(resp => {
                 if (resp.data.message == 'ok') {
-                    if (cd != undefined) {
+                    if (cb != null) {
                         cb()
                     }
                 }
             })
         },
-        saveBookInfo(request) {
+        updateBookInfo(request) {
             axios.post('/v1/book/update_book_info', request).then(resp => {
                 if (resp.data.message == 'ok') {
                     this.$message.success('图书信息已更新！')
                 }
             })
         },
+        saveBookInfo(request) {
+            axios.post('/v1/book/save_book_info', request).then(resp => {
+                if (resp.data.message == 'ok') {
+                    this.$message.success('已新增图书！')
+                }
+            })
+        },
         adopt(index) {
-            this.$confirm('此申请通过，其余申请将会自动驳回。', '申请通过', {
+            var tip = this.search_type == '0' ? '此申请通过，其余申请将会自动驳回。' : '新增图书的申请通过后，购书云会自动分配给此书一个isbn+后缀的编号。'
+            this.$confirm(tip, '申请通过', {
                 confirmButtonText: '通过',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -189,8 +197,7 @@ export default {
                 }
 
                 var book = this.detail_dialog.apply_list[index]
-                var modify_request = {
-                    "id": book.book_id, //required
+                var request = {
                     "title": book.title,
                     "publisher": book.publisher,
                     "author": book.author,
@@ -199,11 +206,20 @@ export default {
                     "image": book.image,
                     "price": priceInt(book.price)
                 }
+                if (this.search_type == '0') {
+                    request.id = book.book_id
+                    this.updateBookInfo(request)
+                } else {
+                    request.isbn = book.isbn
+                    request.book_cate = 'poker'
+                    this.saveBookInfo(request)
+                }
+
                 this.handleAudit(adopt_request, callback)
                 if (refuse_ids.length > 0) {
-                    this.handleAudit(refuse_request)
+                    this.handleAudit(refuse_request, null)
                 }
-                this.saveBookInfo(modify_request)
+
             }).catch();
         },
         refuse(index) {
@@ -246,7 +262,6 @@ export default {
         },
         submit() {
             var request = {
-                "id": this.add_dialog.book_id, //required
                 "title": this.add_dialog.title,
                 "publisher": this.add_dialog.publisher,
                 "author": this.add_dialog.author,
@@ -254,6 +269,14 @@ export default {
                 "pubdate": this.add_dialog.pubdate,
                 "image": this.add_dialog.image,
                 "price": priceInt(this.add_dialog.price)
+            }
+            if (this.search_type == '0') {
+                request.id = this.add_dialog.book_id
+                this.updateBookInfo(request)
+            } else {
+                request.isbn = this.add_dialog.isbn // required
+                request.book_cate = 'poker' // ''或者poker
+                this.saveBookInfo(request)
             }
             var refuse_ids = []
             this.detail_dialog.apply_list.forEach(el => {
@@ -264,7 +287,6 @@ export default {
                 "feedback": "我们使用了其他商家提供的数据", //反馈结果
                 "ids": refuse_ids
             }
-            this.saveBookInfo(request)
             this.handleAudit(refuse_request)
             this.add_dialog.visible = false
             this.detail_dialog.visible = false

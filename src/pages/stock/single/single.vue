@@ -48,7 +48,7 @@
                       <img :src="book.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + book.image)" class="image"></img>
                     </div>
                     <div>
-                      <span>{{book.isbn}}</span> |
+                      <span>{{book.isbn_no}}</span> |
                       <span>{{book.title}}</span> |
                       <span>{{book.author}}</span> |
                       <span>{{book.publisher}}</span> | ￥

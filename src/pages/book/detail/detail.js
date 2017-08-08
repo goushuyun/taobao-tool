@@ -17,6 +17,7 @@ export default {
             }
         };
         return {
+            user_id: '',
             book_info: {},
             book_info_bak: {},
 
@@ -71,6 +72,7 @@ export default {
     },
     mounted() {
         this.getParams()
+        this.user_id = localStorage.getItem('user_id')
     },
     methods: {
         getParams() {
@@ -148,9 +150,11 @@ export default {
         },
         getAuditList() {
             axios.post('/v1/book/get_audit_list', {
+                "apply_user_id": this.user_id,
                 "isbn": this.book_info.isbn,
+                "search_type": 1,
                 "book_no": "poker",
-                "status": 1 //0:所有状态的申请 1:待审核   2:审核通过  3:审核失败的
+                "status": 0 //0:所有状态的申请 1:待审核   2:审核通过  3:审核失败的
             }).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {

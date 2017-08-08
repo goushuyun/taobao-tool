@@ -147,9 +147,12 @@ export default {
                 "upload_mode": 1
             }).then(resp => {
                 if (resp.data.message == 'ok') {
-                    let data = resp.data.data
+                    let data = resp.data.data.map(el => {
+                        el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                        return el
+                    })
                     if (data.length == 1) {
-                        this.saveGoods(data[0].id)
+                        this.saveGoods(data[0].id, data[0].isbn_no)
                     } else {
                         this.preSelectBook(data)
                     }
@@ -180,25 +183,21 @@ export default {
          * @return {[type]} [description]
          */
         confirmSelect() {
-            var candidate_books = this.candidate_books
-            var index = this.radio
-            var book = data[index]
-            this.saveGoods(book.id)
-            // 记录
-            this.addRecords(book.isbn, 1)
+            var book = this.candidate_books[this.radio]
+            this.saveGoods(book.id, book.isbn_no)
             this.select_dialog = false
         },
         /**
          * 获取 goods_id
          * @param  {[type]} book_id [description]
          */
-        saveGoods(book_id) {
+        saveGoods(book_id, records) {
             axios.post('/v1/stock/save_goods', {
                 book_id: book_id
             }).then(resp => {
                 if (resp.data.message == 'ok') {
                     let data = resp.data.data
-                    this.saveMapRow(data[0].goods_id)
+                    this.saveMapRow(data[0].goods_id, records)
                 }
             })
         },
@@ -206,7 +205,7 @@ export default {
          * 商品入库
          * @param  {[type]} goods_id [description]
          */
-        saveMapRow(goods_id) {
+        saveMapRow(goods_id, records) {
             axios.post('/v1/stock/save_map_row', {
                 "goods_id": goods_id, //required
                 "location_id": this.location_id, //required
@@ -214,7 +213,7 @@ export default {
             }).then(resp => {
                 if (resp.data.message == 'ok') {
                     // let data = resp.data.data
-                    this.addRecords(this.isbn, 1)
+                    this.addRecords(records, 1)
                     this.$message.success('入库成功！')
                 }
             })
@@ -224,9 +223,9 @@ export default {
          * @param {[type]} isbn   [description]
          * @param {[number]} status [1-成功  0-失败]
          */
-        addRecords(isbn, status) {
+        addRecords(records, status) {
             this.records.unshift({
-                isbn: isbn,
+                isbn: records,
                 location: this.warehouse + ' - ' + this.shelf + ' - ' + this.floor,
                 stock: this.stock,
                 status: status
