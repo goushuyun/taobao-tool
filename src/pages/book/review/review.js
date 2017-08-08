@@ -5,15 +5,6 @@ import {
 import axios from "../../../config/http.js"
 export default {
     data() {
-        var checkIsbn = (rule, value, callback) => {
-            var isbn = value.match(/\d/g).join('')
-            let isbnReg = /^978\d{10}$/
-            if (!isbnReg.test(isbn)) {
-                callback(new Error('请输正确的ISBN'));
-            } else {
-                callback()
-            }
-        };
         return {
             search_type: '0', //0:修改图书申请 //1:新增一isbn 多图书信息的申请
             audit_list: [],
@@ -29,6 +20,7 @@ export default {
             add_dialog: {
                 visible: false,
                 index: 0,
+                isbn_no: '',
                 isbn: '',
                 title: '',
                 author: '',
@@ -38,12 +30,9 @@ export default {
                 price: ''
             },
             rules: {
-                isbn: [{
+                isbn_no: [{
                     required: true,
                     message: '请填写ISBN',
-                    trigger: 'blur'
-                }, {
-                    validator: checkIsbn,
                     trigger: 'blur'
                 }],
                 title: [{
@@ -78,7 +67,7 @@ export default {
             }).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {
-                        el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                        el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                         el.price = priceFloat(el.price)
                         return el
                     })
@@ -103,7 +92,7 @@ export default {
                 }).then(resp => {
                     if (resp.data.message == 'ok') {
                         var data = resp.data.data.map(el => {
-                            el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                            el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                             el.price = priceFloat(el.price)
                             return el
                         })
@@ -128,8 +117,9 @@ export default {
             axios.post('/v1/book/get_audit_list', request).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {
+                        el.book_no = ''
+                        el.isbn_no = ''
                         el.price = priceFloat(el.price)
-                        // el.create_at = moment(el.create_at * 1000).format('YYYY-MM-DD HH:mm:ss')
                         return el
                     })
                     var result = {
@@ -138,9 +128,32 @@ export default {
                     }
                     this.detail_dialog.total_count = result.total_count
                     this.detail_dialog.apply_list = result.data
+                    console.log(this.detail_dialog.apply_list);
+                    this.getLocalBookInfoList()
                     this.detail_dialog.visible = true
                 }
             })
+        },
+        getLocalBookInfoList() {
+            var self = this
+            var apply_list = self.detail_dialog.apply_list
+            for (var i = 0; i < apply_list.length; i++) {
+                (function(index) {
+                    axios.post('/v1/book/get_local_book_info', {
+                        id: apply_list[index].book_id
+                    }).then(resp => {
+                        if (resp.data.message == 'ok') {
+                            var data = resp.data.data.map(el => {
+                                el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
+                                return el
+                            })
+                            self.detail_dialog.apply_list[index].isbn = data[0].isbn
+                            self.detail_dialog.apply_list[index].book_no = data[0].book_no
+                            self.detail_dialog.apply_list[index].isbn_no = data[0].isbn_no
+                        }
+                    })
+                })(i)
+            }
         },
         handleAudit(request, cb) {
             axios.post('/v1/book/handle_book_audit_list', request).then(resp => {
@@ -237,10 +250,11 @@ export default {
                         this.detail_dialog.apply_list[index].id
                     ]
                 }
+                var self = this
                 var callback = function() {
-                    this.$message.success('已拒绝该申请！')
-                    this.detail_dialog.apply_list.splice(index, 1)
-                    this.detail_dialog.visible = false
+                    self.$message.success('已拒绝该申请！')
+                    self.detail_dialog.apply_list.splice(index, 1)
+                    self.detail_dialog.visible = false
                 }
                 this.handleAudit(request, callback)
             }).catch();
@@ -251,7 +265,8 @@ export default {
                 visible: true,
                 index: index,
                 book_id: book.book_id,
-                isbn: book.book_no ? (book.isbn + '_' + book.book_no) : book.isbn,
+                isbn_no: book.book_no ? (book.isbn + '_' + book.book_no) : book.isbn,
+                isbn: book.isbn,
                 title: book.title,
                 author: book.author,
                 publisher: book.publisher,

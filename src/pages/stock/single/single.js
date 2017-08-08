@@ -6,15 +6,6 @@ import {
 import axios from "../../../config/http.js"
 export default {
     data() {
-        var checkIsbn = (rule, value, callback) => {
-            var isbn = value.match(/\d/g).join('')
-            let isbnReg = /^978\d{10}$/
-            if (!isbnReg.test(isbn)) {
-                callback(new Error('请输正确的ISBN'));
-            } else {
-                this.book_info.isbn = isbn
-            }
-        };
         return {
             stock: 1,
             warehouse: '',
@@ -28,14 +19,7 @@ export default {
             select_dialog: false,
             add_dialog: false,
             radio: 0,
-            candidate_books: [{
-                image: '170411000001/9787121177408.jpg',
-                isbn: '9787123456789',
-                title: '数据结构',
-                author: '谭浩强',
-                publisher: '人民教育出版社',
-                price: '1500'
-            }],
+            candidate_books: [], // 候选图书
             book_info: {
                 isbn: '',
                 title: '',
@@ -49,9 +33,6 @@ export default {
                 isbn: [{
                     required: true,
                     message: '请填写ISBN',
-                    trigger: 'blur'
-                }, {
-                    validator: checkIsbn,
                     trigger: 'blur'
                 }],
                 title: [{
@@ -142,13 +123,28 @@ export default {
          * 获取图书信息（本地 + 远程）
          */
         getBookInfo() {
-            axios.post('/v1/book/get_book_info', {
+            if (!(this.warehouse && this.shelf && this.floor)) {
+                this.$message.warning('请先完善货架位置信息！')
+                return
+            }
+            if (!this.isbn) {
+                this.$message.warning('请输入ISBN！')
+                return
+            }
+            var request = {
                 "isbn": this.isbn,
                 "upload_mode": 1
-            }).then(resp => {
+            }
+            var reg = /^978\d{10}_\d{2}$/
+            if (reg.test(this.isbn)) {
+                var isbn_no = this.isbn.split('_')
+                request.isbn = isbn_no[0]
+                request.book_no = isbn_no[1]
+            }
+            axios.post('/v1/book/get_book_info', request).then(resp => {
                 if (resp.data.message == 'ok') {
                     let data = resp.data.data.map(el => {
-                        el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                        el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                         return el
                     })
                     if (data.length == 1) {
@@ -246,7 +242,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     axios.post('/v1/book/submit_audit', {
-                        "isbn": "9787040193824",
+                        "isbn": this.book_info.isbn,
                         "book_cate": "poker",
                         "title": this.book_info.title,
                         "publisher": this.book_info.publisher,
@@ -257,6 +253,8 @@ export default {
                     }).then(resp => {
                         if (resp.data.message == 'ok') {
                             this.$message.success('申请已提交！')
+                            this.add_dialog = false
+                            this.select_dialog = false
                         }
                     })
                 } else {

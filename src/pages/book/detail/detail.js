@@ -7,15 +7,6 @@ import {
 import axios from "../../../config/http.js"
 export default {
     data() {
-        var checkIsbn = (rule, value, callback) => {
-            var isbn = value.match(/\d/g).join('')
-            let isbnReg = /^978\d{10}$/
-            if (!isbnReg.test(isbn)) {
-                callback(new Error('请输正确的ISBN'));
-            } else {
-                callback()
-            }
-        };
         return {
             user_id: '',
             book_info: {},
@@ -29,11 +20,17 @@ export default {
             total_count: 0,
             other_dialog: {
                 visible: false,
-                books: []
+                books: [],
+                page: 1,
+                size: 10,
+                total_count: 0
             },
             add_dialog: {
                 visible: false,
-                audit_list: []
+                audit_list: [],
+                page: 1,
+                size: 10,
+                total_count: 0
             },
             add_book_info: {
                 isbn: '',
@@ -49,12 +46,9 @@ export default {
                 token: ''
             },
             rules: {
-                isbn: [{
+                isbn_no: [{
                     required: true,
                     message: '请填写ISBN',
-                    trigger: 'blur'
-                }, {
-                    validator: checkIsbn,
                     trigger: 'blur'
                 }],
                 title: [{
@@ -154,13 +148,16 @@ export default {
                 "isbn": this.book_info.isbn,
                 "search_type": 1,
                 "book_no": "poker",
-                "status": 0 //0:所有状态的申请 1:待审核   2:审核通过  3:审核失败的
+                "status": 0, //0:所有状态的申请 1:待审核   2:审核通过  3:审核失败的
+                "page": this.add_dialog.page,
+                "size": this.add_dialog.size
             }).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {
                         el.price = priceFloat(el.price)
                         return el
                     })
+                    this.add_dialog.total_count = resp.data.total_count
                     this.add_dialog.audit_list = data
                 }
             })
@@ -173,6 +170,14 @@ export default {
             this.page = page
             this.getGoodsAlocations()
         },
+        handleAddSizeChange(size) {
+            this.add_dialog.size = size
+            this.getAuditList()
+        },
+        handleAddCurrentChange(page) {
+            this.add_dialog.page = page
+            this.getAuditList()
+        },
         openOtherDialog() {
             var book = this.book_info_bak
             axios.post('/v1/book/get_book_info', {
@@ -183,7 +188,7 @@ export default {
                     let data = resp.data.data
                     this.other_dialog.books = data.map(el => {
                         el.price = priceFloat(el.price)
-                        el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                        el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                         return el
                     })
                     this.other_dialog.visible = true

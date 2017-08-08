@@ -41,7 +41,7 @@ export default {
             axios.post('/v1/book/get_audit_list', request).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {
-                        el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                        el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                         el.price = priceFloat(el.price)
                         el.create_at = moment(el.create_at * 1000).format('YYYY-MM-DD HH:mm:ss')
                         return el
@@ -64,7 +64,7 @@ export default {
                     }).then(resp => {
                         if (resp.data.message == 'ok') {
                             var data = resp.data.data.map(el => {
-                                el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                                el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                                 el.price = priceFloat(el.price)
                                 return el
                             })
@@ -89,7 +89,7 @@ export default {
                 }).then(resp => {
                     if (resp.data.message == 'ok') {
                         var data = resp.data.data.map(el => {
-                            el.isbn_no = el.book_no ? (el.isbn + '_' + el.book_no) : el.isbn
+                            el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                             el.price = priceFloat(el.price)
                             return el
                         })

@@ -5,8 +5,8 @@
       <div class="gsy-card">
         <div class="gsy-header" style="position: relative;">
           <el-form ref="book_info" :model="book_info" :rules="rules" label-width="80px" style="width: auto;">
-            <el-form-item label="ISBN" prop="isbn">
-              <el-input disabled size="small" v-model.trim="book_info.isbn" :title="book_info.isbn"></el-input>
+            <el-form-item label="ISBN" prop="isbn_no">
+              <el-input disabled size="small" v-model.trim="book_info.isbn_no" :title="book_info.isbn_no"></el-input>
             </el-form-item>
             <el-form-item id="title" label="书 名" prop="title">
               <el-input :disabled="!modify" size="small" :maxlength="30" v-model.trim="book_info.title" :title="book_info.title"></el-input>
@@ -66,7 +66,7 @@
         <el-table :data="other_dialog.books">
           <el-table-column property="isbn" label="ISBN" width="160"></el-table-column>
           <el-table-column property="title" label="书名"></el-table-column>
-          <el-table-column property="price" label="定价" width="80"></el-table-column>
+          <el-table-column property="price" label="定价" width="100"></el-table-column>
         </el-table>
         <el-button type="text" @click="preAddBook">【新增图书】</el-button>
         <div slot="footer" class="dialog-footer">
@@ -80,10 +80,13 @@
             <el-table :data="add_dialog.audit_list">
               <el-table-column property="isbn" label="ISBN" width="160"></el-table-column>
               <el-table-column property="title" label="书名"></el-table-column>
-              <el-table-column property="price" label="定价" width="80"></el-table-column>
+              <el-table-column property="price" label="定价" width="100"></el-table-column>
             </el-table>
           </div>
-          <div class="gsy-footer"></div>
+          <div class="gsy-footer" style="margin-bottom: 15px;">
+            <el-pagination :page-sizes="[10, 20, 50, 100]" :page-size="add_dialog.size" layout="total, sizes, prev, pager, next, jumper" :total="add_dialog.total_count" @size-change="handleAddSizeChange" @current-change="handleAddCurrentChange">
+            </el-pagination>
+          </div>
         </div>
         <div class="gsy-card">
           <div class="gsy-header">填写信息：</div>

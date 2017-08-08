@@ -32,7 +32,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="isbn" label="ISBN" width="160"></el-table-column>
+            <el-table-column prop="isbn_no" label="ISBN" width="170"></el-table-column>
             <el-table-column prop="title" label="书名"></el-table-column>
             <el-table-column prop="stock" label="库存量" width="80"></el-table-column>
             <el-table-column prop="remark" label="备注">

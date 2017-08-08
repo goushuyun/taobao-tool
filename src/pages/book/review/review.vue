@@ -21,7 +21,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="isbn" label="isbn" width="180"></el-table-column>
+            <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
             <el-table-column prop="title" label="原书名" width="180"></el-table-column>
             <el-table-column prop="price" label="原定价" width="100"></el-table-column>
             <el-table-column prop="publisher" label="原出版社" width="180"></el-table-column>
@@ -53,7 +53,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="isbn_no" label="isbn" width="180"></el-table-column>
+              <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
               <el-table-column prop="title" label="书名" width="180"></el-table-column>
               <el-table-column prop="price" label="定价" width="100"></el-table-column>
               <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
@@ -74,7 +74,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="isbn" label="isbn" width="180"></el-table-column>
+              <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
               <el-table-column prop="title" label="书名" width="180"></el-table-column>
               <el-table-column prop="price" label="定价" width="100"></el-table-column>
               <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
@@ -105,8 +105,8 @@
         <div class="gsy-card">
           <div class="gsy-body" style="position: relative;">
             <el-form ref="add_book_info" :model="add_dialog" :rules="rules" label-width="80px" style="width: 300px;">
-              <el-form-item label="ISBN" prop="isbn">
-                <el-input disabled size="small" v-model.trim="add_dialog.isbn"></el-input>
+              <el-form-item label="ISBN" prop="isbn_no">
+                <el-input disabled size="small" v-model.trim="add_dialog.isbn_no"></el-input>
               </el-form-item>
               <el-form-item label="书 名" prop="title">
                 <el-input id="title" size="small" :maxlength="30" v-model.trim="add_dialog.title"></el-input>

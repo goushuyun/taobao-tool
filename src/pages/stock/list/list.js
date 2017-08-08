@@ -34,12 +34,23 @@ export default {
             if (this.select === 'greater' || this.select === 'less') {
                 request['compare'] = this.select
                 request['stock'] = this.input
+            } else if (this.select === 'isbn') {
+                var reg = /^978\d{10}_\d{2}$/
+                if (reg.test(this.input)) {
+                    var isbn_no = this.input.split('_')
+                    request.isbn = isbn_no[0]
+                    request.book_no = isbn_no[1]
+                    request.book_cate = 'poker'
+                } else {
+                    request.isbn = this.input
+                }
             } else {
                 request[this.select] = this.input
             }
             axios.post('/v1/stock/search_goods', request).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {
+                        el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
                         el.price = priceFloat(el.price)
                         return el
                     })

@@ -67,10 +67,10 @@
       </el-dialog>
 
       <el-dialog title="新增图书" :visible.sync="add_dialog">
-        <div class="body">
+        <div class="gsy-body">
           <el-form ref="book_info" :model="book_info" :rules="rules" label-width="80px" style="width: 300px;">
             <el-form-item label="ISBN" prop="isbn">
-              <el-input id="isbn" size="small" v-model.trim="book_info.isbn"></el-input>
+              <el-input disabled id="isbn" size="small" v-model.trim="book_info.isbn"></el-input>
             </el-form-item>
             <el-form-item label="书 名" prop="title">
               <el-input size="small" :maxlength="30" v-model.trim="book_info.title"></el-input>

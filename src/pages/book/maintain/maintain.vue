@@ -5,11 +5,11 @@
       <div class="gsy-card">
         <el-row class="gsy-header">
           <el-col>
-            <el-input size="small" placeholder="请输入内容" v-model="isbn">
+            <el-input size="small" placeholder="请输入内容" v-model="isbn" @keyup.enter.native="searchGoods">
               <template slot="prepend">ISBN</template>
             </el-input>
-            <el-button size="small" type="primary">搜索</el-button>
-            <el-button size="small" type="primary">重置</el-button>
+            <el-button size="small" type="primary" @click="searchGoods">搜索</el-button>
+            <el-button size="small" type="primary" @click="reset">重置</el-button>
           </el-col>
         </el-row>
         <div class="gsy-body" v-loading="loading" element-loading-text="拼命加载中">
