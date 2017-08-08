@@ -24,9 +24,12 @@ header{
 }
 
 
-// footer{
-//     margin-top: 28px;
-// }
+.has_error{
+    color: $jd_red;
+}
+.all_success{
+    color: $weixin_green;
+}
 
 
 // dialog part

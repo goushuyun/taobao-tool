@@ -21,39 +21,54 @@
               </header>
            </div>
            <div class="gsy-body">
-               <el-table>
+               <el-table :data="record_list">
                    <el-table-column label="导入时间">
-
+                       <template scope="scope">
+                           {{scope.row.create_at_format}}
+                       </template>
                    </el-table-column>
                    <el-table-column label="文件">
-
-                   </el-table-column>
-                   <el-table-column label="进度">
-
+                       <template scope="scope">
+                           <el-button type="text" @click="download(scope.row.origin_file)">
+                               <i class="fa fa-cloud-download" aria-hidden="true"></i> {{scope.row.origin_filename}}
+                           </el-button>
+                       </template>
                    </el-table-column>
                    <el-table-column label="导入结果">
+                       <template scope="scope">
+                           <span class="has_error" v-if="scope.row.failed_num > 0">
+                               <el-button type="text" style="color: #F7BA2A;">{{scope.row.failed_num}} 条数据导入失败</el-button>
+                           </span>
+                           <span v-else class="all_success">
+                               全部数据导入成功
+                           </span>
 
+                       </template>
                    </el-table-column>
                </el-table>
            </div>
            <div class="gsy-footer">
-               <el-pagination :current-page="page" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+               <el-pagination :current-page="page" :page-sizes="[10, 20, 50, 100]"
+               @size-change="handleSizeChange"
+               @current-change="handleCurrentChange"
+               :page-size="size" layout="total, sizes, prev, pager, next, jumper" :total="total">
                </el-pagination>
            </div>
        </div>
     </div>
 
     <!-- upload feedback dialog -->
-    <el-dialog title="数据导入" :visible.sync="visible" :close-on-click-modal="false">
+    <el-dialog :title="dialog_title" :visible.sync="visible" :close-on-click-modal="false">
 
         <div class="progress">
-            <el-progress type="circle" :percentage="100" status="success"></el-progress>
+            <el-progress type="circle" :percentage="process" status="success"></el-progress>
         </div>
 
         <!-- feedback info -->
         <div class="feedback_info">
-            <p><span class="key_number">7条</span> 数据导入成功</p>
-            <p><span class="key_number">17条</span> 模糊数据待处理</p>
+            <p><span class="key_number">{{success_data_num}}条</span> 数据导入成功</p>
+            <p><span class="key_number">{{blur_data_num}}条</span> 模糊数据待处理</p>
+            <p><span class="key_number">{{fail_data_num}}条</span> 格式错误数据</p>
         </div>
 
     </el-dialog>
@@ -67,24 +82,36 @@
 
 import mixin from "./batch.js"
 import utils from './utils.js'
+import table from './table.js'
 
 export default {
-    mixins: [mixin, utils],
-
+    mixins: [mixin, utils, table],
+    created() {
+        //do something after creating vue instance
+        this.getData()
+    },
     data() {
         return {
             // dialog params
             visible: false,
+            process: 0,
+            dialog_title: '正在导入数据...',
 
             // pagination data
             page: 0,
             size: 0,
             total: 0,
+            record_list: [],
 
             // upload data
             excel_json: [],
             correct_json: [],
-            error_json: []
+            error_json: [],
+
+            // upload feedback
+            success_data_num: 0,
+            fail_data_num: 0,
+            blur_data_num: 0
         }
     }
 }

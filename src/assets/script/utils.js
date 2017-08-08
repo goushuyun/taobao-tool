@@ -2,7 +2,7 @@ import axios from "../../config/http"
 
 function getToken(zone, key) {
     return new Promise((resolve, reject) => {
-        axios.post('/v1/mediastore/getUpToken', {
+        axios.post('/v1/mediastore/get_up_token', {
             zone,
             key
         }).then(resp => {
