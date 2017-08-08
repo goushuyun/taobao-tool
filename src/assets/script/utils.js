@@ -72,6 +72,21 @@ function s2ab(s) {
     return buf;
 }
 
+/**
+ * 数组排序去重算法
+ * @param  {[type]} array [未去重数组]
+ * @return {[type]}       [去重的数组]
+ */
+function unique(array) {
+    array.sort(); //先排序
+    var res = [array[0]];
+    for (var i = 1; i < array.length; i++) {
+        if (array[i] !== res[res.length - 1]) {
+            res.push(array[i]);
+        }
+    }
+    return res;
+}
 export {
     getToken,
     testMobile,
@@ -82,5 +97,6 @@ export {
     priceInt,
     copyObject,
     isObjectValueEqual,
-    s2ab
+    s2ab,
+    unique
 }

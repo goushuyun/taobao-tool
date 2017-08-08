@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <el-dialog title="申请详情" :visible.sync="detail_dialog.visible" size="large" :close-on-click-modal="false">
+      <el-dialog title="申请详情" :visible.sync="detail_dialog.visible" size="large" :close-on-click-modal="false" @close="getOrganizedAuditList">
         <div class="gsy-card">
           <div class="gsy-header">最新标准图书信息</div>
           <div class="gsy-body">
@@ -91,6 +91,10 @@
                 </template>
               </el-table-column>
             </el-table>
+          </div>
+          <div class="gsy-footer">
+            <el-pagination :page-sizes="[10, 20, 50, 100]" :page-size="detail_dialog.size" layout="total, sizes, prev, pager, next, jumper" :total="detail_dialog.total_count" @size-change="handleDetailSizeChange" @current-change="handleDetailCurrentChange">
+            </el-pagination>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">

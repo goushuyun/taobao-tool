@@ -27,8 +27,18 @@ axios.interceptors.response.use(function(response) {
     if (jwt_token != undefined) {
         localStorage.setItem('token', jwt_token)
     }
+    if (response.data.code == '11011') {
+        app.$alert('您的权限不够，禁止非法操作！', '提示', {
+            confirmButtonText: '确定',
+            type: 'warning',
+            callback: action => {
+                localStorage.removeItem('token')
+                window.location.href = conf.login
+            }
+        });
+    }
     // relogin
-    if (response.data.code == '11011' || response.data.code == '11012' || response.data.code == '11013' || response.data.code == '11014') {
+    if (response.data.code == '11012' || response.data.code == '11013' || response.data.code == '11014') {
         app.$alert('您的登录已超时，请重新登录！', '提示', {
             confirmButtonText: '确定',
             type: 'warning',
@@ -39,7 +49,7 @@ axios.interceptors.response.use(function(response) {
         });
     }
     //handler error
-    if (response.data.code != '00000') {
+    if (conf.environment != 'pro' && response.data.code != '00000') {
         app.$message.error(response.data.message)
     }
     return response;

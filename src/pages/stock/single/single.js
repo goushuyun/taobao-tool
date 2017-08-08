@@ -1,6 +1,7 @@
 import {
     priceFloat,
-    priceInt
+    priceInt,
+    unique
 } from '../../../assets/script/utils.js'
 import axios from "../../../config/http.js"
 export default {
@@ -232,16 +233,6 @@ export default {
             })
         },
         /**
-         * 库存位置模糊查询
-         */
-        locationFazzyQuery(data, type) {
-            axios.post('/v1/stock/location_fazzy_query', data).then(resp => {
-                if (resp.data.message == 'ok') {
-                    let data = resp.data.data
-                }
-            })
-        },
-        /**
          * 准备新增图书
          */
         preAddBook() {
@@ -275,14 +266,80 @@ export default {
                 }
             });
         },
+        /**
+         * 库存位置模糊查询
+         */
+        locationFazzyQuery(cb, data) {
+            axios.post('/v1/stock/location_fazzy_query', data).then(resp => {
+                if (resp.data.message == 'ok') {
+                    let data = resp.data.data
+                    cb(data)
+                }
+            })
+        },
         queryWarehouse(query, cb) {
-            cb([])
+            axios.post('/v1/stock/location_fazzy_query', {
+                "warehouse": ""
+            }).then(resp => {
+                if (resp.data.message == 'ok') {
+                    let data = resp.data.data
+                    var list = []
+                    data.forEach(el => {
+                        list.push(el.warehouse)
+                    })
+                    list = unique(list)
+                    var result = []
+                    list.forEach(warehouse => {
+                        result.push({
+                            value: warehouse
+                        })
+                    })
+                    cb(result)
+                }
+            })
         },
         queryShelf(query, cb) {
-            cb([])
+            axios.post('/v1/stock/location_fazzy_query', {
+                "warehouse": this.warehouse
+            }).then(resp => {
+                if (resp.data.message == 'ok') {
+                    let data = resp.data.data
+                    var list = []
+                    data.forEach(el => {
+                        list.push(el.shelf)
+                    })
+                    list = unique(list)
+                    var result = []
+                    list.forEach(shelf => {
+                        result.push({
+                            value: shelf
+                        })
+                    })
+                    cb(result)
+                }
+            })
         },
         queryFloor(query, cb) {
-            cb([])
+            axios.post('/v1/stock/location_fazzy_query', {
+                "warehouse": this.warehouse,
+                "shelf": this.shelf
+            }).then(resp => {
+                if (resp.data.message == 'ok') {
+                    let data = resp.data.data
+                    var list = []
+                    data.forEach(el => {
+                        list.push(el.floor)
+                    })
+                    list = unique(list)
+                    var result = []
+                    list.forEach(floor => {
+                        result.push({
+                            value: floor
+                        })
+                    })
+                    cb(result)
+                }
+            })
         },
         beforeAvatarUpload() {},
         handleAvatarSuccess() {},

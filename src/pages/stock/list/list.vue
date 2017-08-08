@@ -5,7 +5,7 @@
       <div class="gsy-card">
         <el-row class="gsy-header">
           <el-col :span="16">
-            <el-input size="small" placeholder="请输入内容" v-model="input">
+            <el-input size="small" placeholder="请输入内容" v-model="input" @keyup.enter.native="searchGoods">
               <el-select v-model="select" slot="prepend" placeholder="请选择">
                 <el-option label="ISBN" value="isbn"></el-option>
                 <el-option label="书名" value="title"></el-option>

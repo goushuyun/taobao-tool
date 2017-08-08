@@ -28,7 +28,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="isbn" label="isbn" width="180"></el-table-column>
+            <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
             <el-table-column prop="title" label="书名" width="180"></el-table-column>
             <el-table-column prop="price" label="定价" width="100"></el-table-column>
             <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
@@ -55,7 +55,7 @@
       </div>
       <el-dialog title="申请详情" :visible.sync="modify_dialog.visible" size="large" :close-on-click-modal="false">
         <div class="gsy-card">
-          <div class="gsy-header">{{search_type === '0' ? '我提交的修改申请' : '我添加的此isbn下的其他图书'}}</div>
+          <div class="gsy-header">{{search_type === '0' ? '我提交的修改申请' : '我提交的新增图书申请'}}</div>
           <div class="gsy-body">
             <el-table :data="modify_dialog.apply_list" border>
               <el-table-column v-if="search_type === '0'" prop="create_at" label="申请时间" width="120"></el-table-column>
