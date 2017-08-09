@@ -9,8 +9,6 @@ export default {
 
 			let isbn = ISBN.parse('9787302289333')
 
-			console.log(isbn);
-
 			console.log(isbn.isIsbn10());
 		},
 
@@ -57,7 +55,7 @@ export default {
 				return;
 
 			file = files[0];
-
+			$('#upload_excel_input').val('')
 			console.log(file.name);
 
 			var reader = new FileReader()
@@ -87,6 +85,8 @@ export default {
 				this.distinguish_data(this.excel_json)
 				// 上传数据
 				this.upload_data(this.correct_json, file.name)
+
+				
 			}
 
 			reader.readAsArrayBuffer(file)

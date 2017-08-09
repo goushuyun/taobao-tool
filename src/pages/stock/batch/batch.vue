@@ -16,7 +16,7 @@
                     <el-button @click="download_file('http://image1.goushuyun.cn/DemoExcel.xlsx')" type="text"><i class="fa fa-file-excel-o" aria-hidden="true"></i> 下载模版Excel</el-button>
                   </div>
                   <!-- <a href=""></a> -->
-                  <input type="file" @change="onchange" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                  <input type="file" @change="onchange" id="upload_excel_input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                   <p @click="view_blur_data">你有 <span class="emphasis"> 3 条模糊数据 </span>需要处理</p>
               </header>
            </div>

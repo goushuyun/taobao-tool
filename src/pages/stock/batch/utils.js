@@ -77,6 +77,11 @@ export default {
 							this.dialog_title = '数据导入完成'
 							this.refresh_table()
 							this.visible = false
+
+							// 清除内存 excel 数据
+							this.error_json = []
+							this.excel_json = []
+							this.correct_json = []
 						})
 
 					}
