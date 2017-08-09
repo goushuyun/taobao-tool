@@ -14,7 +14,7 @@
           <label for="isbn_input" style="margin: 0 7px 0 50px;">库存总量：</label>
           <span>{{total_stock}}</span>
           <label for="isbn_input" style="margin: 0 7px 0 30px;">出库量：</label>
-          <el-input id="out_input" @input.native="total_out_number_change(total_out_number)" style="width: 80px;" size="small" v-model.number="total_out_number"></el-input>
+          <el-input id="out_input" @input.native="total_out_number_change(total_out_number)" style="width: 80px;" size="small" v-model.trim.number="total_out_number"></el-input>
           <el-button :disabled="total_stock == 0" style="margin-left: 15px;" size="small" type="primary" @click="output">出库</el-button>
         </div>
         <el-row class="gsy-body" :gutter="10">
@@ -33,7 +33,7 @@
               <el-table-column label="库存量" width="80" prop="stock"></el-table-column>
               <el-table-column label="出货量">
                 <template scope="scope">
-                  <el-input size="mini" style="max-width: 100px;" type="number" v-model.number="scope.row.out_number" @click="handle_click_input(scope.$index)" @blur="modify_out_number(scope.$index)">
+                  <el-input size="mini" style="max-width: 100px;" type="number" v-model.trim.number="scope.row.out_number" @click="handle_click_input(scope.$index)" @blur="modify_out_number(scope.$index)">
                       <template slot="append">本</template>
                   </el-input>
                 </template>
