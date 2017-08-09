@@ -1,6 +1,10 @@
 import axios from "../../../config/http.js"
 
 export default {
+    mounted() {
+        //do something after creating vue instance
+        $('#isbn_input input').focus()
+    },
     methods: {
         total_out_number_change(total_out_number){
             // 处理 <= 0
