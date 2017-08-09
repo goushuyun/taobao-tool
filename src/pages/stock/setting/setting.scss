@@ -1,0 +1,23 @@
+.location {
+    .el-autocomplete input,
+    .el-input {
+        width: 160px;
+    }
+}
+
+.goods {
+    .el-select {
+        width: 150px;
+    }
+
+    .el-input {
+        width: auto;
+        margin-right: 15px;
+    }
+}
+
+.total {
+    float: right;
+    position: relative;
+    top: 8px;
+}
