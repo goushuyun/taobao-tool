@@ -112,7 +112,7 @@ export default {
                 stock: 0
             },
 
-            isbn: '9787115411280', //current goods isbn
+            isbn: '', //current goods isbn
             size: 10,
             page: 1,
 

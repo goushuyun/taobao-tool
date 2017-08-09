@@ -94,6 +94,10 @@ export default {
                 this.total_out_number = ''
 
                 $('#isbn_input input').focus()
+
+                // 提示出库成功
+                this.$message('出库成功')
+                this.isbn = ''
             })
         },
 
