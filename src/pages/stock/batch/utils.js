@@ -55,7 +55,8 @@ export default {
 								console.log(res.data);
 								this.process += 30
 								this.dialog_title = '数据导入完成'
-								// this.visible = false
+								this.refresh_table()
+								this.visible = false
 							})
 
 						})
@@ -74,7 +75,8 @@ export default {
 							console.log(res.data);
 							this.process += 30
 							this.dialog_title = '数据导入完成'
-							// this.visible = false
+							this.refresh_table()
+							this.visible = false
 						})
 
 					}

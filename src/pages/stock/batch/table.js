@@ -14,6 +14,12 @@ export default({
             this.page = page
             this.getData()
         },
+
+		refresh_table(){
+			this.page = 1
+			this.getData()
+		},
+
 		getData() {
             let params = {
                 page: this.page,
