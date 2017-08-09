@@ -72,7 +72,7 @@ export default {
 						console.log(params);
 						axios.post('/v1/stock/save_goods_batch_upload_record', params).then(res=>{
 							console.log(res.data);
-							this.process += 20
+							this.process += 30
 							this.dialog_title = '数据导入完成'
 							// this.visible = false
 						})

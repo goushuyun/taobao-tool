@@ -24,7 +24,7 @@
                <el-table :data="record_list">
                    <el-table-column label="导入时间">
                        <template scope="scope">
-                           {{scope.row.create_at_format}}
+                           <span>{{scope.row.create_at_format}}</span>
                        </template>
                    </el-table-column>
                    <el-table-column label="文件">
@@ -63,7 +63,6 @@
         <div class="progress">
             <el-progress type="circle" :percentage="process" status="success"></el-progress>
         </div>
-
         <!-- feedback info -->
         <div class="feedback_info">
             <p><span class="key_number">{{success_data_num}}条</span> 数据导入成功</p>
