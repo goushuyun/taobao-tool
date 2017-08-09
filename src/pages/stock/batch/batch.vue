@@ -13,7 +13,7 @@
            <div class="gsy-header">
               <header>
                   <div class="download_demo">
-                    <el-button @click="download_demo" type="text"><i class="fa fa-file-excel-o" aria-hidden="true"></i> 下载模版Excel</el-button>
+                    <el-button @click="download_file('http://image1.goushuyun.cn/DemoExcel.xlsx')" type="text"><i class="fa fa-file-excel-o" aria-hidden="true"></i> 下载模版Excel</el-button>
                   </div>
                   <!-- <a href=""></a> -->
                   <input type="file" @change="onchange">
@@ -24,20 +24,20 @@
                <el-table :data="record_list">
                    <el-table-column label="导入时间">
                        <template scope="scope">
-                           <span>{{scope.row.create_at_format}}</span>
+                           <span class="time">{{scope.row.create_at_format}}</span>
                        </template>
                    </el-table-column>
                    <el-table-column label="文件">
                        <template scope="scope">
-                           <el-button type="text" @click="download(scope.row.origin_file)">
-                               <i class="fa fa-cloud-download" aria-hidden="true"></i> {{scope.row.origin_filename}}
+                           <el-button type="text" @click="download_file(image_base_url + scope.row.origin_file)">
+                               {{scope.row.origin_filename}}
                            </el-button>
                        </template>
                    </el-table-column>
                    <el-table-column label="导入结果">
                        <template scope="scope">
                            <span class="has_error" v-if="scope.row.failed_num > 0">
-                               <el-button type="text" style="color: #F7BA2A;">{{scope.row.failed_num}} 条数据导入失败</el-button>
+                               <el-button @click="download_file(image_base_url + scope.row.error_file)" type="text" style="color: #F7BA2A;"><i class="fa fa-download" aria-hidden="true"></i> {{scope.row.failed_num}} 条数据导入失败</el-button>
                            </span>
                            <span v-else class="all_success">
                                全部数据导入成功
@@ -82,6 +82,7 @@
 import mixin from "./batch.js"
 import utils from './utils.js'
 import table from './table.js'
+import config from '../../../config/basis.js'
 
 export default {
     mixins: [mixin, utils, table],
@@ -89,6 +90,12 @@ export default {
         //do something after creating vue instance
         this.getData()
     },
+    computed: {
+        image_base_url(){
+            return config.image_url
+        }
+    },
+
     data() {
         return {
             // dialog params

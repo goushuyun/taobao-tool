@@ -3,11 +3,9 @@ import axios from "../../../config/http.js"
 export default({
 
 	methods: {
-        download_demo() {
-            this.visible = true
+        download_file(file_url) {
+            window.location.href = file_url
         },
-
-
         handleSizeChange(size){
             this.size = size
             this.getData()
@@ -28,10 +26,7 @@ export default({
                 this.total = res.total_count
 
                 this.record_list = res.data.map(record=>{
-
                     record.create_at_format = moment.unix(record.create_at).format('YYYY-MM-DD HH:mm:ss')
-
-
                     return record
                 })
 
