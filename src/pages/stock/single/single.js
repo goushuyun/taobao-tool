@@ -1,8 +1,7 @@
 import {
     priceFloat,
     priceInt,
-    unique,
-    getToken
+    unique
 } from '../../../assets/script/utils.js'
 import config from '../../../config/basis.js'
 import axios from "../../../config/http.js"
@@ -361,7 +360,7 @@ export default {
             var time = moment().format('YYYYMMDDHHmmss')
             var isbn = this.book_info.isbn
             let key = time + isbn + '.png'
-            axios.post('/v1/mediastock/get_up_token', {
+            axios.post('/v1/mediastore/get_up_token', {
                 zone: config.bucket_zone,
                 key
             }).then(resp => {

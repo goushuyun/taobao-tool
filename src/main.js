@@ -1,4 +1,3 @@
-import './assets/style/main.css'
 import App from './App.vue'
 import routes from './config/routes'
 import vuexObj from './config/store'

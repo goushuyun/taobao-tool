@@ -9,31 +9,31 @@ import axios from "../../../config/http.js"
 export default {
     data() {
         return {
-            user_id: '',
-            book_info: {},
-            book_info_bak: {},
+            user_id: '', // 用户的id
+            book_info: {}, // 图书信息
+            book_info_bak: {}, // 图书备份信息
 
-            modify: false,
-            goods_id: '',
-            locations: [],
+            modify: false, // 是否正在修改图书的状态
+            goods_id: '', //
+            locations: [], // 货架信息列表
             page: 1,
             size: 10,
-            total_count: 0,
-            other_dialog: {
+            total_count: 0, // 货架列表总数
+            other_dialog: { // 此isbn对应的其他图书dialog
                 visible: false,
-                books: [],
+                books: [], // 此isbn对应的其他图书
                 page: 1,
                 size: 10,
-                total_count: 0
+                total_count: 0 // 其他图书总数
             },
-            add_dialog: {
+            add_dialog: { // 新增图书dialog
                 visible: false,
-                audit_list: [],
+                audit_list: [], // 我对此isbn新增申请的列表
                 page: 1,
                 size: 10,
-                total_count: 0
+                total_count: 0 // 申请总数
             },
-            add_book_info: {
+            add_book_info: { // 要添加图书的信息
                 isbn: '',
                 title: '',
                 author: '',
@@ -42,11 +42,11 @@ export default {
                 image: '',
                 price: ''
             },
-            imagesFormData: {
+            imagesFormData: { // 封面上传的中间信息
                 key: '',
                 token: ''
             },
-            rules: {
+            rules: { // 新增图书信息表单校验规则
                 isbn_no: [{
                     required: true,
                     message: '请填写ISBN',
@@ -70,22 +70,33 @@ export default {
         this.user_id = localStorage.getItem('user_id')
     },
     methods: {
+        // 返回上一页
+        goBack() {
+            this.$router.go(-1)
+        },
+        // 获取来自 库存查看 和 信息维护 两个页面传来的book信息
         getParams() {
             var book = this.$route.params.book
             this.goods_id = book.goods_id
+            // 获取图书的全部货架信息
             this.getGoodsAlocations()
             this.modify = false
+            // 复制并备份book信息
             this.book_info = copyObject(book)
             this.book_info_bak = copyObject(book)
         },
+        // 准备修改图书基本信息
         preModify() {
             this.modify = true
-            this.getToken(book.isbn_no)
+            // 获取token，准备上传封面
+            this.getToken(this.book_info.isbn_no)
             this.$nextTick(() => {
                 $('#title input').focus()
             })
         },
+        // 提交修改图书基本信息的申请
         submitModify(formName) {
+            // 检查图书是否未作修改，未修改则不提交申请
             if (isObjectValueEqual(this.book_info, this.book_info_bak)) {
                 this.$message.warning('尚未做任何修改！')
                 return
@@ -112,6 +123,7 @@ export default {
                 }
             });
         },
+        // 提交新增图书的申请
         submitAudit(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -136,15 +148,19 @@ export default {
                 }
             });
         },
+        // 准备新增图书
         preAddBook() {
+            // 获取我对这本书已提交的申请列表
             this.getAuditList()
             this.add_book_info.isbn = this.book_info.isbn
             this.add_dialog.visible = true
+            // 获取taken，准备上传封面
             this.getToken(this.add_book_info.isbn)
             this.$nextTick(() => {
                 $('#title input').focus()
             })
         },
+        // 获取我对这本书已提交的申请列表
         getAuditList() {
             axios.post('/v1/book/get_audit_list', {
                 "apply_user_id": this.user_id,
@@ -165,22 +181,27 @@ export default {
                 }
             })
         },
+        // 更改图书货架信息列表size后重新请求
         handleBookSizeChange(size) {
             this.size = size
             this.getGoodsAlocations()
         },
+        // 更改图书货架信息列表page后重新请求
         handleBookCurrentChange(page) {
             this.page = page
             this.getGoodsAlocations()
         },
+        // 更改新增图书dialog顶部申请列表的size后重新请求
         handleAddSizeChange(size) {
             this.add_dialog.size = size
             this.getAuditList()
         },
+        // 更改新增图书dialog顶部申请列表的size后重新请求
         handleAddCurrentChange(page) {
             this.add_dialog.page = page
             this.getAuditList()
         },
+        // 打开此isbn对应的其他书籍的dialog，并获取其他书籍列表
         openOtherDialog() {
             var book = this.book_info_bak
             axios.post('/v1/book/get_book_info', {
@@ -198,6 +219,7 @@ export default {
                 }
             })
         },
+        // 获取图书货架信息列表
         getGoodsAlocations() {
             axios.post('/v1/stock/list_goods_all_locations', {
                 "goods_id": this.goods_id, //required
@@ -211,6 +233,7 @@ export default {
                 }
             })
         },
+        // 上传封面前执行的钩子函数
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
             const isLt2M = file.size / 1024 / 1024 < 2;
@@ -222,26 +245,31 @@ export default {
             }
             return isJPG && isLt2M;
         },
+        // 更改图书时上传封面，成功后条用的钩子函数
         handleAvatarSuccess(res, file, fileList) {
             this.book_info.image = this.imagesFormData.key
             this.getToken(this.book_info.isbn)
         },
+        // 更改图书时上传封面，失败后条用的钩子函数
         handleAvatarError(err, file, fileList) {
             this.$message.error('上传失败，请重试');
             this.getToken(this.book_info.isbn)
         },
+        // 新增图书时上传封面，成功后条用的钩子函数
         handleAddAvatarSuccess(res, file, fileList) {
             this.add_book_info.image = this.imagesFormData.key
             this.getToken(this.add_book_info.isbn)
         },
+        // 新增图书时上传封面，失败后条用的钩子函数
         handleAddAvatarError(err, file, fileList) {
             this.$message.error('上传失败，请重试');
             this.getToken(this.add_book_info.isbn)
         },
+        // 获取token的方法，通过时间字符串和isbn拼接key
         getToken(isbn) {
             var time = moment().format('YYYYMMDDHHmmss')
             let key = time + isbn + '.png'
-            axios.post('/v1/mediastock/get_up_token', {
+            axios.post('/v1/mediastore/get_up_token', {
                 zone: config.bucket_zone,
                 key
             }).then(resp => {

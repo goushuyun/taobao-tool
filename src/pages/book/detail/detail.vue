@@ -47,6 +47,10 @@
             <img v-if="book_info.image" :src="book_info.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + book_info.image)"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+
+          <div class="btn-back">
+            <el-button type="text" icon="caret-left" @click="goBack">返回列表</el-button>
+          </div>
         </div>
         <div class="gsy-body">
           <div style="margin-bottom: 15px;">总库存量：{{book_info.stock}} 本</div>
