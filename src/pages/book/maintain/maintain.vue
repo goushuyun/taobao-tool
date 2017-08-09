@@ -22,13 +22,13 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="isbn_no" label="ISBN" width="170"></el-table-column>
-            <el-table-column prop="title" label="书名" min-width="200"></el-table-column>
-            <el-table-column prop="price" label="定价" width="80"></el-table-column>
-            <el-table-column prop="publisher" label="出版社" width="200"></el-table-column>
-            <el-table-column prop="author" label="作者" width="80"></el-table-column>
-            <el-table-column prop="edition" label="版次" width="80"></el-table-column>
-            <el-table-column label="操作" width="140">
+            <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
+            <el-table-column prop="title" label="书名" min-width="180"></el-table-column>
+            <el-table-column prop="price" label="定价" width="100"></el-table-column>
+            <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
+            <el-table-column prop="author" label="作者" width="100"></el-table-column>
+            <el-table-column prop="edition" label="版次" width="100"></el-table-column>
+            <el-table-column label="操作" width="120">
               <template scope="scope">
                 <el-button type="text" @click="openBookDialog(scope.$index)">查看详情</el-button>
               </template>

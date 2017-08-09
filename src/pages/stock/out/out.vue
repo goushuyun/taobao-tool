@@ -57,7 +57,7 @@
           <div class="book_info">
 
             <div class="image_box">
-              <img class="book_image" :src="image_url + book_info.image" alt="">
+              <img class="book_image" :src="(book_info.image == '') ? 'http://image.goushuyun.cn/book.png' : (image_url + book_info.image)" alt="">
             </div>
 
             <ul class="info_detail">

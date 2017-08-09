@@ -36,9 +36,9 @@
             <el-table-column prop="edition" label="版次" width="100"></el-table-column>
             <el-table-column prop="status" label="状态" width="100">
               <template scope="scope">
-                <el-tag v-if="scope.row.status == 1" type="primary">待审核</el-tag>
-                <el-tag v-else-if="scope.row.status == 2" type="success">审核通过</el-tag>
-                <span v-else><el-tag type="danger">审核失败</el-tag>：{{scope.row.feedback}}</span>
+                <span v-if="scope.row.status == 1" style="color: #20A0FF;">待审核</span>
+                <span v-else-if="scope.row.status == 2" style="color: #13CE66">审核通过</span>
+                <span v-else style="color: #FF4949">审核失败<span v-if="scope.row.feedback">：{{scope.row.feedback}}</span></span>
               </template>
             </el-table-column>
             <el-table-column prop="status" label="操作" width="100">
@@ -53,11 +53,11 @@
           </el-pagination>
         </div>
       </div>
-      <el-dialog title="申请详情" :visible.sync="modify_dialog.visible" size="large" :close-on-click-modal="false">
+      <el-dialog title="申请详情" :visible.sync="detail_dialog.visible" size="large" :close-on-click-modal="false">
         <div class="gsy-card">
           <div class="gsy-header">{{search_type === '0' ? '我提交的修改申请' : '我提交的新增图书申请'}}</div>
           <div class="gsy-body">
-            <el-table :data="modify_dialog.apply_list" border>
+            <el-table :data="detail_dialog.apply_list" border>
               <el-table-column v-if="search_type === '0'" prop="create_at" label="申请时间" width="120"></el-table-column>
               <el-table-column prop="image" label="图片" width="100">
                 <template scope="scope" >
@@ -75,9 +75,9 @@
               <el-table-column prop="check_user_name" label="审核人" width="100"></el-table-column>
               <el-table-column prop="status" label="审核结果" width="200">
                 <template scope="scope">
-                  <el-tag v-if="scope.row.status == 1" type="primary">待审核</el-tag>
-                  <el-tag v-else-if="scope.row.status == 2" type="success">审核通过</el-tag>
-                  <span v-else><el-tag type="danger">审核失败</el-tag>：{{scope.row.feedback}}</span>
+                  <span v-if="scope.row.status == 1" style="color: #20A0FF;">待审核</span>
+                  <span v-else-if="scope.row.status == 2" style="color: #13CE66">审核通过</span>
+                  <span v-else style="color: #FF4949">审核失败<span v-if="scope.row.feedback">：{{scope.row.feedback}}</span></span>
                 </template>
               </el-table-column>
             </el-table>
@@ -87,7 +87,7 @@
         <div class="gsy-card">
           <div class="gsy-header">最新标准图书信息</div>
           <div class="gsy-body">
-            <el-table :data="modify_dialog.newest" border>
+            <el-table :data="detail_dialog.newest" border>
               <el-table-column prop="image" label="图片" width="100">
                 <template scope="scope" >
                   <div class="image_wrap">
@@ -105,7 +105,7 @@
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button size="small" type="primary" @click="modify_dialog.visible = false">确定</el-button>
+          <el-button size="small" type="primary" @click="detail_dialog.visible = false">确定</el-button>
         </div>
       </el-dialog>
 
