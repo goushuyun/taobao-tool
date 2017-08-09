@@ -17,7 +17,7 @@
             <el-table-column prop="image" label="原封面" width="100">
               <template scope="scope" >
                 <div class="image_wrap">
-                    <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + scope.row.image)" class="image"></img>
+                    <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                 </div>
               </template>
             </el-table-column>
@@ -49,7 +49,7 @@
               <el-table-column prop="image" label="图片" width="100">
                 <template scope="scope" >
                   <div class="image_wrap">
-                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + scope.row.image)" class="image"></img>
+                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                   </div>
                 </template>
               </el-table-column>
@@ -70,7 +70,7 @@
               <el-table-column prop="image" label="图片" width="100">
                 <template scope="scope" >
                   <div class="image_wrap">
-                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + scope.row.image)" class="image"></img>
+                      <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                   </div>
                 </template>
               </el-table-column>
@@ -132,7 +132,7 @@
               :before-upload="beforeAvatarUpload"
               :on-success="handleAvatarSuccess"
               :on-error="handleAvatarError">
-              <img v-if="add_dialog.image" :src="'http://otxkmhj3k.bkt.clouddn.com/' + add_dialog.image"/>
+              <img v-if="add_dialog.image" :src="'http://taoimage.goushuyun.cn/' + add_dialog.image"/>
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </div>

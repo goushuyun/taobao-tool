@@ -44,7 +44,7 @@
             :before-upload="beforeAvatarUpload"
             :on-success="handleAvatarSuccess"
             :on-error="handleAvatarError">
-            <img v-if="book_info.image" :src="book_info.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + book_info.image)"/>
+            <img v-if="book_info.image" :src="book_info.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + book_info.image)"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -117,9 +117,9 @@
               :data="imagesFormData"
               :show-file-list="false"
               :before-upload="beforeAvatarUpload"
-              :on-success="handleAvatarSuccess"
-              :on-error="handleAvatarError">
-              <img v-if="add_book_info.image" :src="'http://otxkmhj3k.bkt.clouddn.com/' + add_book_info.image"/>
+              :on-success="handleAddAvatarSuccess"
+              :on-error="handleAddAvatarError">
+              <img v-if="add_book_info.image" :src="'http://taoimage.goushuyun.cn/' + add_book_info.image"/>
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </div>

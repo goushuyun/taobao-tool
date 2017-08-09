@@ -45,7 +45,7 @@
                 <el-radio :label="index" class="radio">
                   <div class="label">
                     <div class="image_wrap">
-                      <img :src="book.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + book.image)" class="image"></img>
+                      <img :src="book.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + book.image)" class="image"></img>
                     </div>
                     <div>
                       <span>{{book.isbn_no}}</span> |
@@ -96,7 +96,7 @@
             :before-upload="beforeAvatarUpload"
             :on-success="handleAvatarSuccess"
             :on-error="handleAvatarError">
-            <img v-if="book_info.image" :src="'http://otxkmhj3k.bkt.clouddn.com/' + book_info.image"/>
+            <img v-if="book_info.image" :src="'http://taoimage.goushuyun.cn/' + book_info.image"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>

@@ -18,11 +18,11 @@
             <el-table-column label="封面" width="100">
               <template scope="scope" >
                 <div class="image_wrap">
-                  <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://otxkmhj3k.bkt.clouddn.com/' + scope.row.image)" class="image"></img>
+                  <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column prop="isbn_no" label="ISBN" width="160"></el-table-column>
+            <el-table-column prop="isbn_no" label="ISBN" width="170"></el-table-column>
             <el-table-column prop="title" label="书名" min-width="200"></el-table-column>
             <el-table-column prop="price" label="定价" width="80"></el-table-column>
             <el-table-column prop="publisher" label="出版社" width="200"></el-table-column>
