@@ -6,6 +6,21 @@ export default {
         $('#isbn_input input').focus()
     },
     methods: {
+        handleChecked(book){
+            console.log(book);
+            this.book_info = book
+            this.goods_id = book.goods_id
+            this.total_stock = book.stock
+
+            if(this.total_stock>0){
+                this.getLocationList()
+            }else{
+                this.$message({
+                  message: '库存已告罄',
+                  type: 'warning'
+                });
+            }
+        },
         total_out_number_change(total_out_number){
             // 处理 <= 0
             if(this.total_out_number <= 0){
@@ -104,14 +119,21 @@ export default {
                 this.isbn = ''
             })
         },
+        operate_book_dialog(){
+            this.choose_book_visible = true
 
+            console.log(this.choose_book_visible);
+        },
         isbn_search() {
             axios.post('/v1/stock/search_goods', {isbn: this.isbn}).then(res => {
+
+                // not found this book
                 if(res.data.total_count === 0){
                     this.$message({
                         message: "未找到该图书",
                         type: 'warning'
                     })
+                    return
                 }
 
                 if(res.data.total_count === 1){
@@ -127,6 +149,9 @@ export default {
                           type: 'warning'
                         });
                     }
+                }else{
+                    this.wait_choose_books = res.data.data
+                    this.choose_book_visible = true
                 }
 
             })
