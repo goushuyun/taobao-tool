@@ -22,7 +22,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
-            <el-table-column prop="title" label="原书名" width="180"></el-table-column>
+            <el-table-column prop="title" label="原书名" min-width="180"></el-table-column>
             <el-table-column prop="price" label="原定价" width="100"></el-table-column>
             <el-table-column prop="publisher" label="原出版社" width="180"></el-table-column>
             <el-table-column prop="author" label="原作者" width="180"></el-table-column>

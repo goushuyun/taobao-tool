@@ -1,6 +1,8 @@
 import {
     priceInt,
-    priceFloat
+    priceFloat,
+    copyObject,
+    isObjectValueEqual
 } from '../../../assets/script/utils.js'
 import config from '../../../config/basis.js'
 import axios from "../../../config/http.js"
@@ -30,6 +32,7 @@ export default {
                 image: '',
                 price: ''
             },
+            add_dialog_bak: {},
             rules: {
                 isbn_no: [{
                     required: true,
@@ -60,6 +63,7 @@ export default {
         this.getOrganizedAuditList()
     },
     methods: {
+        // 获取申请列表
         getOrganizedAuditList() {
             axios.post('/v1/book/get_organized_audit_list', {
                 "page": this.page,
@@ -79,9 +83,8 @@ export default {
         },
         /**
          * 查看申请详情
-         * @param  {[type]} index [申请记录索引]
-         * @param  {[type]} book  [是否请求图书信息？true-否 false-是]
-         * @return {[type]}       [description]
+         * @param  {Number} index 申请记录索引
+         * @param  {Boolean} book 是否请求图书信息？true-否 false-是
          */
         showDetail(index, book) {
             this.detail_dialog.index = index
@@ -102,7 +105,7 @@ export default {
                 })
             }
 
-            // 获取申请列表
+            // 获取申请列表，修改图书详情页只有一本，新增图书详情页可能有 多本
             var request = {
                 "page": this.detail_dialog.page,
                 "size": this.detail_dialog.size,
@@ -123,44 +126,51 @@ export default {
                         el.price = priceFloat(el.price)
                         return el
                     })
-                    var result = {
-                        data: data,
-                        total_count: resp.data.total_count
+                    this.detail_dialog.total_count = resp.data.total_count
+                    if (this.search_type === '1') {
+                        data = data.map(el => {
+                            el.isbn_no = el.isbn
+                            return el
+                        })
+                        this.detail_dialog.apply_list = data
                     }
-                    this.detail_dialog.total_count = result.total_count
-                    this.detail_dialog.apply_list = result.data.map(el => {
-                        el.isbn_no = el.isbn
-                        return el
-                    })
-                    console.log(this.detail_dialog.apply_list);
                     if (this.search_type === '0') {
-                        this.getLocalBookInfoList()
+                        this.detail_dialog.apply_list = []
+                        var self = this
+                        var count = 0
+                        for (var i = 0; i < data.length; i++) {
+                            (function(index) {
+                                axios.post('/v1/book/get_local_book_info', {
+                                    id: data[index].book_id
+                                }).then(resp => {
+                                    if (resp.data.message == 'ok') {
+                                        var data1 = resp.data.data.map(el => {
+                                            el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
+                                            return el
+                                        })
+                                        data[index].isbn = data1[0].isbn
+                                        data[index].book_no = data1[0].book_no
+                                        data[index].isbn_no = data1[0].isbn_no
+
+                                        count++
+                                        // 判断是否所有isbn请求完毕
+                                        if (count == data.length) {
+                                            self.detail_dialog.apply_list = data
+                                        }
+                                    }
+                                })
+                            })(i)
+                        }
                     }
                     this.detail_dialog.visible = true
                 }
             })
         },
-        getLocalBookInfoList() {
-            var self = this
-            var apply_list = self.detail_dialog.apply_list
-            for (var i = 0; i < apply_list.length; i++) {
-                (function(index) {
-                    axios.post('/v1/book/get_local_book_info', {
-                        id: apply_list[index].book_id
-                    }).then(resp => {
-                        if (resp.data.message == 'ok') {
-                            var data = resp.data.data.map(el => {
-                                el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
-                                return el
-                            })
-                            self.detail_dialog.apply_list[index].isbn = data[0].isbn
-                            self.detail_dialog.apply_list[index].book_no = data[0].book_no
-                            self.detail_dialog.apply_list[index].isbn_no = data[0].isbn_no
-                        }
-                    })
-                })(i)
-            }
-        },
+        /**
+         * 处理申请
+         * @param  {Object}   request 请求数据
+         * @param  {Function} cb      回调函数
+         */
         handleAudit(request, cb) {
             axios.post('/v1/book/handle_book_audit_list', request).then(resp => {
                 if (resp.data.message == 'ok') {
@@ -170,6 +180,7 @@ export default {
                 }
             })
         },
+        // 更新图书
         updateBookInfo(request) {
             axios.post('/v1/book/update_book_info', request).then(resp => {
                 if (resp.data.message == 'ok') {
@@ -177,13 +188,16 @@ export default {
                 }
             })
         },
+        // 添加图书
         saveBookInfo(request) {
             axios.post('/v1/book/save_book_info', request).then(resp => {
                 if (resp.data.message == 'ok') {
                     this.$message.success('已新增图书！')
+                    this.add_dialog.visible = false
                 }
             })
         },
+        // 通过申请
         adopt(index) {
             var tip = this.search_type == '0' ? '此申请通过，其余申请将会自动驳回。' : '新增图书的申请通过后，购书云会自动分配给此书一个isbn+后缀的编号。'
             this.$confirm(tip, '申请通过', {
@@ -191,6 +205,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
+                // 即将通过审核的申请id
                 var adopt_ids = [this.detail_dialog.apply_list[index].id]
                 var adopt_request = {
                     "status": 2, //2:接受申请 //3:拒绝申请
@@ -200,22 +215,43 @@ export default {
                 var self = this
                 var callback = function() {
                     self.$message.success('已通过该申请！')
-                    self.detail_dialog.apply_list.splice(index, 1)
-                    self.detail_dialog.visible = false
+
+                    // 如果是修改申请直接关闭对话框
+                    if (self.search_type == '0') {
+                        self.detail_dialog.visible = false
+                    } else {
+                        // 如果当前处理的是最后一条申请，关闭对话框
+                        if (self.detail_dialog.apply_list == 1) {
+                            self.detail_dialog.visible = false
+                        } else {
+                            // 否则删除处理后的记录
+                            self.detail_dialog.apply_list.splice(index, 1)
+                        }
+                    }
+                }
+                // 通过申请
+                this.handleAudit(adopt_request, callback)
+
+                // 多个商家申请修改，则需要同时驳回其他商家的申请
+                // 多个商家申请新增，不需要驳回其他商家的申请
+                if (this.search_type == '0') {
+                    // 被自动拒绝的其他申请id数组
+                    var refuse_ids = []
+                    this.detail_dialog.apply_list.forEach(el => {
+                        refuse_ids.push(el.id)
+                    })
+                    refuse_ids.splice(index, 1)
+                    var refuse_request = {
+                        "status": 3,
+                        "feedback": "我们使用了其他商家提供的数据", //反馈结果
+                        "ids": refuse_ids
+                    }
+                    if (refuse_ids.length > 0) {
+                        this.handleAudit(refuse_request, null)
+                    }
                 }
 
-                var refuse_ids = []
-                this.detail_dialog.apply_list.forEach(el => {
-                    refuse_ids.push(el.id)
-                })
-                refuse_ids.splice(index, 1)
-                // 自动拒绝其他申请
-                var refuse_request = {
-                    "status": 3,
-                    "feedback": "我们使用了其他商家提供的数据", //反馈结果
-                    "ids": refuse_ids
-                }
-
+                // 申请通过后对图书进行处理：修改或新增
                 var book = this.detail_dialog.apply_list[index]
                 var request = {
                     "title": book.title,
@@ -234,25 +270,21 @@ export default {
                     request.book_cate = 'poker'
                     this.saveBookInfo(request)
                 }
-
-                this.handleAudit(adopt_request, callback)
-                if (refuse_ids.length > 0) {
-                    this.handleAudit(refuse_request, null)
-                }
-
             }).catch();
         },
+        // 拒绝申请
         refuse(index) {
+            var tip = this.search_type == '0' ? '默认为：我们使用了其他商家提供的数据' : '默认为：图书基本信息不准确'
             this.$prompt('请填写驳回理由：', '申请驳回', {
                 confirmButtonText: '驳回',
                 cancelButtonText: '取消',
-                inputPlaceholder: '我们使用了其他商家提供的数据（默认）'
+                inputPlaceholder: tip
             }).then(({
                 value
             }) => {
                 var request = {
                     "status": 3, //2:接受申请 //3:拒绝申请
-                    "feedback": value ? value : '我们使用了其他商家提供的数据', //反馈结果
+                    "feedback": value ? value : tip, //反馈结果
                     "ids": [
                         this.detail_dialog.apply_list[index].id
                     ]
@@ -260,12 +292,18 @@ export default {
                 var self = this
                 var callback = function() {
                     self.$message.success('已拒绝该申请！')
-                    self.detail_dialog.apply_list.splice(index, 1)
-                    self.detail_dialog.visible = false
+                    // 如果当前处理的是最后一条申请，关闭对话框
+                    if (self.detail_dialog.apply_list == 1) {
+                        self.detail_dialog.visible = false
+                    } else {
+                        // 否则删除处理后的记录
+                        self.detail_dialog.apply_list.splice(index, 1)
+                    }
                 }
                 this.handleAudit(request, callback)
             }).catch();
         },
+        // 管理员权限的商家自行修改申请
         modify(index) {
             var book = this.detail_dialog.apply_list[index]
             this.add_dialog = {
@@ -281,9 +319,15 @@ export default {
                 image: book.image,
                 price: book.price
             }
+            this.add_dialog_bak = copyObject(this.add_dialog)
             this.getToken()
         },
+        // 提交修改，会默认拒绝其他商家的申请
         submit() {
+            if (isObjectValueEqual(this.add_dialog_bak, this.add_dialog)) {
+                this.$message.warning('尚未做任何修改！')
+                return
+            }
             var request = {
                 "title": this.add_dialog.title,
                 "publisher": this.add_dialog.publisher,
@@ -301,18 +345,41 @@ export default {
                 request.book_cate = 'poker' // ''或者poker
                 this.saveBookInfo(request)
             }
-            var refuse_ids = []
-            this.detail_dialog.apply_list.forEach(el => {
-                refuse_ids.push(el.id)
-            })
-            var refuse_request = {
-                "status": 3,
-                "feedback": "我们使用了其他商家提供的数据", //反馈结果
-                "ids": refuse_ids
+            // 如果是修改申请则驳回其他所有申请
+            if (this.search_type == '0') {
+                var refuse_ids = []
+                this.detail_dialog.apply_list.forEach(el => {
+                    refuse_ids.push(el.id)
+                })
+                var refuse_request = {
+                    "status": 3,
+                    "feedback": "我们使用了其他商家提供的数据", //反馈结果
+                    "ids": refuse_ids
+                }
+                this.handleAudit(refuse_request, null)
+                this.add_dialog.visible = false
+                this.detail_dialog.visible = false
+            } else {
+                // 如果是新增申请则驳回当前申请
+                var index = this.add_dialog.index
+                console.log();
+                var refuse_request = {
+                    "status": 3,
+                    "feedback": "我们使用了其他商家提供的数据", //反馈结果
+                    "ids": [this.detail_dialog.apply_list[index].id]
+                }
+                var self = this
+                var callback = function() {
+                    // 如果当前处理的是最后一条申请，关闭对话框
+                    if (self.detail_dialog.apply_list == 1) {
+                        self.detail_dialog.visible = false
+                    } else {
+                        // 否则删除处理后的记录
+                        self.detail_dialog.apply_list.splice(index, 1)
+                    }
+                }
+                this.handleAudit(refuse_request, callback)
             }
-            this.handleAudit(refuse_request)
-            this.add_dialog.visible = false
-            this.detail_dialog.visible = false
         },
         handleSizeChange(size) {
             this.size = size

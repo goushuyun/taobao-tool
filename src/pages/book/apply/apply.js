@@ -57,13 +57,12 @@ export default {
                         // 此步操作可能耗时较长，所以先清空
                         this.audit_list = []
                         var self = this
-                        var audit_list = data
                         var count = 0
                         // 遍历data根据book_id获取标准图书信息
-                        for (var i = 0; i < audit_list.length; i++) {
+                        for (var i = 0; i < data.length; i++) {
                             (function(index) {
                                 axios.post('/v1/book/get_local_book_info', {
-                                    id: audit_list[index].book_id
+                                    id: data[index].book_id
                                 }).then(resp => {
                                     if (resp.data.message == 'ok') {
                                         var data1 = resp.data.data.map(el => {
@@ -71,7 +70,7 @@ export default {
                                             el.price = priceFloat(el.price)
                                             return el
                                         })
-                                        // 设置audit_list中的isbn、book_no、isbn_no
+                                        // 设置data中的isbn、book_no、isbn_no
                                         data[index].isbn = data1[0].isbn
                                         data[index].book_no = data1[0].book_no
                                         data[index].isbn_no = data1[0].isbn_no
@@ -79,7 +78,7 @@ export default {
                                         self.local_book_list[index] = data1[0]
                                         count++
                                         // 判断是否所有isbn请求完毕
-                                        if (count == audit_list.length) {
+                                        if (count == data.length) {
                                             self.audit_list = data
                                         }
                                     }
