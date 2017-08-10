@@ -246,13 +246,13 @@ export default {
             this.$prompt('请填写驳回理由：', '申请驳回', {
                 confirmButtonText: '驳回',
                 cancelButtonText: '取消',
-                inputErrorMessage: '邮箱格式不正确'
+                inputPlaceholder: '我们使用了其他商家提供的数据（默认）'
             }).then(({
                 value
             }) => {
                 var request = {
                     "status": 3, //2:接受申请 //3:拒绝申请
-                    "feedback": value, //反馈结果
+                    "feedback": value ? value : '我们使用了其他商家提供的数据', //反馈结果
                     "ids": [
                         this.detail_dialog.apply_list[index].id
                     ]

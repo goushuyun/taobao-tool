@@ -27,8 +27,8 @@
             <el-table-column prop="publisher" label="原出版社" width="180"></el-table-column>
             <el-table-column prop="author" label="原作者" width="180"></el-table-column>
             <el-table-column prop="edition" label="原版次" width="100"></el-table-column>
-            <el-table-column prop="participate_num" label="申请人" width="100"></el-table-column>
-            <el-table-column label="操作" width="100">
+            <el-table-column prop="participate_num" :label="search_type == '0' ? '申请人数（人）' : '添加图书（本）'" width="150"></el-table-column>
+            <el-table-column label="操作" fixed="right" width="100">
               <template scope="scope">
                 <el-button type="text" @click="showDetail(scope.$index)">查看详情</el-button>
               </template>
@@ -41,9 +41,9 @@
         </div>
       </div>
 
-      <el-dialog title="申请详情" :visible.sync="detail_dialog.visible" size="large" :close-on-click-modal="false" @close="getOrganizedAuditList">
+      <el-dialog title="待审核" :visible.sync="detail_dialog.visible" size="large" :close-on-click-modal="false" @close="getOrganizedAuditList">
         <div class="gsy-card">
-          <div class="gsy-header">最新标准图书信息</div>
+          <div class="gsy-header">原标准图书信息</div>
           <div class="gsy-body">
             <el-table :data="detail_dialog.originals" border>
               <el-table-column prop="image" label="图片" width="100">
@@ -81,7 +81,7 @@
               <el-table-column prop="author" label="作者" width="180"></el-table-column>
               <el-table-column prop="edition" label="版次" width="100"></el-table-column>
               <el-table-column prop="apply_user_name" label="申请人" width="100"></el-table-column>
-              <el-table-column prop="status" label="操作" width="200">
+              <el-table-column prop="status" label="操作" fixed="right" width="200">
                 <template scope="scope">
                   <el-button-group>
                     <el-button size="small" type="success" @click="adopt(scope.$index)">通过</el-button>

@@ -13,6 +13,7 @@ export default {
             book_info: {}, // 图书信息
             book_info_bak: {}, // 图书备份信息
 
+            cannot_modify: false, // 修改图书按钮是否不可点击：false-可以点击，true-不可点击
             modify: false, // 是否正在修改图书的状态
             goods_id: '', //
             locations: [], // 货架信息列表
@@ -66,10 +67,24 @@ export default {
         }
     },
     mounted() {
-        this.getParams()
         this.user_id = localStorage.getItem('user_id')
+        this.getParams()
     },
     methods: {
+        inputTitle() {
+            var str = this.book_info.title,
+                blen = 0
+            for (var i = 0, l = str.length; i < l; i++) {
+                if ((str.charCodeAt(i) & 0xff00) != 0) {
+                    blen++;
+                }
+                blen++;
+                if (blen > 60) {
+                    this.book_info.title = this.book_info.title.substring(0, i)
+                    return false
+                }
+            }
+        },
         // 返回上一页
         goBack() {
             this.$router.go(-1)
@@ -84,6 +99,25 @@ export default {
             // 复制并备份book信息
             this.book_info = copyObject(book)
             this.book_info_bak = copyObject(book)
+            this.checkCanModify()
+        },
+        checkCanModify() {
+            axios.post('/v1/book/get_audit_list', {
+                "apply_user_id": this.user_id,
+                "book_id": this.book_info.book_id,
+                "search_type": 0,
+                "status": 1, //0:所有状态的申请 1:待审核   2:审核通过  3:审核失败的
+                "page": this.add_dialog.page,
+                "size": this.add_dialog.size
+            }).then(resp => {
+                if (resp.data.message == 'ok') {
+                    if (resp.data.data.length > 0) {
+                        this.cannot_modify = true
+                    } else {
+                        this.cannot_modify = false
+                    }
+                }
+            })
         },
         // 准备修改图书基本信息
         preModify() {
@@ -93,6 +127,11 @@ export default {
             this.$nextTick(() => {
                 $('#title input').focus()
             })
+        },
+        // 取消修改图书基本信息
+        cancelModify() {
+            this.modify = false
+            this.book_info = copyObject(this.book_info_bak)
         },
         // 提交修改图书基本信息的申请
         submitModify(formName) {
@@ -114,6 +153,7 @@ export default {
                     }).then(resp => {
                         if (resp.data.message == 'ok') {
                             this.modify = false
+                            this.cannot_modify = true
                             this.$message.success('申请已提交！')
                         }
                     })

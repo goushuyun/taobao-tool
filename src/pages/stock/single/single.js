@@ -57,26 +57,29 @@ export default {
             to_get_location_id: false
         }
     },
+    mounted() {
+        this.focusWarehouse()
+    },
     watch: {
         warehouse(value) {
             if (value) {
                 this.shelf_disabled = false
                 this.to_get_location_id = true
             } else {
-                this.shelf = ''
                 this.shelf_disabled = true
                 this.to_get_location_id = false
             }
+            this.shelf = ''
         },
         shelf(value) {
             if (value) {
                 this.floor_disabled = false
                 this.to_get_location_id = true
             } else {
-                this.floor = ''
                 this.floor_disabled = true
                 this.to_get_location_id = false
             }
+            this.floor = ''
         },
         floor(value) {
             if (value) {
@@ -91,6 +94,26 @@ export default {
         }
     },
     methods: {
+        focusWarehouse() {
+            this.$nextTick(_ => {
+                $('#warehouse input').select()
+            })
+        },
+        selectWarehouse() {
+            this.$nextTick(_ => {
+                $('#shelf input').select()
+            })
+        },
+        selectShelf() {
+            this.$nextTick(_ => {
+                $('#floor input').select()
+            })
+        },
+        selectFloor() {
+            this.$nextTick(_ => {
+                $('#isbn input').focus()
+            })
+        },
         /**
          * 获取 to_get_location_id
          * @return {[type]} [description]
@@ -209,6 +232,8 @@ export default {
                     // let data = resp.data.data
                     this.addRecords(records, 1)
                     this.$message.success('入库成功！')
+                    this.isbn = ''
+                    $('#isbn input').focus()
                 }
             })
         },

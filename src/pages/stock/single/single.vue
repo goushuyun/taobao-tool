@@ -8,9 +8,9 @@
             <label style="margin-right: 7px;">数 量</label>
             <el-input size="small" type="number" :min="1" style="width: 100px;" v-model="stock"></el-input>
             <label style="margin: 0 7px 0 10px;">库存位置</label>
-            <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位"></el-autocomplete> -
-            <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位"></el-autocomplete> -
-            <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数"></el-autocomplete>
+            <el-autocomplete id="warehouse" size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位" @select="selectWarehouse" @focus.native.capture="focusWarehouse"></el-autocomplete> -
+            <el-autocomplete id="shelf" size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位" @select="selectShelf" @focus.native.capture="selectWarehouse"></el-autocomplete> -
+            <el-autocomplete id="floor" size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数" @select="selectFloor" @focus.native.capture="selectShelf"></el-autocomplete>
           </div>
           <div style="margin-top: 15px;">
             <label for="isbn" style="margin-right: 7px;">ISBN</label>

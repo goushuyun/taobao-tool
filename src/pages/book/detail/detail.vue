@@ -9,7 +9,7 @@
               <el-input disabled size="small" v-model.trim="book_info.isbn_no" :title="book_info.isbn_no"></el-input>
             </el-form-item>
             <el-form-item id="title" label="书 名" prop="title">
-              <el-input :disabled="!modify" size="small" :maxlength="30" v-model.trim="book_info.title" :title="book_info.title"></el-input>
+              <el-input :disabled="!modify" size="small" v-model.trim="book_info.title" :title="book_info.title" @input.native.capture="inputTitle"></el-input>
             </el-form-item>
             <el-form-item label="定 价" prop="price">
               <el-input :disabled="!modify" size="small" min="0" type="number" v-model="book_info.price" :title="book_info.price"></el-input>
@@ -20,10 +20,10 @@
             <el-form-item label="出版社" prop="publisher">
               <el-input :disabled="!modify" size="small" v-model.trim="book_info.publisher" :title="book_info.publisher"></el-input>
               <span v-if="!modify" class="btn_modify">
-                <el-button size="small" type="primary" style="width: 200px;" @click="preModify">修改此书的标准图书信息</el-button>
+                <el-button :disabled="cannot_modify" size="small" type="primary" style="width: 200px;" @click="preModify">{{cannot_modify ? '您已经提交了修改图书信息的申请' : '修改此书的标准图书信息'}}</el-button>
               </span>
               <span v-else class="btn_modify">
-                <el-button size="small" type="primary" style="width: 93px;" @click="modify = false">取 消</el-button>
+                <el-button size="small" type="primary" style="width: 93px;" @click="cancelModify">取 消</el-button>
                 <el-button size="small" type="primary" style="width: 93px;" @click="submitModify('book_info')">提交审核</el-button>
               </span>
             </el-form-item>
@@ -79,7 +79,7 @@
       </el-dialog>
       <el-dialog title="新增图书" :visible.sync="add_dialog.visible">
         <div class="gsy-card">
-          <div class="gsy-header">已经提交的申请：</div>
+          <div class="gsy-header">已经提交的新增图书申请：</div>
           <div class="gsy-body">
             <el-table :data="add_dialog.audit_list">
               <el-table-column property="isbn" label="ISBN" width="160"></el-table-column>
