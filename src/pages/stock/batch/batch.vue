@@ -105,7 +105,7 @@ export default {
 
             // pagination data
             page: 0,
-            size: 0,
+            size: 10,
             total: 0,
             record_list: [],
 
