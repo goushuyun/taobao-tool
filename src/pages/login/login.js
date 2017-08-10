@@ -140,10 +140,13 @@ export default {
                             localStorage.setItem("token", resp.data.token)
                             localStorage.setItem("user_id", resp.data.data.id)
                             localStorage.setItem("user_name", resp.data.data.name)
+                            if (resp.data.data.role == '256') {
+                                localStorage.setItem("role", '256')
+                            }
                             //put adminInfo into admin
                             // localStorage.setItem('adminInfo', JSON.stringify(resp.data.data))
                             this.$router.push({
-                                name: 'batch'
+                                name: 'out'
                             })
                         } else if (resp.data.message == 'not_found') {
                             this.$message.error("用户名或密码错误")

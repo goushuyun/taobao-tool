@@ -4,6 +4,8 @@ export default {
     mounted() {
         //do something after creating vue instance
         $('#isbn_input input').focus()
+        this.$store.commit('setMenuActive', '1')
+        this.$store.commit('setSubMenuActive', '1-1')
     },
     methods: {
         handleChecked(book){

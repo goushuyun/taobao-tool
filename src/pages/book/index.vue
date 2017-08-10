@@ -6,7 +6,7 @@
         <el-menu :router="true" :default-active="sub_menu_active" class="el-menu-vertical-demo" @select="subMenuSelect">
           <el-menu-item index="2-1" :route="{name:'maintain'}">信息维护</el-menu-item>
           <el-menu-item index="2-2" :route="{name:'apply'}">我的申请</el-menu-item>
-          <el-menu-item index="2-3" :route="{name:'review'}">待审核</el-menu-item>
+          <el-menu-item v-if="role == '256'" index="2-3" :route="{name:'review'}">待审核</el-menu-item>
         </el-menu>
       </div>
     </div>
@@ -29,6 +29,9 @@ export default {
             } else {
                 return '2-1'
             }
+        },
+        role() {
+            return localStorage.getItem('role')
         }
     },
     methods: {

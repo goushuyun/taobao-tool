@@ -1,8 +1,4 @@
 export default {
-	mounted() {
-		this.$store.commit('setSubMenuActive', '1-1')
-	},
-
 	methods : {
 		view_blur_data() {
 			console.log(ISBN);
@@ -86,7 +82,7 @@ export default {
 				// 上传数据
 				this.upload_data(this.correct_json, file.name)
 
-				
+
 			}
 
 			reader.readAsArrayBuffer(file)

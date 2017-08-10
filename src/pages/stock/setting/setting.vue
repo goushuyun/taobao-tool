@@ -9,6 +9,7 @@
             <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位"></el-autocomplete> -
             <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位"></el-autocomplete> -
             <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数"></el-autocomplete>
+            <el-button size="small" style="margin-left: 15px;" type="primary" @click="warehouse = ''">重置</el-button>
             <span class="total">总库存量：{{total}} 本</span>
           </div>
         </div>

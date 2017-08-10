@@ -1,13 +1,13 @@
 <template lang="html">
   <div class="container">
-      
+
     <div class="sec_left_bar">
       <div class="title">库存管理</div>
       <div class="menu">
         <el-menu :router="true" :default-active="sub_menu_active" class="el-menu-vertical-demo" @select="subMenuSelect">
-          <el-menu-item index="1-1" :route="{name:'batch'}">批量上架</el-menu-item>
-          <el-menu-item index="1-2" :route="{name:'single'}">单本上架</el-menu-item>
-          <el-menu-item index="1-3" :route="{name:'out'}">图书出库</el-menu-item>
+          <el-menu-item index="1-1" :route="{name:'out'}">图书出库</el-menu-item>
+          <el-menu-item index="1-2" :route="{name:'batch'}">批量上架</el-menu-item>
+          <el-menu-item index="1-3" :route="{name:'single'}">单本上架</el-menu-item>
           <el-menu-item index="1-4" :route="{name:'list'}">库存查看</el-menu-item>
           <el-menu-item index="1-5" :route="{name:'setting'}">仓库设置</el-menu-item>
         </el-menu>
