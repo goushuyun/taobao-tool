@@ -14,9 +14,31 @@ export default {
             floor_disabled: true,
             location_id: '',
             locations: [],
-            // 检测位置是否变化，变了就去获取get_location_id，不变就不获取
-            to_get_location_id: false,
-
+            modify_dialog: {
+                visible: false,
+                warehouse: '',
+                shelf: '',
+                floor: '',
+                location_id: '',
+                index: 0
+            },
+            rules: {
+                warehouse: [{
+                    required: true,
+                    message: '请填写仓库名',
+                    trigger: 'blur'
+                }],
+                shelf: [{
+                    required: true,
+                    message: '请填写货架名',
+                    trigger: 'blur'
+                }],
+                floor: [{
+                    required: true,
+                    message: '请填写层数',
+                    trigger: 'blur'
+                }]
+            },
             loading: false,
             page: 1,
             size: 10,
@@ -38,32 +60,16 @@ export default {
     },
     watch: {
         warehouse(value) {
-            if (value) {
-                this.shelf_disabled = false
-                this.to_get_location_id = true
-            } else {
-                this.shelf_disabled = true
-                this.to_get_location_id = false
-            }
+            this.shelf_disabled = !value
             this.shelf = ''
             this.getLocationStock()
         },
         shelf(value) {
-            if (value) {
-                this.floor_disabled = false
-                this.to_get_location_id = true
-            } else {
-                this.floor_disabled = true
-                this.to_get_location_id = false
-            }
+            this.floor_disabled = !value
             this.floor = ''
             this.getLocationStock()
         },
         floor(value) {
-            if (value) {
-                this.to_get_location_id = true
-            }
-            this.to_get_location_id = true
             this.getLocationStock()
         }
     },
@@ -248,6 +254,61 @@ export default {
         handleGoodsCurrentChange(page) {
             this.goods_page = page
             this.searchGoods()
+        },
+        preModifyLocation(index) {
+            var location = this.locations[index]
+            this.modify_dialog = {
+                visible: true,
+                warehouse: location.warehouse,
+                shelf: location.shelf,
+                floor: location.floor,
+                location_id: location.location_id,
+                index: index
+            }
+        },
+        comfirmModifyLocation(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    axios.post('/v1/stock/update_location', {
+                        "warehouse": this.modify_dialog.warehouse, // 所有字段都不能为空
+                        "shelf": this.modify_dialog.shelf,
+                        "floor": this.modify_dialog.floor,
+                        "location_id": this.modify_dialog.location_id
+                    }).then(resp => {
+                        if (resp.data.message == 'ok') {
+                            this.locations[this.modify_dialog.index].warehouse = this.modify_dialog.warehouse
+                            this.locations[this.modify_dialog.index].shelf = this.modify_dialog.shelf
+                            this.locations[this.modify_dialog.index].floor = this.modify_dialog.floor
+                            this.$message.success('修改成功！')
+                            this.modify_dialog.visible = false
+                        }
+                        if (resp.data.message == 'exists') {
+                            this.$message.warning('不可修改为已存在的库存！')
+                        }
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        preDeleteLocation(index) {
+            this.$message({
+                type: 'info',
+                message: '该功能即将上线!'
+            });
+            return
+            this.$confirm('货架信息删除后，此货架中的书籍也将全部删除，且不可恢复，确定删除？', '删除', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功！'
+                });
+                this.locations[index].splice(index, 1)
+            }).catch();
         }
     }
 }

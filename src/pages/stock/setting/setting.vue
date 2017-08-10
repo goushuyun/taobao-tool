@@ -23,8 +23,8 @@
             <el-table-column label="操作" width="260">
               <template scope="scope">
                 <el-button type="primary" size="small" @click="showDetail(scope.$index)">查看此货架书籍</el-button>
-                <el-button type="primary" size="small">修改</el-button>
-                <el-button type="primary" size="small">删除</el-button>
+                <el-button type="primary" size="small" @click="preModifyLocation(scope.$index)">修改</el-button>
+                <el-button type="" size="small" @click="preDeleteLocation(scope.$index)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -34,6 +34,23 @@
           </el-pagination>
         </div>
       </div>
+      <el-dialog title="修改货架位" size="tiny" :visible.sync="modify_dialog.visible">
+        <el-form ref="modify_dialog" :rules="rules" label-width="120px" :model="modify_dialog" class="modify">
+          <el-form-item label="仓库名" prop="warehouse">
+            <el-input v-model="modify_dialog.warehouse"></el-input>
+          </el-form-item>
+          <el-form-item label="货架名" prop="shelf">
+            <el-input v-model="modify_dialog.shelf"></el-input>
+          </el-form-item>
+          <el-form-item label="层数" prop="floor">
+            <el-input v-model="modify_dialog.floor"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="modify_dialog.visible = false">取 消</el-button>
+          <el-button type="primary" @click="comfirmModifyLocation('modify_dialog')">确 定</el-button>
+        </div>
+      </el-dialog>
       <div v-show="show_detail" class="gsy-card">
         <el-row class="gsy-header">
           <el-col :span="24" class="goods">

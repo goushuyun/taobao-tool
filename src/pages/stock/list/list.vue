@@ -19,7 +19,7 @@
             <el-button size="small" type="primary" @click="reset">重置</el-button>
           </el-col>
           <el-col :span="8">
-            <el-button size="small" type="primary" style="float: right;">导出CSV</el-button>
+            <el-button size="small" type="" style="float: right;" @click="exportCSV">导出CSV</el-button>
           </el-col>
         </el-row>
         <div class="gsy-body" v-loading="loading" element-loading-text="拼命加载中">

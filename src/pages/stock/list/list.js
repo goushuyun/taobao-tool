@@ -106,6 +106,12 @@ export default {
         handleCurrentChange(page) {
             this.page = page
             this.searchGoods()
+        },
+        exportCSV() {
+            this.$message({
+                type: 'info',
+                message: '该功能即将上线!'
+            });
         }
     }
 }
