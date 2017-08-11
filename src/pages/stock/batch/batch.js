@@ -1,5 +1,12 @@
 export default {
 	methods : {
+		handle_dialog_close(){
+			// 清除内存 excel 数据
+			this.error_json = []
+			this.excel_json = []
+			this.correct_json = []
+			this.process = 0
+		},
 		view_blur_data() {
 			console.log(ISBN);
 
@@ -9,27 +16,33 @@ export default {
 		},
 
 		distinguish_data(excel_json) {
-			excel_json.forEach(row => {
+			excel_json.forEach((row, index) => {
 
-				console.log(!row.isbn);
-
-				if(!row.isbn){
+				// check if has isbn attr
+				if(!row.hasOwnProperty('isbn')){
 					row.error_reason = 'ISBN为空'
 					this.error_json.push(row)
 					return
 				}
 
+				// check if isbn is correct
 				row.isbn = row.isbn.trim().replace('-', '')
 				let isbn = ISBN.parse(row.isbn)
-
 				if(!isbn){
 					row.error_reason = 'ISBN格式错误'
 					this.error_json.push(row)
 					return
 				}
 
-				row.num = parseInt(row.num)
+				// check if has num attr
+				if(row.hasOwnProperty('num')){
+					row.error_reason = '数量为空'
+					this.error_json.push(row)
+					return
+				}
 
+				// check if num is correct
+				row.num = parseInt(row.num)
 				if (row.num <= 0) {
 					row.error_reason = '数量格式错误'
 					this.error_json.push(row)
@@ -40,11 +53,9 @@ export default {
 						if (isbn.isIsbn10) {
 							row.isbn = isbn.asIsbn13()
 						}
-
-						console.log(row.isbn);
-
 						this.correct_json.push(row)
 					} else {
+						// is wrong format isbn
 						row.error_reason = 'ISBN格式错误'
 						this.error_json.push(row)
 					}
@@ -58,7 +69,7 @@ export default {
 			console.log(JSON.stringify(this.error_json));
 
 			// 写入前端检测到的错误数量
-			this.fail_data_num = this.error_json.length
+			this.fail_data_num += this.error_json.length
 			console.log('------------------------------------');
 		},
 
@@ -69,9 +80,13 @@ export default {
 			if (!files || files.length == 0)
 				return;
 
+			// start to handle upload data
+			this.visible = true
+			this.process += 10
+
 			file = files[0];
 			$('#upload_excel_input').val('')
-			console.log(file.name);
+			console.log('The file: ' + file.name + ' will upload ...');
 
 			var reader = new FileReader()
 
@@ -90,7 +105,20 @@ export default {
 				// map all sheet, and collect to on json obj
 				for (let i = 0; i < wb.SheetNames.length; i++) {
 					let ws = wb.Sheets[wb.SheetNames[i]]
+
 					let tmp = XLSX.utils.sheet_to_json(ws)
+
+					let demo_row = tmp[0]
+					if(Object.keys(demo_row).length > 5){
+						this.visible = false
+
+						this.$message({
+							message: '数据格式不正确，请下载示例模版查看',
+							type: 'warning'
+						})
+						return
+					}
+
 
 					let tmp_json = this.json_key_replace(JSON.stringify(tmp))
 					this.excel_json = this.excel_json.concat(tmp_json)
@@ -98,61 +126,12 @@ export default {
 
 				// 校验数据
 				this.distinguish_data(this.excel_json)
+
 				// 上传数据
 				this.upload_data(this.correct_json, file.name)
-
-
 			}
 
 			reader.readAsArrayBuffer(file)
-		},
-
-		upload_file(file) {},
-
-		input_file(newFile, oldFile) {
-			console.log('input_file');
-			console.log(newFile);
-			console.log(oldFile);
-
-			var URL = window.URL || window.webkitURL
-			if (URL && URL.createObjectURL) {
-				this.$refs.upload.update(newFile, {
-					blob: URL.createObjectURL(newFile.file)
-				})
-			}
-
-			var reader = new FileReader()
-
-			reader.onload = function(e) {
-				var data = e.target.result;
-
-				var workbook;
-				if (rABS) {
-					/* if binary string, read with type 'binary' */
-					workbook = XLSX.read(data, {type: 'binary'});
-				} else {
-					/* if array buffer, convert to base64 */
-					var arr = fixdata(data);
-					workbook = XLSX.read(btoa(arr), {type: 'base64'});
-				}
-
-				/* DO SOMETHING WITH workbook HERE */
-
-				/* grab first sheet */
-				var wsname = workbook.SheetNames[0];
-				var ws = workbook.Sheets[wsname];
-
-				console.log(wsname);
-				console.log(ws);
-
-				/* generate HTML */
-				var HTML = XLSX.utils.sheet_to_html(ws);
-
-				console.log(HTML);
-
-			};
-
-			reader.readAsBinaryString(newFile);
 		}
 
 	}

@@ -58,7 +58,7 @@
     </div>
 
     <!-- upload feedback dialog -->
-    <el-dialog :title="dialog_title" :visible.sync="visible" :close-on-click-modal="false">
+    <el-dialog :title="dialog_title" :visible.sync="visible" :close-on-click-modal="false" @close="handle_dialog_close">
 
         <div class="progress">
             <el-progress type="circle" :percentage="process" status="success"></el-progress>
