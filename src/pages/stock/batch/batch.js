@@ -10,7 +10,24 @@ export default {
 
 		distinguish_data(excel_json) {
 			excel_json.forEach(row => {
-				let isbn = ISBN.parse(row.isbn.trim().replace('-', ''))
+
+				console.log(!row.isbn);
+
+				if(!row.isbn){
+					row.error_reason = 'ISBN为空'
+					this.error_json.push(row)
+					return
+				}
+
+				row.isbn = row.isbn.trim().replace('-', '')
+				let isbn = ISBN.parse(row.isbn)
+
+				if(!isbn){
+					row.error_reason = 'ISBN格式错误'
+					this.error_json.push(row)
+					return
+				}
+
 				row.num = parseInt(row.num)
 
 				if (row.num <= 0) {
@@ -18,11 +35,13 @@ export default {
 					this.error_json.push(row)
 				} else {
 
-					if (isbn) {
+					if (isbn.isValid()) {
 						// is correct isbn
 						if (isbn.isIsbn10) {
 							row.isbn = isbn.asIsbn13()
 						}
+
+						console.log(row.isbn);
 
 						this.correct_json.push(row)
 					} else {

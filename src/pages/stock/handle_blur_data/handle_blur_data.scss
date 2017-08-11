@@ -1,0 +1,82 @@
+@import "../../../assets/style/common.scss";
+
+header{
+    margin-bottom: 12px;
+    background-color: $git_bg_green;
+    padding: 14px 12px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    .number{
+        font-size: 16px;
+        color: $main_blue;
+    }
+    span.isbn {
+        padding-left: 16px;
+    }
+    #export{
+        align-self: flex-end;
+    }
+}
+
+
+p.input_boxs{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .time{
+        font-size: 14px;
+        color: $font_first;
+    }
+    .separator{
+        padding: 4px;
+    }
+    span.location{
+        padding: 0 16px;
+    }
+}
+
+ul.books_list{
+    margin-bottom: 16px;
+    li.book{
+        display: flex;
+        align-items: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 12px;
+        &:not(:last-child){
+            border-bottom: 1px solid $border_grey_lighter;
+        }
+
+        &:hover{
+            background-color: $git_bg_grey;
+            cursor: pointer;
+        }
+
+        .image_box{
+            height: 60px;
+            text-align: center;
+            padding: 0 12px;
+            img{
+                height: 100%;
+            }
+
+        }
+
+        span.book_info{
+            color: $font_second;
+            font-size: 13px;
+        }
+    }
+}
+
+p.btns{
+    margin-top: 28px;
+    padding-right: 42px;
+    display: flex;
+    justify-content: flex-end;
+}

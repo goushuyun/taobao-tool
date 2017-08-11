@@ -7,8 +7,8 @@ const batch = r => require(['../pages/stock/batch/batch.vue'], r)
 const single = r => require(['../pages/stock/single/single.vue'], r)
 const list = r => require(['../pages/stock/list/list.vue'], r)
 const out = r => require(['../pages/stock/out/out.vue'], r)
+const handle_blur_data = r => require(['../pages/stock/handle_blur_data/handle_blur_data.vue'], r)
 const setting = r => require(['../pages/stock/setting/setting.vue'], r)
-const choo_book_dialog = r => require(['../component/choose_book/choose_book.vue'], r)
 
 // 图书
 const book = r => require(['../pages/book/index.vue'], r)
@@ -19,10 +19,6 @@ const detail = r => require(['../pages/book/detail/detail.vue'], r)
 
 export default[
 	{
-		path : '/choo_book_dialog',
-		name : 'choo_book_dialog',
-		component : choo_book_dialog
-	}, {
 		path : '/login',
 		name : 'login',
 		component : login
@@ -37,6 +33,10 @@ export default[
 				component: stock,
 				children: [
 					{
+						path: '/stock/handle_blur_data',
+						name: 'handle_blur_data',
+						component: handle_blur_data
+					}, {
 						path: '/stock/batch',
 						name: 'batch',
 						component: batch
