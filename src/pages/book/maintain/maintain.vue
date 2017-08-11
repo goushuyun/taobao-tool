@@ -28,7 +28,7 @@
             <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
             <el-table-column prop="author" label="作者" width="100"></el-table-column>
             <el-table-column prop="edition" label="版次" width="100"></el-table-column>
-            <el-table-column label="操作" width="120">
+            <el-table-column label="操作" fixed="right" width="100">
               <template scope="scope">
                 <el-button type="text" @click="openBookDialog(scope.$index)">查看详情</el-button>
               </template>

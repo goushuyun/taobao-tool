@@ -49,7 +49,7 @@
           </el-upload>
 
           <div class="btn-back">
-            <el-button type="text" icon="caret-left" @click="goBack">返回列表</el-button>
+            <el-button type="text" icon="caret-left" @click="goBack">返回</el-button>
           </div>
         </div>
         <div class="gsy-body">
@@ -68,7 +68,7 @@
       </div>
       <el-dialog title="此 isbn 对应的其他书籍" :visible.sync="other_dialog.visible">
         <el-table :data="other_dialog.books">
-          <el-table-column property="isbn" label="ISBN" width="160"></el-table-column>
+          <el-table-column property="isbn_no" label="ISBN" width="160"></el-table-column>
           <el-table-column property="title" label="书名"></el-table-column>
           <el-table-column property="price" label="定价" width="100"></el-table-column>
         </el-table>

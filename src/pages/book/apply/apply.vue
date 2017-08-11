@@ -29,12 +29,12 @@
               </template>
             </el-table-column>
             <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
-            <el-table-column prop="title" label="书名" width="180"></el-table-column>
+            <el-table-column prop="title" label="书名" min-width="180"></el-table-column>
             <el-table-column prop="price" label="定价" width="100"></el-table-column>
-            <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
-            <el-table-column prop="author" label="作者" width="180"></el-table-column>
+            <el-table-column prop="publisher" label="出版社" min-width="180"></el-table-column>
+            <el-table-column prop="author" label="作者" min-width="180"></el-table-column>
             <el-table-column prop="edition" label="版次" width="100"></el-table-column>
-            <el-table-column prop="status" label="状态" fixed="right" width="100">
+            <el-table-column prop="status" label="状态" fixed="right" width="150">
               <template scope="scope">
                 <span v-if="scope.row.status == 1" style="color: #20A0FF;">待审核</span>
                 <span v-else-if="scope.row.status == 2" style="color: #13CE66">审核通过</span>
@@ -72,8 +72,8 @@
               <el-table-column prop="author" label="作者" width="180"></el-table-column>
               <el-table-column prop="edition" label="版次" width="100"></el-table-column>
               <el-table-column prop="check_user_name" label="审核人" width="100"></el-table-column>
-              <el-table-column v-if="search_type === '0'" prop="create_at" label="申请时间" width="200"></el-table-column>
-              <el-table-column prop="status" label="审核结果" fixed="right" width="100">
+              <el-table-column v-if="search_type === '0'" prop="create_at" label="申请时间" min-width="200"></el-table-column>
+              <el-table-column prop="status" label="审核结果" fixed="right" width="150">
                 <template scope="scope">
                   <span v-if="scope.row.status == 1" style="color: #20A0FF;">待审核</span>
                   <span v-else-if="scope.row.status == 2" style="color: #13CE66">审核通过</span>
@@ -96,11 +96,11 @@
                 </template>
               </el-table-column>
               <el-table-column prop="isbn_no" label="isbn" width="180"></el-table-column>
-              <el-table-column prop="title" label="书名"></el-table-column>
+              <el-table-column prop="title" label="书名" width="180"></el-table-column>
               <el-table-column prop="price" label="定价" width="100"></el-table-column>
-              <el-table-column prop="publisher" label="出版社"></el-table-column>
-              <el-table-column prop="author" label="作者"></el-table-column>
-              <el-table-column prop="edition" label="版次" width="100"></el-table-column>
+              <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
+              <el-table-column prop="author" label="作者" width="180"></el-table-column>
+              <el-table-column prop="edition" label="版次" min-width="100"></el-table-column>
             </el-table>
           </div>
         </div>

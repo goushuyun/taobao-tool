@@ -74,6 +74,26 @@ export default {
         }
     },
     methods: {
+        focusWarehouse() {
+            this.$nextTick(_ => {
+                $('#warehouse input').select()
+            })
+        },
+        selectWarehouse() {
+            this.$nextTick(_ => {
+                $('#shelf input').select()
+            })
+        },
+        selectShelf() {
+            this.$nextTick(_ => {
+                $('#floor input').select()
+            })
+        },
+        selectFloor() {
+            this.$nextTick(_ => {
+                $('#isbn input').focus()
+            })
+        },
         getLocationStock() {
             axios.post('/v1/stock/get_location_stock', {
                 "warehouse": this.warehouse, //仓库名称 optional

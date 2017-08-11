@@ -59,7 +59,8 @@ export default[
 					}, {
 						path: '/stock/setting',
 						name: 'setting',
-						component: setting
+						component: setting,
+						meta: { keepAlive: true }
 					}, {
 						path: '/stock/detail',
 						name: 'detail',
