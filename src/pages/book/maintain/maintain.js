@@ -11,15 +11,25 @@ export default {
             loading: false,
             page: 1,
             size: 10,
-            total_count: 0 // 信息不完整的图书总数
+            total_count: 0, // 信息不完整的图书总数
+            pending_gatherd_total: 0
         }
     },
     mounted() {
         this.$store.commit('setMenuActive', '2')
         this.$store.commit('setSubMenuActive', '2-1')
         this.searchGoods()
+        this.getPendingGatherdGoods()
     },
     methods: {
+        // 获取带采集商品详情的商品数量
+        getPendingGatherdGoods() {
+            axios.post('/v1/stock/get_pending_gatherd_goods', {}).then(resp => {
+                if (resp.data.message == 'ok') {
+                    this.pending_gatherd_total = resp.data.total
+                }
+            })
+        },
         // 获取库存中信息不完整的图书列表
         searchGoods() {
             this.loading = true

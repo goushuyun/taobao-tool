@@ -32,9 +32,9 @@ export default {
                 })
             } else {
                 var index = localStorage.getItem('menu_active')
-                var name = 'batch'
+                var name = 'out'
                 if (index === '1') {
-                    name = 'batch'
+                    name = 'out'
                 } else if (index === '2') {
                     name = 'maintain'
                 }

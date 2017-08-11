@@ -16,13 +16,23 @@ export default {
             loading: false,
             page: 1,
             size: 10,
-            total_count: 0
+            total_count: 0,
+            pending_gatherd_total: 0
         }
     },
     mounted() {
         this.searchGoods()
+        this.getPendingGatherdGoods()
     },
     methods: {
+        // 获取带采集商品详情的商品数量
+        getPendingGatherdGoods() {
+            axios.post('/v1/stock/get_pending_gatherd_goods', {}).then(resp => {
+                if (resp.data.message == 'ok') {
+                    this.pending_gatherd_total = resp.data.total
+                }
+            })
+        },
         searchGoods() {
             this.loading = true
             var request = {

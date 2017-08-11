@@ -4,7 +4,7 @@
     <div class="content_inner">
       <div class="gsy-card">
         <el-row class="gsy-header">
-          <el-col :span="16">
+          <el-col :span="24">
             <el-input size="small" placeholder="请输入内容" v-model="input" @keyup.enter.native="searchGoods">
               <el-select v-model="select" slot="prepend" placeholder="请选择">
                 <el-option label="ISBN" value="isbn"></el-option>
@@ -17,16 +17,17 @@
             </el-input>
             <el-button size="small" type="primary" @click="searchGoods">筛选</el-button>
             <el-button size="small" type="primary" @click="reset">重置</el-button>
-          </el-col>
-          <el-col :span="8">
-            <el-button size="small" type="" style="float: right;" @click="exportCSV">导出CSV</el-button>
+            <span style="float: right;">
+              <el-button v-if="pending_gatherd_total" type="text">当前有 <span style="color: #FF4949">{{pending_gatherd_total}}</span> 条数据正在采集中</el-button>
+              <el-button size="small" @click="exportCSV">导出CSV</el-button>
+            </span>
           </el-col>
         </el-row>
         <div class="gsy-body" v-loading="loading" element-loading-text="拼命加载中">
           <el-table :data="goods" border style="width: 100%">
             <el-table-column type="index" width="60"></el-table-column>
             <el-table-column label="封面" width="100">
-              <template scope="scope" >
+              <template scope="scope">
                 <div class="image_wrap">
                   <img :src="scope.row.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + scope.row.image)" class="image"></img>
                 </div>

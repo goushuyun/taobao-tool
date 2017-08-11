@@ -10,6 +10,7 @@
             </el-input>
             <el-button size="small" type="primary" @click="searchGoods">搜索</el-button>
             <el-button size="small" type="primary" @click="reset">重置</el-button>
+            <el-button v-if="pending_gatherd_total" style="float: right;" type="text">当前有 <span style="color: #FF4949">{{pending_gatherd_total}}</span> 条数据正在采集中</el-button>
           </el-col>
         </el-row>
         <div class="gsy-body" v-loading="loading" element-loading-text="拼命加载中">
