@@ -91,9 +91,16 @@ export default {
             var audit = this.audit_list[index]
             // 获取图书信息
             if (!book) {
-                axios.post('/v1/book/get_local_book_info', {
-                    isbn: audit.isbn
-                }).then(resp => {
+                if (this.search_type === '0') {
+                    var request_book = {
+                        id: audit.book_id
+                    }
+                } else {
+                    var request_book = {
+                        isbn: audit.isbn
+                    }
+                }
+                axios.post('/v1/book/get_local_book_info', request_book).then(resp => {
                     if (resp.data.message == 'ok') {
                         var data = resp.data.data.map(el => {
                             el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
@@ -139,6 +146,28 @@ export default {
                         var self = this
                         var count = 0
                         for (var i = 0; i < data.length; i++) {
+                            // 先检测修改过的字段，通过添加 field_change 字段标红
+                            // start
+                            // 只有一条
+                            var original_book = this.detail_dialog.originals[0]
+                            if (original_book.title != data[i].title) {
+                                data[i].title_change = true
+                            }
+                            if (original_book.price != data[i].price) {
+                                data[i].price_change = true
+                            }
+                            if (original_book.publisher != data[i].publisher) {
+                                data[i].publisher_change = true
+                            }
+                            if (original_book.author != data[i].author) {
+                                data[i].author_change = true
+                            }
+                            if (original_book.edition != data[i].edition) {
+                                data[i].edition_change = true
+                            }
+                            // end
+
+                            // 遍历data根据book_id获取标准图书信息
                             (function(index) {
                                 axios.post('/v1/book/get_local_book_info', {
                                     id: data[index].book_id
@@ -221,7 +250,7 @@ export default {
                         self.detail_dialog.visible = false
                     } else {
                         // 如果当前处理的是最后一条申请，关闭对话框
-                        if (self.detail_dialog.apply_list == 1) {
+                        if (self.detail_dialog.apply_list.length == 1) {
                             self.detail_dialog.visible = false
                         } else {
                             // 否则删除处理后的记录
@@ -274,11 +303,11 @@ export default {
         },
         // 拒绝申请
         refuse(index) {
-            var tip = this.search_type == '0' ? '默认为：我们使用了其他商家提供的数据' : '默认为：图书基本信息不准确'
+            var tip = this.search_type == '0' ? '您提供的信息不准确' : '我们使用了其他商家提供的数据'
             this.$prompt('请填写驳回理由：', '申请驳回', {
                 confirmButtonText: '驳回',
                 cancelButtonText: '取消',
-                inputPlaceholder: tip
+                inputPlaceholder: '默认理由：' + tip
             }).then(({
                 value
             }) => {
@@ -293,7 +322,7 @@ export default {
                 var callback = function() {
                     self.$message.success('已拒绝该申请！')
                     // 如果当前处理的是最后一条申请，关闭对话框
-                    if (self.detail_dialog.apply_list == 1) {
+                    if (self.detail_dialog.apply_list.length == 1) {
                         self.detail_dialog.visible = false
                     } else {
                         // 否则删除处理后的记录
@@ -310,7 +339,7 @@ export default {
                 visible: true,
                 index: index,
                 book_id: book.book_id,
-                isbn_no: book.book_no ? (book.isbn + '_' + book.book_no) : book.isbn,
+                isbn_no: book.isbn_no,
                 isbn: book.isbn,
                 title: book.title,
                 author: book.author,
@@ -353,7 +382,7 @@ export default {
                 })
                 var refuse_request = {
                     "status": 3,
-                    "feedback": "我们使用了其他商家提供的数据", //反馈结果
+                    "feedback": "您提供的信息不准确", //反馈结果
                     "ids": refuse_ids
                 }
                 this.handleAudit(refuse_request, null)
@@ -371,7 +400,7 @@ export default {
                 var self = this
                 var callback = function() {
                     // 如果当前处理的是最后一条申请，关闭对话框
-                    if (self.detail_dialog.apply_list == 1) {
+                    if (self.detail_dialog.apply_list.length == 1) {
                         self.detail_dialog.visible = false
                     } else {
                         // 否则删除处理后的记录

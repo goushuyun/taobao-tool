@@ -22,12 +22,12 @@
               </template>
             </el-table-column>
             <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
-            <el-table-column prop="title" label="原书名" min-width="180"></el-table-column>
+            <el-table-column prop="title" label="原书名" width="180"></el-table-column>
             <el-table-column prop="price" label="原定价" width="100"></el-table-column>
             <el-table-column prop="publisher" label="原出版社" width="180"></el-table-column>
             <el-table-column prop="author" label="原作者" width="180"></el-table-column>
             <el-table-column prop="edition" label="原版次" width="100"></el-table-column>
-            <el-table-column prop="participate_num" :label="search_type == '0' ? '申请人数（人）' : '添加图书（本）'" width="150"></el-table-column>
+            <el-table-column prop="participate_num" :label="search_type == '0' ? '申请人数（人）' : '添加图书（本）'" min-width="150"></el-table-column>
             <el-table-column label="操作" fixed="right" width="100">
               <template scope="scope">
                 <el-button type="text" @click="showDetail(scope.$index)">查看详情</el-button>
@@ -58,7 +58,7 @@
               <el-table-column prop="price" label="定价" width="100"></el-table-column>
               <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
               <el-table-column prop="author" label="作者" width="180"></el-table-column>
-              <el-table-column prop="edition" label="版次"></el-table-column>
+              <el-table-column prop="edition" label="版次" min-width="100"></el-table-column>
             </el-table>
           </div>
           <div class="gsy-footer"></div>
@@ -75,12 +75,22 @@
                 </template>
               </el-table-column>
               <el-table-column prop="isbn_no" label="ISBN" width="180"></el-table-column>
-              <el-table-column prop="title" label="书名" width="180"></el-table-column>
-              <el-table-column prop="price" label="定价" width="100"></el-table-column>
-              <el-table-column prop="publisher" label="出版社" width="180"></el-table-column>
-              <el-table-column prop="author" label="作者" width="180"></el-table-column>
-              <el-table-column prop="edition" label="版次" width="100"></el-table-column>
-              <el-table-column prop="apply_user_name" label="申请人" width="100"></el-table-column>
+              <el-table-column label="书名" width="180">
+                <template scope="scope"><span :class="scope.row.title_change ? 'change' : ''">{{scope.row.title}}</span></template>
+              </el-table-column>
+              <el-table-column label="定价" width="100">
+                <template scope="scope"><span :class="scope.row.price_change ? 'change' : ''">{{scope.row.price}}</span></template>
+              </el-table-column>
+              <el-table-column label="出版社" width="180">
+                <template scope="scope"><span :class="scope.row.publisher_change ? 'change' : ''">{{scope.row.publisher}}</span></template>
+              </el-table-column>
+              <el-table-column label="作者" width="180">
+                <template scope="scope"><span :class="scope.row.author_change ? 'change' : ''">{{scope.row.author}}</span></template>
+              </el-table-column>
+              <el-table-column label="版次" width="100">
+                <template scope="scope"><span :class="scope.row.edition_change ? 'change' : ''">{{scope.row.edition}}</span></template>
+              </el-table-column>
+              <el-table-column prop="apply_user_name" label="申请人" min-width="100"></el-table-column>
               <el-table-column prop="status" label="操作" fixed="right" width="200">
                 <template scope="scope">
                   <el-button-group>

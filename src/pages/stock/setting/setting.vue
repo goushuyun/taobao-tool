@@ -6,9 +6,9 @@
         <div class="gsy-header">
           <div class="location">
             <label style="margin-right: 7px;">库存位置</label>
-            <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位"></el-autocomplete> -
-            <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位"></el-autocomplete> -
-            <el-autocomplete size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数"></el-autocomplete>
+            <el-autocomplete id="warehouse" size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位" @select="selectWarehouse" @focus.native.capture="focusWarehouse"></el-autocomplete> -
+            <el-autocomplete id="shelf" size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位" @select="selectShelf" @focus.native.capture="selectWarehouse"></el-autocomplete> -
+            <el-autocomplete id="floor" size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数" @select="selectFloor" @focus.native.capture="selectShelf"></el-autocomplete>
             <el-button size="small" style="margin-left: 15px;" type="primary" @click="warehouse = ''">重置</el-button>
             <span class="total">总库存量：{{total}} 本</span>
           </div>
@@ -23,7 +23,7 @@
             <el-table-column prop="total_stock" label="库存量" width="150"></el-table-column>
             <el-table-column label="操作" width="260">
               <template scope="scope">
-                <el-button type="primary" size="small" @click="showDetail(scope.$index)">查看此货架书籍</el-button>
+                <el-button type="primary" size="small" @click="showDetail(scope.$index)">查看此层书籍</el-button>
                 <el-button type="primary" size="small" @click="preModifyLocation(scope.$index)">修改</el-button>
                 <el-button type="" size="small" @click="preDeleteLocation(scope.$index)">删除</el-button>
               </template>
