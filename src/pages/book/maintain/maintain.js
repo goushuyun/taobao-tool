@@ -6,6 +6,12 @@ export default {
     data() {
         return {
             isbn: '',
+            info_is_complete: '0',
+            //0-所有图书;
+            //1-搜索图书信息不完整的图书;
+            //2-搜索图书信息完整的图书（检测字段：title，publisher，author，edition，price）
+            //3-无书名及没价格
+            //4-无图片
             goods: [], // 信息不完整的图书列表
 
             loading: false,
@@ -38,7 +44,7 @@ export default {
                 "size": this.size,
                 "order_by": "stock", // stock
                 "sequence": "asc", // desc: 数量从大到小  asc：数量从小到大
-                // "info_is_complete": 1
+                "info_is_complete": this.info_is_complete
             }
             if (this.isbn == '') {
                 request.info_is_complete = 1

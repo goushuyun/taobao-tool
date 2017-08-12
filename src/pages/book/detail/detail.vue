@@ -54,7 +54,7 @@
         </div>
         <div class="gsy-body">
           <div style="margin-bottom: 15px;">总库存量：{{book_info.stock}} 本</div>
-          <el-table :data="locations">
+          <el-table border :data="locations">
             <el-table-column property="warehouse" label="库位"></el-table-column>
             <el-table-column property="shelf" label="架位"></el-table-column>
             <el-table-column property="floor" label="层数"></el-table-column>
@@ -67,8 +67,8 @@
         </div>
       </div>
       <el-dialog title="此 isbn 对应的其他书籍" :visible.sync="other_dialog.visible">
-        <el-table :data="other_dialog.books">
-          <el-table-column property="isbn_no" label="ISBN" width="160"></el-table-column>
+        <el-table border :data="other_dialog.books">
+          <el-table-column property="isbn_no" label="ISBN" width="170"></el-table-column>
           <el-table-column property="title" label="书名"></el-table-column>
           <el-table-column property="price" label="定价" width="100"></el-table-column>
         </el-table>
@@ -81,7 +81,7 @@
         <div class="gsy-card">
           <div class="gsy-header">已经提交的新增图书申请：</div>
           <div class="gsy-body">
-            <el-table :data="add_dialog.audit_list">
+            <el-table border :data="add_dialog.audit_list">
               <el-table-column property="isbn" label="ISBN" width="160"></el-table-column>
               <el-table-column property="title" label="书名"></el-table-column>
               <el-table-column property="price" label="定价" width="100"></el-table-column>
