@@ -44,15 +44,21 @@
               <div v-for="(book,index) in candidate_books" class="radio_item">
                 <el-radio :label="index" class="radio">
                   <div class="label">
-                    <div class="image_wrap">
+                    <div class="image_wrap" style="margin: 0 20px;">
                       <img :src="book.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + book.image)" class="image"></img>
                     </div>
-                    <div>
-                      <span>{{book.isbn_no}}</span> |
-                      <span>{{book.title}}</span> |
-                      <span>{{book.author}}</span> |
-                      <span>{{book.publisher}}</span> | ￥
-                      <span>{{book.price}}</span>
+                    <div style="width: auto;">
+                      <div class="book_info_row">
+                        <div :title="'ISBN：' + book.isbn_no" style="width: 200px;">ISBN：{{book.isbn_no}}</div>
+                        <div :title="'书名：' + book.title" style="width: 200px;" class="ellipsis">书名：{{book.title}}</div>
+                      </div>
+                      <div class="book_info_row">
+                        <div :title="'作者：' + book.author" style="width: 200px;" class="ellipsis">作者：{{book.author}}</div>
+                        <div :title="'出版社：' + book.publisher" style="width: 200px;" class="ellipsis">出版社：{{book.publisher}}</div>
+                      </div>
+                      <div class="book_info_row">
+                        <div :title="'价格：￥' + book.price" style="width: 200px;">价格：￥{{book.price}}</div>
+                      </div>
                     </div>
                   </div>
                 </el-radio>

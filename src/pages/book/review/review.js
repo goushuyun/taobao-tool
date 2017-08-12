@@ -299,7 +299,7 @@ export default {
                     request.book_cate = 'poker'
                     this.saveBookInfo(request)
                 }
-            }).catch();
+            }).catch(() => {});
         },
         // 拒绝申请
         refuse(index) {
@@ -330,7 +330,7 @@ export default {
                     }
                 }
                 this.handleAudit(request, callback)
-            }).catch();
+            }).catch(() => {});
         },
         // 管理员权限的商家自行修改申请
         modify(index) {

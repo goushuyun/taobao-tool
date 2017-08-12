@@ -10,12 +10,18 @@
             </el-input>
             <el-button size="small" type="primary" @click="searchGoods">搜索</el-button>
             <el-button size="small" type="primary" @click="reset">重置</el-button>
+            <el-radio-group v-model="info_is_complete" style="margin-left: 50px;" @change="searchGoods">
+              <el-radio label="0">全部图书</el-radio>
+              <el-radio label="3">无书名及价格</el-radio>
+              <el-radio label="4">无图片</el-radio>
+              <el-radio label="1">缺少图书信息</el-radio>
+            </el-radio-group>
             <el-button v-if="pending_gatherd_total" style="float: right;" type="text">当前有 <span style="color: #FF4949">{{pending_gatherd_total}}</span> 条数据正在采集中</el-button>
           </el-col>
         </el-row>
         <div class="gsy-body" v-loading="loading" element-loading-text="拼命加载中">
           <el-table :data="goods" border style="width: 100%">
-            <el-table-column type="index"></el-table-column>
+            <el-table-column type="index" width="60"></el-table-column>
             <el-table-column label="封面" width="100">
               <template scope="scope" >
                 <div class="image_wrap">
