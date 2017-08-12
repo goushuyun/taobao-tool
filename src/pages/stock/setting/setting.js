@@ -1,7 +1,8 @@
 import {
     priceFloat,
     priceInt,
-    unique
+    unique,
+    numberFormat
 } from '../../../assets/script/utils.js'
 import axios from "../../../config/http.js"
 export default {
@@ -104,7 +105,7 @@ export default {
             }).then(resp => {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data
-                    this.total = resp.data.total
+                    this.total = numberFormat(resp.data.total)
                     this.total_count = resp.data.total_count
                     this.locations = data
                 }

@@ -1,14 +1,14 @@
 <template lang="html">
   <div class="container">
-    <div class="content_top_bar">仓库设置</div>
+    <div class="content_top_bar">仓库查看</div>
     <div class="content_inner">
       <div v-show="!show_detail" class="gsy-card">
         <div class="gsy-header">
           <div class="location">
             <label style="margin-right: 7px;">库存位置</label>
-            <el-autocomplete id="warehouse" size="small" class="inline-input" style="width: 100px;" v-model="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位" @select="selectWarehouse" @focus.native.capture="focusWarehouse"></el-autocomplete> -
-            <el-autocomplete id="shelf" size="small" class="inline-input" style="width: 100px;" v-model="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位" @select="selectShelf" @focus.native.capture="selectWarehouse"></el-autocomplete> -
-            <el-autocomplete id="floor" size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数" @select="selectFloor" @focus.native.capture="selectShelf"></el-autocomplete>
+            <el-autocomplete id="warehouse" size="small" class="inline-input" style="width: 100px;" v-model.trim="warehouse" :fetch-suggestions="queryWarehouse" placeholder="库位" @select="selectWarehouse" @focus.native.capture="focusWarehouse"></el-autocomplete> -
+            <el-autocomplete id="shelf" size="small" class="inline-input" style="width: 100px;" v-model.trim="shelf" :disabled="shelf_disabled" :fetch-suggestions="queryShelf" placeholder="架位" @select="selectShelf" @focus.native.capture="selectWarehouse"></el-autocomplete> -
+            <el-autocomplete id="floor" size="small" class="inline-input" style="width: 100px;" v-model.trim="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数" @select="selectFloor" @focus.native.capture="selectShelf"></el-autocomplete>
             <el-button size="small" style="margin-left: 15px;" type="primary" @click="warehouse = ''">重置</el-button>
             <span class="total">总库存量：{{total}} 本</span>
           </div>
@@ -38,13 +38,13 @@
       <el-dialog title="修改货架位" size="tiny" :visible.sync="modify_dialog.visible">
         <el-form ref="modify_dialog" :rules="rules" label-width="120px" :model="modify_dialog" class="modify">
           <el-form-item label="仓库名" prop="warehouse">
-            <el-input v-model="modify_dialog.warehouse"></el-input>
+            <el-input v-model.trim="modify_dialog.warehouse"></el-input>
           </el-form-item>
           <el-form-item label="货架名" prop="shelf">
-            <el-input v-model="modify_dialog.shelf"></el-input>
+            <el-input v-model.trim="modify_dialog.shelf"></el-input>
           </el-form-item>
           <el-form-item label="层数" prop="floor">
-            <el-input v-model="modify_dialog.floor"></el-input>
+            <el-input v-model.trim="modify_dialog.floor"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
