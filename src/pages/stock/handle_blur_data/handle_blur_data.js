@@ -4,6 +4,19 @@ export default {
 	methods : {
 		// input warehouse
 		input_warehouse(){
+			// check warehouse info and input number
+
+			console.log(this.book.warehouse || this.book.shelf);
+
+			if(this.book.warehouse == '' || this.book.shelf == '' || this.book.floor == '' || this.book.num <= 0) {
+				this.$message({
+					type: 'warning',
+					message: '库位信息 和 入库数量 必须填写完整！'
+				})
+
+				return
+			}
+
 			let book_id = ''
 
 			for (var i = 0; i < this.poker_list.length; i++) {
@@ -37,10 +50,8 @@ export default {
 
 						// handle over
 						this.handle_over_pending_goods(this.pending_goods_id)
-
 					})
 				})
-
 			})
 
 		},
