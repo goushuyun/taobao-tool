@@ -39,15 +39,15 @@
             <span class="time">入库时间: {{book.create_at_format}}</span>
             <span class="location">
                 库存位置：
-                <el-input style="width: 68px;" size="small" placeholder="仓库名" v-model="book.warehouse"></el-input>
+                <el-input style="width: 68px;" size="small" placeholder="仓库名" v-model.trim="book.warehouse"></el-input>
                 <span class="separator">-</span>
-                <el-input style="width: 68px;" size="small" placeholder="货架名" v-model="book.shelf"></el-input>
+                <el-input style="width: 68px;" size="small" placeholder="货架名" v-model.trim="book.shelf"></el-input>
                 <span class="separator">-</span>
-                <el-input style="width: 68px;" size="small" placeholder="层数" v-model="book.floor"></el-input>
+                <el-input style="width: 68px;" size="small" placeholder="层数" v-model.trim="book.floor"></el-input>
             </span>
             <span>
                 入库量：
-                <el-input style="width: 78px;" size="small" placeholder="入库数量" v-model="book.num"></el-input>
+                <el-input type="number" style="width: 78px;" size="small" placeholder="入库数量" v-model.trim.number="book.num"></el-input>
             </span>
         </p>
 
