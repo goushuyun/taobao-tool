@@ -12,14 +12,12 @@
        <div class="gsy-card">
            <div class="gsy-header">
               <header>
-                  
-
                   <div class="download_demo">
                     <el-button @click="download_file('http://image1.goushuyun.cn/DemoExcel.xlsx')" type="text"><i class="fa fa-file-excel-o" aria-hidden="true"></i> 下载模版Excel</el-button>
                   </div>
                   <!-- <a href=""></a> -->
                   <input type="file" @change="onchange" id="upload_excel_input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                  <p @click="view_blur_data">你有 <span class="emphasis"> 3 条模糊数据 </span>需要处理</p>
+                  <p @click="view_blur_data" v-show="blur_data_num > 0">你有 <span class="emphasis"> {{blur_data_num}} 条模糊数据 </span>需要处理</p>
               </header>
            </div>
            <div class="gsy-body">
@@ -85,12 +83,19 @@ import mixin from "./batch.js"
 import utils from './utils.js'
 import table from './table.js'
 import config from '../../../config/basis.js'
+import axios from "../../../config/http.js"
 
 export default {
     mixins: [mixin, utils, table],
     created() {
         //do something after creating vue instance
         this.getData()
+
+
+        // get blur_data_num
+        axios.post('/v1/stock/get_goods_pending_check_list', {page: 1, size: 1}).then(res=>{
+            this.blur_data_num = res.data.total_count
+        })
     },
     computed: {
         image_base_url(){
