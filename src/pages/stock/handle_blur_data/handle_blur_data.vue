@@ -17,7 +17,7 @@
                     <span class="isbn">ISBN: {{book.isbn}}</span>
                 </span>
             </span>
-            <el-button id="export" icon="document" type="text">导出模糊数据</el-button>
+            <!-- <el-button id="export" icon="document" type="text">导出模糊数据</el-button> -->
         </header>
 
         <ul class="books_list">
