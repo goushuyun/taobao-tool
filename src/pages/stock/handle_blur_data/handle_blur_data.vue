@@ -12,65 +12,54 @@
     <div class="content_inner">
         <header>
             <span>
-                <span class="back" @click="back"><<返回 </span>
-            <span>
-            <span class="isbn">ISBN: 9787115404459</span>
-            </span>
+                <span class="back" @click="back"><< 返回 </span>
+                <span>
+                    <span class="isbn">ISBN: {{book.isbn}}</span>
+                </span>
             </span>
             <el-button id="export" icon="document" type="text">导出模糊数据</el-button>
         </header>
 
         <ul class="books_list">
-            <li class="book">
-                <el-radio class="radio" label=""></el-radio>
+            <li class="book" v-for="(item, index) in poker_list" @click="choose_this(index)">
+                <el-radio v-model="book_no" class="radio" :label="item.book_no"></el-radio>
                 <div class="image_box">
-                    <img src="https://img12.360buyimg.com/n3/jfs/t2053/269/1144929905/288173/77ed381a/5684035eN186e457f.jpg">
+                    <img :src="image_url + item.image">
                 </div>
-                <span class="book_info"> 高等数学（第六版）赵泳钧 清华大学出版社 ￥30.00</span>
-            </li>
-            <li class="book">
-                <el-radio class="radio" label=""></el-radio>
-                <div class="image_box">
-                    <img src="https://img12.360buyimg.com/n3/jfs/t2053/269/1144929905/288173/77ed381a/5684035eN186e457f.jpg">
-                </div>
-                <span class="book_info"> 高等数学（第六版）赵泳钧 清华大学出版社 ￥30.00</span>
-            </li>
-            <li class="book">
-                <el-radio class="radio" label=""></el-radio>
-                <div class="image_box">
-                    <img src="https://img12.360buyimg.com/n3/jfs/t2053/269/1144929905/288173/77ed381a/5684035eN186e457f.jpg">
-                </div>
-                <span class="book_info"> 高等数学（第六版）赵泳钧 清华大学出版社 ￥30.00</span>
+                <span class="book_info">
+                    {{item.title}}
+                    <span v-if="item.author">| {{item.author}}</span>
+                    <span v-if="item.publisher">| {{item.publisher}}</span>
+                    <span v-if="item.price > 0">| ¥ {{(item.price/100).toFixed(2)}}</span>
+                </span>
             </li>
         </ul>
 
         <p class="input_boxs">
-            <span class="time">入库时间: 2017/7/3 23:16</span>
+            <span class="time">入库时间: {{book.create_at_format}}</span>
             <span class="location">
                 库存位置：
-                <el-input style="width: 68px;" size="small"></el-input>
+                <el-input style="width: 68px;" size="small" placeholder="仓库名" v-model="book.warehouse"></el-input>
                 <span class="separator">-</span>
-            <el-input style="width: 68px;" size="small"></el-input>
-            <span class="separator">-</span>
-            <el-input style="width: 68px;" size="small"></el-input>
+                <el-input style="width: 68px;" size="small" placeholder="货架名" v-model="book.shelf"></el-input>
+                <span class="separator">-</span>
+                <el-input style="width: 68px;" size="small" placeholder="层数" v-model="book.floor"></el-input>
             </span>
             <span>
                 入库量：
-                <el-input style="width: 78px;" size="small"></el-input>
+                <el-input style="width: 78px;" size="small" placeholder="入库数量" v-model="book.num"></el-input>
             </span>
         </p>
 
         <p class="btns">
-            <el-pagination :current-page="1" :page-size="10" layout="total, prev, pager, next" :total="1000">
+            <el-pagination @current-change="handle_page_change" :current-page="page" :page-size="size" layout="total, prev, pager, next" :total="total">
             </el-pagination>
 
             <span>
-                <el-button size="small" type="danger">删除</el-button>
-                <el-button size="small" type="success">跳过</el-button>
-                <el-button size="small" type="primary">入库</el-button>
+                <el-button size="small" type="danger" @click="del_pending_goods">删除</el-button>
+                <el-button size="small" type="primary" @click="input_warehouse">入库</el-button>
             </span>
         </p>
-
     </div>
 </div>
 
@@ -79,13 +68,45 @@
 <script>
 
 import mix from './handle_blur_data.js'
+import config from '../../../config/basis.js'
+
 
 export default {
     mixins: [mix],
     name: "",
     data: () => ({
+        // pagination
+        page: 1,
+        size: 1,
+        total: 0,
 
-    })
+        // upload book info
+        book: {
+            isbn: '',
+            id: '',
+            warehouse: '',
+            shelf: '',
+            floor: '',
+            create_at: '',
+            num: 0,
+            create_at_format: ''
+        },
+        book_no: '00',
+
+        poker_list: [],
+        pending_goods_id: ''
+    }),
+
+    created() {
+        //do something after creating vue instance
+        this.getData()
+    },
+
+    computed: {
+        image_url() {
+            return config.image_url
+        }
+    }
 }
 
 </script>
