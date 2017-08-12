@@ -9,6 +9,13 @@ header{
     align-items: center;
     justify-content: space-between;
 
+    .back{
+        color: $main_blue;
+        padding-right: 22px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
 
     .number{
         font-size: 16px;
@@ -27,6 +34,7 @@ p.input_boxs{
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    padding-left: 12px;
 
     .time{
         font-size: 14px;
@@ -76,7 +84,7 @@ ul.books_list{
 
 p.btns{
     margin-top: 28px;
-    padding-right: 42px;
+    // padding-right: 42px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }

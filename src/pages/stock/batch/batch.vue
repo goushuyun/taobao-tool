@@ -12,6 +12,8 @@
        <div class="gsy-card">
            <div class="gsy-header">
               <header>
+                  
+
                   <div class="download_demo">
                     <el-button @click="download_file('http://image1.goushuyun.cn/DemoExcel.xlsx')" type="text"><i class="fa fa-file-excel-o" aria-hidden="true"></i> 下载模版Excel</el-button>
                   </div>

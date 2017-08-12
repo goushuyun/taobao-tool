@@ -8,13 +8,9 @@ export default {
 			this.process = 0
 		},
 		view_blur_data() {
-			console.log(ISBN);
-
-			let isbn = ISBN.parse('9787302289333')
-
-			console.log(isbn.isIsbn10());
+			this.$router.push('handle_blur_data')
 		},
-
+		
 		distinguish_data(excel_json) {
 			var ok_json = [], fail_json = []
 
