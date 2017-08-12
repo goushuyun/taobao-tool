@@ -129,8 +129,15 @@ export default {
             console.log(this.choose_book_visible);
         },
         isbn_search() {
-            let isbn = ISBN.parse(this.isbn.replace('-', ''))
+            // split isbn and book_no
+            var real_isbn = this.isbn.split('_')[0]
+            var book_no = this.isbn.split('_')[1]
 
+            console.log(real_isbn);
+            console.log(book_no);
+
+            // check isbn is corret or not
+            let isbn = ISBN.parse(real_isbn)
             if(!isbn){
                 this.$message({
                     message: 'ISBN 格式错误！',
@@ -140,7 +147,7 @@ export default {
             }
 
             this.isbn = isbn.asIsbn13()
-            axios.post('/v1/stock/search_goods', {isbn: this.isbn}).then(res => {
+            axios.post('/v1/stock/search_goods', {isbn: real_isbn}).then(res => {
 
                 // not found this book
                 if(res.data.total_count === 0){
@@ -165,6 +172,15 @@ export default {
                         });
                     }
                 }else{
+                    if(book_no){
+                        for (var i = 0; i < res.data.data.length; i++) {
+                            if(res.data.data[i].book_no == book_no){
+                                this.handleChecked(res.data.data[i])
+                                return
+                            }
+                        }
+                    }
+
                     this.wait_choose_books = res.data.data
                     this.choose_book_visible = true
                 }
