@@ -4,8 +4,8 @@ export default {
     mounted() {
         //do something after creating vue instance
         $('#isbn_input input').focus()
-        this.$store.commit('setMenuActive', '1')
-        localStorage.setItem('menu_active', '1')
+        this.$store.commit('setMenuActive', 'stock')
+        localStorage.setItem('menu_active', 'stock')
         this.$store.commit('setSubMenuActive', 'out')
         localStorage.setItem('sub_menu_active', 'out')
     },
