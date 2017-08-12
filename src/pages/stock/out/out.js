@@ -127,6 +127,17 @@ export default {
             console.log(this.choose_book_visible);
         },
         isbn_search() {
+            let isbn = ISBN.parse(this.isbn.replace('-', ''))
+
+            if(!isbn){
+                this.$message({
+                    message: 'ISBN 格式错误！',
+                    type: 'warning'
+                })
+                return
+            }
+
+            this.isbn = isbn.asIsbn13()
             axios.post('/v1/stock/search_goods', {isbn: this.isbn}).then(res => {
 
                 // not found this book
