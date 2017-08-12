@@ -7,9 +7,9 @@
 <div id="dialog">
 
     <el-dialog title="选择图书" :visible.sync="visible" size="large">
-        <p class="alert">
+        <!-- <p class="alert">
             如果未找到对应的图书，点击 <el-button type="text">新增图书</el-button> 完善图书信息后添加
-        </p>
+        </p> -->
 
         <ul id="book_list">
             <li class="item" v-for="(item, index) in books_list" @click="choose_this_book(index)">
