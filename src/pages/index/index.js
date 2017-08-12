@@ -14,7 +14,7 @@ export default {
             } else if (local_active) {
                 return local_active
             } else {
-                return '1'
+                return 'stock'
             }
         }
     },
@@ -34,7 +34,7 @@ export default {
                 var index = localStorage.getItem('menu_active')
                 var name = localStorage.getItem('sub_menu_active')
                 this.$router.replace({
-                    name
+                    name: name
                 })
             }
         },

@@ -22,8 +22,8 @@ export default {
         }
     },
     mounted() {
-        this.$store.commit('setMenuActive', '2')
-        localStorage.setItem('menu_active', '2')
+        this.$store.commit('setMenuActive', 'book')
+        localStorage.setItem('menu_active', 'book')
         this.$store.commit('setSubMenuActive', 'maintain')
         localStorage.setItem('sub_menu_active', 'maintain')
         this.searchGoods()
@@ -45,11 +45,10 @@ export default {
                 "page": this.page,
                 "size": this.size,
                 "order_by": "stock", // stock
-                "sequence": "asc", // desc: 数量从大到小  asc：数量从小到大
-                "info_is_complete": this.info_is_complete
+                "sequence": "asc" // desc: 数量从大到小  asc：数量从小到大
             }
             if (this.isbn == '') {
-                request.info_is_complete = 1
+                request.info_is_complete = this.info_is_complete
             } else if (/^978\d{10}_\d{2}$/.test(this.isbn)) {
                 // 如果isbn是带有购书云编号的将其拆分成isbn和book_no两个字段
                 var isbn_no = this.isbn.split('_')
