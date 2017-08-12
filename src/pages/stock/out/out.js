@@ -26,6 +26,7 @@ export default {
             }
         },
         total_out_number_change(total_out_number){
+
             // 处理 <= 0
             if(this.total_out_number <= 0){
                 this.total_out_number = 0
@@ -40,21 +41,28 @@ export default {
 
             // 为商户选择合适的库位
             for(let i = 0; i < this.location_list.length; i++){
+                let row = this.location_list[i]
 
-                let remain_out_number = total_out_number, row = this.location_list[i]
-
-                total_out_number -= row.stock
-
-                if(total_out_number>0){
-                    // 该库位被出库完, 去往下一个库位出库
-                    row.check = true
-                    row.out_number = row.stock
+                if(total_out_number <= 0){
+                    // 出库流程已走完
+                    row.check = false
+                    row.out_number = 0
                 }else{
-                    // 该库位未被出库完，停止寻找下一个位置
-                    row.check = true
-                    row.out_number = remain_out_number
-                    break
+                    let remain_out_number = total_out_number
+
+                    total_out_number -= row.stock
+
+                    if(total_out_number>0){
+                        // 该库位被出库完, 去往下一个库位出库
+                        row.check = true
+                        row.out_number = row.stock
+                    }else{
+                        // 该库位未被出库完，停止寻找下一个位置
+                        row.check = true
+                        row.out_number = remain_out_number
+                    }
                 }
+
             }
 
         },
