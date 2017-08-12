@@ -111,13 +111,18 @@ export default {
 
             // upload data
             excel_json: [],
+            excel_json_copy: [],
             correct_json: [],
             error_json: [],
 
             // upload feedback
             success_data_num: 0,
             fail_data_num: 0,
-            blur_data_num: 0
+            blur_data_num: 0,
+
+            // upload data manage
+            upload_num_per: 50,
+            need_upload_time: 0
         }
     }
 }

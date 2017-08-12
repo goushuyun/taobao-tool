@@ -16,12 +16,14 @@ export default {
 		},
 
 		distinguish_data(excel_json) {
+			var ok_json = [], fail_json = []
+
 			excel_json.forEach((row, index) => {
 
 				// check if has isbn attr
 				if(!row.hasOwnProperty('isbn')){
 					row.error_reason = 'ISBN为空'
-					this.error_json.push(row)
+					fail_json.push(row)
 					return
 				}
 
@@ -30,14 +32,14 @@ export default {
 				let isbn = ISBN.parse(row.isbn)
 				if(!isbn){
 					row.error_reason = 'ISBN格式错误'
-					this.error_json.push(row)
+					fail_json.push(row)
 					return
 				}
 
 				// check if has num attr
-				if(row.hasOwnProperty('num')){
+				if(!row.hasOwnProperty('num')){
 					row.error_reason = '数量为空'
-					this.error_json.push(row)
+					fail_json.push(row)
 					return
 				}
 
@@ -45,7 +47,7 @@ export default {
 				row.num = parseInt(row.num)
 				if (row.num <= 0) {
 					row.error_reason = '数量格式错误'
-					this.error_json.push(row)
+					fail_json.push(row)
 				} else {
 
 					if (isbn.isValid()) {
@@ -53,24 +55,27 @@ export default {
 						if (isbn.isIsbn10) {
 							row.isbn = isbn.asIsbn13()
 						}
-						this.correct_json.push(row)
+						ok_json.push(row)
 					} else {
 						// is wrong format isbn
 						row.error_reason = 'ISBN格式错误'
-						this.error_json.push(row)
+						fail_json.push(row)
 					}
 
 				}
 			})
 
 			console.log('----------correct_json-------------');
-			console.log(JSON.stringify(this.correct_json));
+			console.log(JSON.stringify(ok_json));
 			console.log('----------error_json-------------');
-			console.log(JSON.stringify(this.error_json));
+			console.log(JSON.stringify(fail_json));
 
 			// 写入前端检测到的错误数量
-			this.fail_data_num += this.error_json.length
+			this.fail_data_num += fail_json.length
+			this.error_json = this.error_json.concat(fail_json)
 			console.log('------------------------------------');
+
+			return ok_json
 		},
 
 		onchange(evt) {
@@ -105,13 +110,12 @@ export default {
 				// map all sheet, and collect to on json obj
 				for (let i = 0; i < wb.SheetNames.length; i++) {
 					let ws = wb.Sheets[wb.SheetNames[i]]
-
 					let tmp = XLSX.utils.sheet_to_json(ws)
 
+					// get 1th row, to check it cols and decide if it has wrong format
 					let demo_row = tmp[0]
 					if(Object.keys(demo_row).length > 5){
 						this.visible = false
-
 						this.$message({
 							message: '数据格式不正确，请下载示例模版查看',
 							type: 'warning'
@@ -119,16 +123,17 @@ export default {
 						return
 					}
 
-
 					let tmp_json = this.json_key_replace(JSON.stringify(tmp))
 					this.excel_json = this.excel_json.concat(tmp_json)
+					this.excel_json_copy = this.excel_json.slice(0)
 				}
 
-				// 校验数据
-				this.distinguish_data(this.excel_json)
+				this.upload_num_per = 50
+				this.need_upload_time = Math.ceil(this.excel_json.length/this.upload_num_per)
+				this.per_add_process = Math.ceil(60/this.need_upload_time)
 
 				// 上传数据
-				this.upload_data(this.correct_json, file.name)
+				this.upload_data(file.name)
 			}
 
 			reader.readAsArrayBuffer(file)
