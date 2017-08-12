@@ -5,7 +5,9 @@ export default {
         //do something after creating vue instance
         $('#isbn_input input').focus()
         this.$store.commit('setMenuActive', '1')
-        this.$store.commit('setSubMenuActive', '1-1')
+        localStorage.setItem('menu_active', '1')
+        this.$store.commit('setSubMenuActive', 'out')
+        localStorage.setItem('sub_menu_active', 'out')
     },
     methods: {
         handleChecked(book){

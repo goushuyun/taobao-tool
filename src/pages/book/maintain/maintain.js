@@ -23,7 +23,9 @@ export default {
     },
     mounted() {
         this.$store.commit('setMenuActive', '2')
-        this.$store.commit('setSubMenuActive', '2-1')
+        localStorage.setItem('menu_active', '2')
+        this.$store.commit('setSubMenuActive', 'maintain')
+        localStorage.setItem('sub_menu_active', 'maintain')
         this.searchGoods()
         this.getPendingGatherdGoods()
     },

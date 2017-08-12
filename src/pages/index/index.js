@@ -32,14 +32,9 @@ export default {
                 })
             } else {
                 var index = localStorage.getItem('menu_active')
-                var name = 'out'
-                if (index === '1') {
-                    name = 'out'
-                } else if (index === '2') {
-                    name = 'maintain'
-                }
+                var name = localStorage.getItem('sub_menu_active')
                 this.$router.replace({
-                    name: name
+                    name
                 })
             }
         },

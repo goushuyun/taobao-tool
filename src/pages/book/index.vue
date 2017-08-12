@@ -4,9 +4,9 @@
       <div class="title">图书维护</div>
       <div class="menu">
         <el-menu :router="true" :default-active="sub_menu_active" class="el-menu-vertical-demo" @select="subMenuSelect">
-          <el-menu-item index="2-1" :route="{name:'maintain'}">信息维护</el-menu-item>
-          <el-menu-item index="2-2" :route="{name:'apply'}">我的申请</el-menu-item>
-          <el-menu-item v-if="role == '256'" index="2-3" :route="{name:'review'}">待审核</el-menu-item>
+          <el-menu-item index="maintain" :route="{name:'maintain'}">信息维护</el-menu-item>
+          <el-menu-item index="apply" :route="{name:'apply'}">我的申请</el-menu-item>
+          <el-menu-item v-if="role == '256'" index="review" :route="{name:'review'}">待审核</el-menu-item>
         </el-menu>
       </div>
     </div>
@@ -27,7 +27,7 @@ export default {
             } else if (local_active) {
                 return local_active
             } else {
-                return '2-1'
+                return 'maintain'
             }
         },
         role() {
