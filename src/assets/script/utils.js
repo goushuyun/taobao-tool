@@ -87,6 +87,23 @@ function unique(array) {
     }
     return res;
 }
+
+/**
+ * 用书数值的格式化
+ * @param  {number} value [准备格式化的值]
+ * @return {string}       [返回格式化后的字符串]
+ */
+function numberFormat(value) {
+    if (typeof value === 'number' && value) {
+        value = value + ''
+    } else {
+        console.log('Error: the value\' type must be "number"');
+    }
+    var reg = /(?=(?!(\b))(\d{4})+$)/g;
+    value = value.replace(reg, ",");
+    return value
+}
+
 export {
     getToken,
     testMobile,
@@ -98,5 +115,6 @@ export {
     copyObject,
     isObjectValueEqual,
     s2ab,
-    unique
+    unique,
+    numberFormat
 }
