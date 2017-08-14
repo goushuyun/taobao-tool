@@ -27,13 +27,13 @@ export default {
             var token = localStorage.getItem('token')
             if (token == null) {
                 this.$message.info('请先登录！')
-                this.$router.replace({
+                this.$router.push({
                     name: 'login'
                 })
             } else {
                 var index = localStorage.getItem('menu_active')
                 var name = localStorage.getItem('sub_menu_active')
-                this.$router.replace({
+                this.$router.push({
                     name: name
                 })
             }
