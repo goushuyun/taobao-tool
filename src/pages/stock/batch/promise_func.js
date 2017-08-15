@@ -2,11 +2,13 @@ import axios from "../../../config/http.js"
 import config from '../../../config/basis.js'
 import {getToken, s2ab} from '../../../assets/script/utils.js'
 
+window.upload_times = 0
+
 function batch_upload_data(data) {
 	return new Promise((resolve, reject) => {
-
+		console.log('It is ' + upload_times + ' times .');
 		axios.post('/v1/stock/upload_goods_batch_data', data).then(resp => {
-
+			window.upload_times++
 			if (resp.data.code == '00000') {
 				resolve(resp.data)
 			} else {

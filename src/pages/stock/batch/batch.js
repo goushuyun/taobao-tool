@@ -5,12 +5,14 @@ export default {
 			this.error_json = []
 			this.excel_json = []
 			this.correct_json = []
+
+			this.success_data_num = this.fail_data_num = this.blur_data_num = 0
 			this.process = 0
 		},
 		view_blur_data() {
 			this.$router.push('handle_blur_data')
 		},
-		
+
 		distinguish_data(excel_json) {
 			var ok_json = [], fail_json = []
 
@@ -124,7 +126,7 @@ export default {
 					this.excel_json_copy = this.excel_json.slice(0)
 				}
 
-				this.upload_num_per = 50
+				this.upload_num_per = 200
 				this.need_upload_time = Math.ceil(this.excel_json.length/this.upload_num_per)
 				this.per_add_process = Math.ceil(60/this.need_upload_time)
 
