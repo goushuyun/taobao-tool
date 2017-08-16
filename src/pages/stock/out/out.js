@@ -110,7 +110,8 @@ export default {
                 if(item.check){
                     data.push({
                         stock: item.out_number * (-1),
-                        map_row_id: item.map_row_id
+                        map_row_id: item.map_row_id,
+                        location_id: item.location_id
                     })
                 }
             })
