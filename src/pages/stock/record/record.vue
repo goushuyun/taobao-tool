@@ -30,7 +30,12 @@
                 {{scope.row.warehouse}} - {{scope.row.shelf}} - {{scope.row.floor}}
               </template>
             </el-table-column>
-            <el-table-column prop="stock" label="库存量" width="120"></el-table-column>
+            <el-table-column prop="stock" label="数量" width="120">
+              <template scope="scope">
+                <span v-if="scope.row.stock < 0" style="color: #FF4949;">{{scope.row.stock}}</span>
+                <span v-else style="color: #13CE66;">+{{scope.row.stock}}</span>
+              </template>
+            </el-table-column>
             <el-table-column prop="create_at" label="日期" width="200"></el-table-column>
             <el-table-column prop="user_name" label="操作人" width="120"></el-table-column>
           </el-table>

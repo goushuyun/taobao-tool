@@ -54,7 +54,7 @@ export default {
         searchRecords() {
             axios.post('/v1/stock/get_goods_shift_record', {
                 "start_at": this.time_range ? moment(this.time_range[0], "YYYY-MM-DD hh:mm:ss").unix() : 0,
-                "end_at": self.time_range ? moment(self.time_range[1], "YYYY-MM-DD hh:mm:ss").unix() : 0,
+                "end_at": this.time_range ? moment(this.time_range[1], "YYYY-MM-DD hh:mm:ss").unix() : 0,
                 "operate_type": this.operate_type, // load 和 unload  （不填代表全部）
                 "isbn": this.isbn,
                 "page": this.page,
@@ -76,8 +76,16 @@ export default {
             this.size = 15
             this.page = 1
             this.isbn = ''
+            var flag = false
+            // 当operate_type 和 time_range 都没有变化时，需要重新请求记录列表
+            if (this.operate_type === 'unload' && this.time_range === '') {
+                flag = true
+            }
             this.operate_type = 'unload'
             this.time_range = ''
+            if (flag) {
+                this.searchRecords()
+            }
         },
         handleSizeChange(size) {
             this.size = size
