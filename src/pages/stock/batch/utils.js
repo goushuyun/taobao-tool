@@ -87,7 +87,7 @@ export default {
 		save_upload_record(record_params){
 			axios.post('/v1/stock/save_goods_batch_upload_record', record_params).then(res=>{
 				console.log(res.data);
-				this.process += 30
+				this.process += 6
 				this.dialog_title = '数据导入完成'
 				this.refresh_table()
 				this.visible = false

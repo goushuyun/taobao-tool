@@ -126,9 +126,21 @@ export default {
 					this.excel_json_copy = this.excel_json.slice(0)
 				}
 
+				// total rows
+				console.log('=========total rows============');
+				console.log(this.excel_json.length);
+
+
 				this.upload_num_per = 200
 				this.need_upload_time = Math.ceil(this.excel_json.length/this.upload_num_per)
-				this.per_add_process = Math.ceil(60/this.need_upload_time)
+				this.per_add_process = parseFloat((84/this.need_upload_time).toFixed(1))
+
+				// keys of upload
+				console.log('=============per_add_process==================');
+				console.log(this.per_add_process);
+				console.log('=============need_upload_time=================');
+				console.log(this.need_upload_time);
+				console.log('==============================================');
 
 				// 上传数据
 				this.upload_data(file.name)
