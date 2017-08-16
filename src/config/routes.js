@@ -9,6 +9,7 @@ const list = r => require(['../pages/stock/list/list.vue'], r)
 const out = r => require(['../pages/stock/out/out.vue'], r)
 const handle_blur_data = r => require(['../pages/stock/handle_blur_data/handle_blur_data.vue'], r)
 const setting = r => require(['../pages/stock/setting/setting.vue'], r)
+const record = r => require(['../pages/stock/record/record.vue'], r)
 
 // 图书
 const book = r => require(['../pages/book/index.vue'], r)
@@ -61,6 +62,10 @@ export default[
 						name: 'setting',
 						component: setting,
 						meta: { keepAlive: true }
+					}, {
+						path: '/stock/record',
+						name: 'record',
+						component: record
 					}, {
 						path: '/stock/detail',
 						name: 'detail',

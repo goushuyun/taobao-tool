@@ -18,7 +18,7 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
         this.checkToken()
         this.user_name = localStorage.getItem('user_name')
     },
