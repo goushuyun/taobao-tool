@@ -1,7 +1,6 @@
 export default {
-    base_url: 'http://tao.goushuyun.cn/',
-    login: 'http://tao.goushuyun.cn/#/login',
-    image_url: 'http://taoimage.goushuyun.cn/',
-
-    bucket_zone: 0 // 0-开发环境 0-测试环境 1-生产环境
-}
+        base_url: "http://api-taobao.goushuyun.cn/",
+        login: "http://taobao.goushuyun.cn/#/login",
+        image_url: "http://taoimage.goushuyun.cn/",
+        bucket_zone: 0
+    }

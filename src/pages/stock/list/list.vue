@@ -35,7 +35,7 @@
             </el-table-column>
             <el-table-column prop="isbn_no" label="ISBN" width="170"></el-table-column>
             <el-table-column prop="title" label="书名"></el-table-column>
-            <el-table-column prop="stock" label="库存量" width="120"></el-table-column>
+            <el-table-column prop="stock" label="库存量"></el-table-column>
             <el-table-column prop="remark" label="备注">
               <template scope="scope">
                 <el-row type="flex">
