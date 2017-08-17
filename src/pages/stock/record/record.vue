@@ -18,6 +18,7 @@
               <el-radio-button label="load">入库记录</el-radio-button>
               <el-radio-button label="">全部记录</el-radio-button>
             </el-radio-group>
+            <el-button style="float: right;" size="small" type="primary" @click="exportRecord">导出配货单</el-button>
           </div>
         </div>
         <div class="gsy-body">
