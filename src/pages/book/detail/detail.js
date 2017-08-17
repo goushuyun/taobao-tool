@@ -87,7 +87,17 @@ export default {
         },
         // 返回上一页
         goBack() {
-            this.$router.go(-1)
+            if (!isObjectValueEqual(this.book_info, this.book_info_bak) && this.modify) {
+                this.$confirm('当前页面有未提交数据, 是否继续返回?', '提示', {
+                    confirmButtonText: '继续返回',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$router.go(-1)
+                }).catch(() => {});
+            } else {
+                this.$router.go(-1)
+            }
         },
         // 获取来自 库存查看 和 信息维护 两个页面传来的book信息
         getParams() {

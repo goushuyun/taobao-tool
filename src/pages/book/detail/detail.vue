@@ -23,7 +23,7 @@
                 <el-button :disabled="cannot_modify" size="small" type="primary" style="width: 200px;" @click="preModify">{{cannot_modify ? '您已经提交了修改图书信息的申请' : '修改此书的标准图书信息'}}</el-button>
               </span>
               <span v-else class="btn_modify">
-                <el-button size="small" type="primary" style="width: 93px;" @click="cancelModify">取 消</el-button>
+                <el-button size="small" type="" style="width: 93px;" @click="cancelModify">取 消</el-button>
                 <el-button size="small" type="primary" style="width: 93px;" @click="submitModify('book_info')">提交审核</el-button>
               </span>
             </el-form-item>
@@ -44,7 +44,7 @@
             :before-upload="beforeAvatarUpload"
             :on-success="handleAvatarSuccess"
             :on-error="handleAvatarError">
-            <img v-if="book_info.image" :src="book_info.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + book_info.image)"/>
+            <img @click="preModify" v-if="book_info.image" :src="book_info.image == '' ? 'http://image.goushuyun.cn/book.png' : ('http://taoimage.goushuyun.cn/' + book_info.image)"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
 
