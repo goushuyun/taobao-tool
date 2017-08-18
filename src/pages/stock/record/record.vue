@@ -5,7 +5,7 @@
       <div class="gsy-card">
         <div class="gsy-header">
           <div>
-            <el-date-picker format="yyyy-MM-dd HH:00" v-model="time_range" style="width: 320px;" size="small" type="datetimerange" :picker-options="pickerOptions" placeholder="选择时间范围" align="right" @change="searchRecords"></el-date-picker>
+            <el-date-picker v-model="time_range" style="width: 320px;" size="small" type="datetimerange" :picker-options="pickerOptions" placeholder="选择时间范围" align="right" @change="searchRecords"></el-date-picker>
             <el-input size="small" placeholder="请输入内容" v-model="isbn" @keyup.enter.native="searchRecords">
               <template slot="prepend">ISBN</template>
             </el-input>

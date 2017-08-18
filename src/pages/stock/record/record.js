@@ -22,7 +22,7 @@ export default {
                     text: '今天',
                     onClick(picker) {
                         var today = moment().format('YYYY-MM-DD');
-                        const end = moment(today + ' 23:59:59');
+                        const end = moment();
                         const start = moment(today + ' 00:00:00');
                         picker.$emit('pick', [start, end]);
                     }
