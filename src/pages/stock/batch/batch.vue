@@ -61,7 +61,7 @@
     <el-dialog :title="dialog_title" :visible.sync="visible" :close-on-click-modal="false" @close="handle_dialog_close">
 
         <div class="progress">
-            <el-progress type="circle" :percentage="process" status="success"></el-progress>
+            <el-progress type="circle" :percentage="process"></el-progress>
         </div>
         <!-- feedback info -->
         <div class="feedback_info">

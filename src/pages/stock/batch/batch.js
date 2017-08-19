@@ -85,7 +85,7 @@ export default {
 
 			// start to handle upload data
 			this.visible = true
-			this.process += 10
+			this.process += 2
 
 			file = files[0];
 			$('#upload_excel_input').val('')
@@ -94,6 +94,9 @@ export default {
 			var reader = new FileReader()
 
 			reader.onload = e => {
+				// file loaded
+				this.process += 2
+
 				// pre-process data
 				var binary = "";
 				var bytes = new Uint8Array(e.target.result);
@@ -112,7 +115,7 @@ export default {
 
 					// get 1th row, to check it cols and decide if it has wrong format
 					let demo_row = tmp[0]
-					if(Object.keys(demo_row).length > 5){
+					if(demo_row && Object.keys(demo_row).length > 5){
 						this.visible = false
 						this.$message({
 							message: '数据格式不正确，请下载示例模版查看',
@@ -130,6 +133,15 @@ export default {
 				console.log('=========total rows============');
 				console.log(this.excel_json.length);
 
+				if(this.excel_json.length === 0) {
+					this.visible = false
+					this.$message({
+						type: 'warning',
+						message: 'Excel中 没有格式正确的数据！'
+					})
+					return
+				}
+
 
 				this.upload_num_per = 200
 				this.need_upload_time = Math.ceil(this.excel_json.length/this.upload_num_per)
@@ -141,6 +153,8 @@ export default {
 				console.log('=============need_upload_time=================');
 				console.log(this.need_upload_time);
 				console.log('==============================================');
+
+				this.process += 2
 
 				// 上传数据
 				this.upload_data(file.name)
