@@ -7,7 +7,9 @@ export default {
 			this.correct_json = []
 
 			this.success_data_num = this.fail_data_num = this.blur_data_num = 0
-			this.process = 0
+			this.process = 0,
+
+			this.dialog_title = '正在导入数据...（请勿关闭弹框！！！）'
 		},
 		view_blur_data() {
 			this.$router.push('handle_blur_data')

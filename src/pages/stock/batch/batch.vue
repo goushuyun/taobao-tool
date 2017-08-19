@@ -108,7 +108,7 @@ export default {
             // dialog params
             visible: false,
             process: 0,
-            dialog_title: '正在导入数据...',
+            dialog_title: '正在导入数据...（请勿关闭弹框！！！）',
 
             // pagination data
             page: 0,
