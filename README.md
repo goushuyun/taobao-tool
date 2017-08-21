@@ -18,7 +18,7 @@ npm run build
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 # 更新日志
-> 我们对每次的修复做了
+> 我们对每次的修复做了详细记录
 
 ## 2017.08.21（FZS）
 1. 操作记录请求增加了loading
