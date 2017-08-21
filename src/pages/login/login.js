@@ -1,6 +1,7 @@
 import {
     testMobile,
-    testPassword
+    testPassword,
+    testMsgCode
 } from '../../assets/script/utils.js'
 import axios from "../../config/http.js"
 
@@ -10,8 +11,7 @@ export default {
             if (!value) {
                 return callback(new Error('手机号码不能为空'));
             }
-            let telReg = /^(13[0-9]|14[57]|15[0-35-9]|17[67]|18[07-9])\d{8}$/
-            if (!telReg.test(value)) {
+            if (!testMobile(value)) {
                 callback(new Error('请输正确的手机号码'));
             } else {
                 callback();
@@ -22,8 +22,7 @@ export default {
             if (!value) {
                 return callback(new Error('密码不能为空'));
             }
-            let pwdReg = /^[A-Za-z0-9]{6,20}$/
-            if (!pwdReg.test(value)) {
+            if (!testPassword(value)) {
                 callback(new Error('请输入6-20英文字母或数字组合'));
             } else {
                 callback();
@@ -34,8 +33,7 @@ export default {
             if (!value) {
                 return callback(new Error('验证码不能为空'));
             }
-            let msgCodeReg = /\d{4}/
-            if (!msgCodeReg.test(value)) {
+            if (!testMsgCode(value)) {
                 callback(new Error('验证码格式不正确'));
             } else {
                 callback();
