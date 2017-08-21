@@ -138,6 +138,7 @@ export default {
                             localStorage.setItem("token", resp.data.token)
                             localStorage.setItem("user_id", resp.data.data.id)
                             localStorage.setItem("user_name", resp.data.data.name)
+                            localStorage.setItem("create_at", resp.data.data.create_at)
                             if (resp.data.data.role == '256') {
                                 localStorage.setItem("role", '256')
                             }

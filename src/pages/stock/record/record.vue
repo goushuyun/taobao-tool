@@ -49,12 +49,12 @@
               <span style="color: #20A0FF;">共<span style="color: #FF4949;"> {{record_dialog.total_count}} </span>条出库记录</span>
             </div>
             <div class="gsy-footer" style="color: #888;">
-              您上一次导出了 {{record_dialog.export_start_at}} 至 {{record_dialog.export_end_at}} 的数据
+              <span v-if="record_dialog.show_export_time">您上一次导出了 {{record_dialog.export_start_at}} 至 {{record_dialog.export_end_at}} 的数据</span>
             </div>
           </div>
           <div slot="footer" class="dialog-footer">
             <el-button size="small" @click="record_dialog.visiable = false">取 消</el-button>
-            <el-button size="small" type="primary" :disabled="record_dialog.total_count == 0" @click="confirmExport">导 出</el-button>
+            <el-button size="small" type="primary" :disabled="record_dialog.total_count_requesting || record_dialog.total_count == 0" @click="confirmExport">导 出</el-button>
           </div>
         </el-dialog>
 
