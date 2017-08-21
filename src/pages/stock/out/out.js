@@ -223,11 +223,16 @@ export default {
 
         },
 
-        handleSizeChange(){
+        handleSizeChange(size){
+            this.page = 1
+            this.size = size
+             this.getLocationList()
             console.log('size');
         },
 
-        handleCurrentChange(){
+        handleCurrentChange(page){
+            this.page = page
+            this.getLocationList()
             console.log('page');
         },
 
