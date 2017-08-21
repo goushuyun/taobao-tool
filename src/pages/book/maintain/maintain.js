@@ -82,7 +82,7 @@ export default {
         openBookDialog(index) {
             var book = this.goods[index]
             this.$router.push({
-                name: 'detail',
+                name: 'book_detail',
                 params: {
                     book
                 }

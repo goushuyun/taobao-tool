@@ -16,7 +16,7 @@ export default {
             size: 15,
             total_count: 0,
             records: [],
-
+            loading: false,
             pickerOptions: {
                 shortcuts: [{
                     text: '今天',
@@ -41,6 +41,8 @@ export default {
             user_id: '',
 
             record_dialog: {
+                export_start_at: '',
+                export_end_at: '',
                 visiable: false,
                 total_count: 0,
                 time_range: ''
@@ -53,9 +55,10 @@ export default {
     },
     methods: {
         searchRecords() {
+            this.loading = true
             var param = {
-                "start_at": this.time_range ? moment(this.time_range[0], "YYYY-MM-DD hh:mm:ss").unix() : 0,
-                "end_at": this.time_range ? moment(this.time_range[1], "YYYY-MM-DD hh:mm:ss").unix() : 0,
+                "start_at": this.time_range ? moment(this.time_range[0], "YYYY-MM-DD HH:mm:ss").unix() : 0,
+                "end_at": this.time_range ? moment(this.time_range[1], "YYYY-MM-DD HH:mm:ss").unix() : 0,
                 "operate_type": this.operate_type, // load 和 unload  （不填代表全部）
                 "isbn": this.isbn,
                 "page": this.page,
@@ -65,12 +68,13 @@ export default {
                 if (resp.data.message == 'ok') {
                     var data = resp.data.data.map(el => {
                         el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
-                        el.create_at = moment(el.create_at * 1000).format('YYYY-MM-DD hh:mm:ss')
+                        el.create_at = moment(el.create_at * 1000).format('YYYY-MM-DD HH:mm:ss')
                         return el
                     })
                     this.total_count = resp.data.total_count
                     this.records = data
                 }
+                this.loading = false
             })
         },
         reset() {
@@ -100,8 +104,8 @@ export default {
             if (flag) {
                 var param = {
                     "user_id": this.user_id,
-                    "start_at": moment(this.record_dialog.time_range[0], "YYYY-MM-DD hh:mm:ss").unix(),
-                    "end_at": moment(this.record_dialog.time_range[1], "YYYY-MM-DD hh:mm:ss").unix(),
+                    "start_at": moment(this.record_dialog.time_range[0], "YYYY-MM-DD HH:mm:ss").unix(),
+                    "end_at": moment(this.record_dialog.time_range[1], "YYYY-MM-DD HH:mm:ss").unix(),
                     "operate_type": 'unload',
                     "page": 1,
                     "size": 1
@@ -113,22 +117,31 @@ export default {
                     }
                 })
             } else {
-                this.record_dialog = {
-                    visiable: true,
-                    total_count: 0,
-                    time_range: ''
-                }
+                this.record_dialog.total_count = 0
+                this.record_dialog.time_range = ''
             }
         },
         confirmExport() {
             var param = {
                 "user_id": this.user_id,
-                "start_at": moment(this.record_dialog.time_range[0], "YYYY-MM-DD hh:mm:ss").unix(),
-                "end_at": moment(this.record_dialog.time_range[1], "YYYY-MM-DD hh:mm:ss").unix(),
+                "start_at": moment(this.record_dialog.time_range[0], "YYYY-MM-DD HH:mm:ss").unix(),
+                "end_at": moment(this.record_dialog.time_range[1], "YYYY-MM-DD HH:mm:ss").unix(),
                 "operate_type": 'unload'
             }
             window.location.assign(config.base_url + '/v1/stock/export_goods_shift_record?params=' + JSON.stringify(param))
             this.record_dialog.visiable = false
+        },
+        getLatestExportDate() {
+            axios.post('/v1/stock/get_shift_record_latest_export_date', {}).then(resp => {
+                if (resp.data.message == 'ok') {
+                    var data = resp.data.data
+                    this.record_dialog.export_start_at = moment(data.export_start_at * 1000).format('YYYY-MM-DD HH:mm:ss')
+                    this.record_dialog.export_end_at = moment(data.export_end_at * 1000).format('YYYY-MM-DD HH:mm:ss')
+                    this.record_dialog.time_range = []
+                    this.record_dialog.time_range[0] = this.record_dialog.export_end_at
+                    this.record_dialog.time_range[1] = moment().format('YYYY-MM-DD HH:mm:ss')
+                }
+            })
         },
         handleSizeChange(size) {
             this.size = size

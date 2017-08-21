@@ -91,7 +91,7 @@ export default[
 						component: review
 					}, {
 						path: '/book/detail',
-						name: 'detail',
+						name: 'book_detail',
 						component: detail
 					}
 				]

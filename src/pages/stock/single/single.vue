@@ -15,7 +15,7 @@
           <div style="margin-top: 15px;">
             <label for="isbn" style="margin-right: 7px;">ISBN</label>
             <el-input id="isbn" size="small" v-model.trim="isbn" style="width: 281px;" @keyup.enter.native="getLocationId">
-              <el-button slot="append" @click="getLocationId">入库</el-button>
+              <el-button slot="append" :disabled="btn_loading" :loading="btn_loading" @click="getLocationId">{{btn_loading ? '入库中' : '入库'}}</el-button>
             </el-input>
           </div>
         </div>

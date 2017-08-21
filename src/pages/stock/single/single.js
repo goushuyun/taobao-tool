@@ -54,7 +54,9 @@ export default {
             },
 
             // 检测位置是否变化，变了就去获取get_location_id，不变就不获取
-            to_get_location_id: false
+            to_get_location_id: false,
+
+            btn_loading: false
         }
     },
     mounted() {
@@ -119,9 +121,11 @@ export default {
          * @return {[type]} [description]
          */
         getLocationId() {
+            this.btn_loading = true
             if (this.to_get_location_id) {
                 if (!(this.warehouse && this.shelf && this.floor)) {
                     this.$message.warning('请先完善货架位置信息！')
+                    this.btn_loading = false
                     return
                 }
                 axios.post('/v1/stock/get_location_id', {
@@ -173,6 +177,8 @@ export default {
                     } else {
                         this.preSelectBook(data)
                     }
+                } else {
+                    this.btn_loading = false
                 }
             })
         },
@@ -193,6 +199,9 @@ export default {
          */
         cancelSelect() {
             this.select_dialog = false
+            this.btn_loading = false
+            this.isbn = ''
+            $('#isbn input').focus()
             this.addRecords(this.isbn, 0)
         },
         /**
@@ -231,6 +240,7 @@ export default {
                 if (resp.data.message == 'ok') {
                     // let data = resp.data.data
                     this.addRecords(records, 1)
+                    this.btn_loading = false
                     this.$message.success('入库成功！')
                     this.isbn = ''
                     $('#isbn input').focus()
