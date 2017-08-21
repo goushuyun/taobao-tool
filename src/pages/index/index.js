@@ -26,7 +26,6 @@ export default {
         checkToken() {
             var token = localStorage.getItem('token')
             if (token == null) {
-                this.$message.info('请先登录！')
                 this.$router.push({
                     name: 'login'
                 })

@@ -29,7 +29,7 @@ export default {
                 }, {
                     text: '最近两天',
                     onClick(picker) {
-                        var tomorrow = moment().subtract(2, 'days').format('YYYY-MM-DD');
+                        var tomorrow = moment().subtract(1, 'days').format('YYYY-MM-DD');
                         const start = moment(tomorrow + ' 00:00:00');
                         const end = moment();
                         picker.$emit('pick', [start, end]);
