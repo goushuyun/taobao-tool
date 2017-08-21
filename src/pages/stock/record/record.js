@@ -158,8 +158,8 @@ export default {
                         this.record_dialog.export_start_at = moment(data.export_start_at * 1000).format('YYYY-MM-DD HH:mm:ss')
                         this.record_dialog.export_end_at = moment(data.export_end_at * 1000).format('YYYY-MM-DD HH:mm:ss')
                         this.record_dialog.time_range = []
-                        this.record_dialog.time_range[0] = this.record_dialog.export_end_at
-                        this.record_dialog.time_range[1] = moment().format('YYYY-MM-DD HH:mm:ss')
+                        this.record_dialog.time_range[0] = new Date(moment(this.record_dialog.export_end_at).unix() * 1000)
+                        this.record_dialog.time_range[1] = new Date()
                         this.record_dialog.show_export_time = true
                     } else {
                         this.record_dialog.show_export_time = false
