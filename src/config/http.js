@@ -49,7 +49,7 @@ axios.interceptors.response.use(function(response) {
         });
     }
     //handler error
-    if (conf.bucket_zone != 1 && response.data.code != '00000') {
+    if (conf.environment == 'dev' && response.data.code != '00000') {
         app.$message.error(response.data.message)
     }
     return response;

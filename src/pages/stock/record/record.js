@@ -13,7 +13,7 @@ export default {
             operate_type: 'unload',
             isbn: '',
             page: 1,
-            size: 15,
+            size: 10,
             total_count: 0,
             records: [],
             loading: false,
@@ -93,7 +93,7 @@ export default {
             })
         },
         reset() {
-            this.size = 15
+            this.size = 10
             this.page = 1
             this.isbn = ''
             var flag = false

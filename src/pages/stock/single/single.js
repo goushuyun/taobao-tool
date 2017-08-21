@@ -150,10 +150,12 @@ export default {
         getBookInfo() {
             if (!(this.warehouse && this.shelf && this.floor)) {
                 this.$message.warning('请先完善货架位置信息！')
+                this.btn_loading = false
                 return
             }
             if (!this.isbn) {
                 this.$message.warning('请输入ISBN！')
+                this.btn_loading = false
                 return
             }
             var request = {
