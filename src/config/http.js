@@ -35,7 +35,7 @@ axios.interceptors.response.use(function(response) {
             type: 'warning',
             callback: action => {
                 localStorage.removeItem('token')
-                window.location.href = conf.login
+                window.location.href = conf.base_url + '#/login'
             }
         });
     }
