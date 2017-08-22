@@ -2,7 +2,7 @@
   <div class="container">
       <div class="top_part">
           <div id="login_box">
-              <img class="logo" src="../../assets/image/logo.png" alt="logo">
+              <img class="logo" src="../../assets/image/tb_gsy_login.png" alt="logo">
               <div class="tabs">
                   <el-tabs v-model="activeName" @tab-click="handleClick"  style="width:120px;">
                       <el-tab-pane label="登录" name="sign_in"></el-tab-pane>
