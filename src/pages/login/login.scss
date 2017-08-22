@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
-
+    background-image: url("../../assets/image/taobao_tool_bc.jpg");
     .top_part {
         flex-grow: 1;
         display: flex;
@@ -10,16 +10,17 @@
         min-height: 420px;
 
         #login_box {
-            background-color: white;
+            // background-color: white;
             text-align: center;
             width: 260px;
             margin: 0 auto;
-            padding: 22px 24px 0;
+            // padding: 22px 24px 0;
             border-radius: 4px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            // box-shadow: 0 0 10px rgba(0, 0, 0, .1);
             // logo
             img.logo {
-                margin: 20px 0;
+                margin-bottom: 20px;
+                height: 80px;
             }
 
             div.tabs {

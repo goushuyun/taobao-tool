@@ -26,3 +26,6 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 3. 修改了信息页面跳转详情的route
 4. 操作记录页面导出功能对时间做了限定
 5. 生产环境屏蔽异常信息
+
+## 2017.08.22（FZS）
+1. 美化了登录页面
