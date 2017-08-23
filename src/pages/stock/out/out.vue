@@ -9,6 +9,8 @@
 
     <div class="content_inner">
         <div class="gsy-card">
+            <audio id="audio" src="http://taoimage.goushuyun.cn/assets/audio/output_success.mp3" preload>
+            </audio>
             <div class="gsy-header">
                 <label for="isbn_input" style="margin-right: 7px;">ISBN</label>
                 <el-input id="isbn_input" style="width: auto;" size="small" icon="search" autofocus :on-icon-click="isbn_search" v-model.trim="isbn" @keyup.enter.native="isbn_search"></el-input>

@@ -1,5 +1,6 @@
 import axios from "../../../config/http.js"
 
+
 export default {
     mounted() {
         //do something after creating vue instance
@@ -130,6 +131,8 @@ export default {
                 // 提示出库成功
                 this.$message('出库成功')
                 this.isbn = ''
+                var audio = document.getElementById('audio')
+                audio.play()
             })
         },
         operate_book_dialog(){
