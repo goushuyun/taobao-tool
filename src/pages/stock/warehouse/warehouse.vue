@@ -101,12 +101,12 @@
 </template>
 
 <script>
-import mixin from "./setting.js"
+import mixin from "./warehouse.js"
 export default {
     mixins: [mixin]
 }
 </script>
 
 <style lang="scss" scoped>
-@import "./setting.scss"
+@import "./warehouse.scss"
 </style>

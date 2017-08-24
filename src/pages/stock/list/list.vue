@@ -20,7 +20,11 @@
             <span style="float: right;">
               <el-button v-if="pending_gatherd_total" type="text">当前有 <span style="color: #FF4949">{{pending_gatherd_total}}</span> 条数据正在采集中</el-button>
               <el-button size="small" @click="exportExcel">导出库存EXCEL</el-button>
-              <el-button size="small" @click="exportCSV">导出淘宝CSV</el-button>
+              <el-dropdown split-button size="small" style="margin-left: 10px;" @click="exportCSV">导出淘宝CSV
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>设置导出</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </span>
           </el-col>
         </el-row>

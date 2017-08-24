@@ -29,3 +29,8 @@ For detailed explanation on how things work, consult the [docs for vue-loader](h
 
 ## 2017.08.22（FZS）
 1. 美化了登录页面
+
+## 2017.08.24（FZS）
+1. 新增导出库存Excel功能
+2. 将 src/pages/stock/setting 修改为 src/pages/stock/warehouse
+3. 删除了 routes.js 中 的 path: '/stock/book'

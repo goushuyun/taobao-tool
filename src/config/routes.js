@@ -8,7 +8,7 @@ const single = r => require(['../pages/stock/single/single.vue'], r)
 const list = r => require(['../pages/stock/list/list.vue'], r)
 const out = r => require(['../pages/stock/out/out.vue'], r)
 const handle_blur_data = r => require(['../pages/stock/handle_blur_data/handle_blur_data.vue'], r)
-const setting = r => require(['../pages/stock/setting/setting.vue'], r)
+const warehouse = r => require(['../pages/stock/warehouse/warehouse.vue'], r)
 const record = r => require(['../pages/stock/record/record.vue'], r)
 
 // 图书
@@ -17,6 +17,10 @@ const apply = r => require(['../pages/book/apply/apply.vue'], r)
 const review = r => require(['../pages/book/review/review.vue'], r)
 const maintain = r => require(['../pages/book/maintain/maintain.vue'], r)
 const detail = r => require(['../pages/book/detail/detail.vue'], r)
+
+// 设置
+const setting = r => require(['../pages/setting/index.vue'], r)
+const export_csv = r => require(['../pages/setting/export/export.vue'], r)
 
 export default[
 	{
@@ -54,13 +58,9 @@ export default[
 						name: 'out',
 						component: out
 					}, {
-						path: '/stock/book',
-						name: 'book',
-						component: book
-					}, {
-						path: '/stock/setting',
-						name: 'setting',
-						component: setting,
+						path: '/stock/warehouse',
+						name: 'warehouse',
+						component: warehouse,
 						meta: { keepAlive: true }
 					}, {
 						path: '/stock/record',
@@ -93,6 +93,17 @@ export default[
 						path: '/book/detail',
 						name: 'book_detail',
 						component: detail
+					}
+				]
+			}, {
+				path: '/setting',
+				name: 'setting',
+				component: setting,
+				children: [
+					{
+						path: '/setting/export',
+						name: 'export',
+						component: export_csv
 					}
 				]
 			}
