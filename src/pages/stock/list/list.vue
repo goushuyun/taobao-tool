@@ -17,10 +17,10 @@
             </el-input>
             <el-button size="small" type="primary" @click="searchGoods">筛选</el-button>
             <el-button size="small" type="primary" @click="reset">重置</el-button>
-            <el-button size="small" @click="exportExcel">导出Excel</el-button>
             <span style="float: right;">
               <el-button v-if="pending_gatherd_total" type="text">当前有 <span style="color: #FF4949">{{pending_gatherd_total}}</span> 条数据正在采集中</el-button>
-              <el-button size="small" @click="exportCSV">导出CSV</el-button>
+              <el-button size="small" @click="exportExcel">导出库存EXCEL</el-button>
+              <el-button size="small" @click="exportCSV">导出淘宝CSV</el-button>
             </span>
           </el-col>
         </el-row>
