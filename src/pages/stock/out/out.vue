@@ -22,7 +22,7 @@
             </div>
             <el-row class="gsy-body" :gutter="10">
                 <el-col :span="17">
-                    <el-table ref="multipleTable" @selection-change="handleSelectionChange" stripe border style="width: 100%" :data="location_list">
+                    <el-table ref="multipleTable" @selection-change="handleSelectionChange" stripe border style="width: 100%" :data="location_list" v-loading="table_loading">
                         <el-table-column width="55">
                             <template scope="scope">
                                 <el-checkbox @change="handle_check_change(scope.$index)" :disabled="scope.row.out_number === 0" v-model="scope.row.check"></el-checkbox>
@@ -104,6 +104,9 @@ export default {
     mixins: [mixin],
     data() {
         return {
+            // loading animation
+            table_loading: false,
+
             // 图书信息
             book_info: {
                 title: '',

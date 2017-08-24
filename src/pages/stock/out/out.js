@@ -24,6 +24,7 @@ export default {
                   message: '库存已告罄',
                   type: 'warning'
                 });
+                this.table_loading = false
             }
         },
         total_out_number_change(total_out_number){
@@ -105,6 +106,8 @@ export default {
             this.location_list[index].out_number = ''
         },
         output() {
+
+
             // handle every map_row's output
             let data = []
             this.location_list.forEach(item=>{
@@ -141,6 +144,8 @@ export default {
             console.log(this.choose_book_visible);
         },
         isbn_search() {
+            this.table_loading = true
+
             // split isbn and book_no
             var real_isbn = this.isbn.split('_')[0]
             var book_no = this.isbn.split('_')[1]
@@ -155,6 +160,7 @@ export default {
                     message: 'ISBN 格式错误！',
                     type: 'warning'
                 })
+                this.table_loading = false
                 return
             }
 
@@ -167,6 +173,7 @@ export default {
                         message: "未找到该图书",
                         type: 'warning'
                     })
+                    this.table_loading = false
                     return
                 }
 
@@ -182,6 +189,7 @@ export default {
                           message: '库存已告罄',
                           type: 'warning'
                         });
+                        this.table_loading = false
                     }
                 }else{
                     if(book_no){
@@ -222,6 +230,8 @@ export default {
 
                 $('#out_input input').focus()   //focus on out input
                 this.total_out_number = ''
+
+                this.table_loading = false
             })
 
         },
