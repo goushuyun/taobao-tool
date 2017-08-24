@@ -19,7 +19,8 @@
             <el-button size="small" type="primary" @click="reset">重置</el-button>
             <span style="float: right;">
               <el-button v-if="pending_gatherd_total" type="text">当前有 <span style="color: #FF4949">{{pending_gatherd_total}}</span> 条数据正在采集中</el-button>
-              <el-button size="small" @click="exportCSV">导出CSV</el-button>
+              <el-button size="small" @click="exportExcel">导出库存EXCEL</el-button>
+              <el-button size="small" @click="exportCSV">导出淘宝CSV</el-button>
             </span>
           </el-col>
         </el-row>
@@ -65,6 +66,14 @@
           <el-button size="small" @click="remark_dialog.visible = false">取消</el-button>
           <el-button size="small" type="primary" @click="comfirmUpdateRemark">确定</el-button>
         </div>
+      </el-dialog>
+      <el-dialog :visible.sync="exprot_excel_loading" size="tiny" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+        <div class="gsy-card">
+          <div class="gsy-hearder time">
+              <span>预计用时：{{forecast_time}}</span>，<span>实际用时：{{actual_time}}</span>
+          </div>
+        </div>
+        <div style="height: 120px; width: 100%;" v-loading="exprot_excel_loading" element-loading-text="正在执行导出操作，请您不要离开当前页面！"></div>
       </el-dialog>
     </div>
   </div>

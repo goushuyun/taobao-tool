@@ -40,12 +40,20 @@ function isISBNFormat(isbn) {
 
 // 金额由“分”转换成“元”
 function priceFloat(price) {
-    return parseFloat(price / 100).toFixed(2)
+    if (Number(price)) {
+        return parseFloat(price / 100).toFixed(2)
+    } else {
+        return price
+    }
 }
 
 // 金额由“元”转换成“分”
 function priceInt(price) {
-    return parseInt(price * 100)
+    if (Number(price)) {
+        return parseInt(price * 100)
+    } else {
+        return price
+    }
 }
 
 function copyObject(obj) {
