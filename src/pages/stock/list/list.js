@@ -25,10 +25,21 @@ export default {
         }
     },
     mounted() {
+        this.$store.commit('setMenuActive', 'stock')
+        localStorage.setItem('menu_active', 'stock')
+        this.$store.commit('setSubMenuActive', 'list')
+        localStorage.setItem('sub_menu_active', 'list')
         this.searchGoods()
         this.getPendingGatherdGoods()
     },
     methods: {
+        handleCommand(command) {
+            if (command === 'exoprt_csv') {
+                this.$router.push({
+                    name: 'export'
+                })
+            }
+        },
         exportExcel() {
             var request = {
                 "page": this.page,
