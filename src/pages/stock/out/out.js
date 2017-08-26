@@ -289,16 +289,16 @@ export default {
         },
 
         handleSizeChange(size){
+            this.table_loading = true
             this.page = 1
             this.size = size
-             this.getLocationList()
-            console.log('size');
+            this.getLocationList()
         },
 
         handleCurrentChange(page){
+            this.table_loading = true
             this.page = page
             this.getLocationList()
-            console.log('page');
         },
 
         clearCheckAndStock(){
