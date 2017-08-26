@@ -18,7 +18,7 @@
                 <span>{{total_stock}}</span>
                 <label for="isbn_input" style="margin: 0 7px 0 30px;">出库量：</label>
                 <el-input id="out_input" @input.native="total_out_number_change(total_out_number)" style="width: 80px;" size="small" v-model.trim.number="total_out_number" @keyup.enter.native="output"></el-input>
-                <el-button :disabled="total_stock == 0" style="margin-left: 15px;" size="small" type="primary" @click="output">出库</el-button>
+                <el-button :disabled="total_stock == 0 || !can_out " style="margin-left: 15px;" size="small" type="primary" @click="output">出库</el-button>
             </div>
             <el-row class="gsy-body" :gutter="10">
                 <el-col :span="17">
@@ -126,6 +126,11 @@ export default {
             goods_id: '', // current goods id
             total_stock: 0, // 总库存量
 
+            // *********当前页面数据***********
+            current_page_count: 0,
+            current_page_out_count: 0,
+            // ******************************
+
             total_out_number: '', // 总出库量
 
             // 库位罗列
@@ -137,6 +142,13 @@ export default {
         }
     },
     computed: {
+        // output button can use
+        can_out(){
+            if(this.total_out_number == '') return false
+
+            return true
+        },
+
         // actually total_out_number
         actual_total_out_number() {
             let total_out_number = 0

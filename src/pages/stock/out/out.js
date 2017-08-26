@@ -106,8 +106,6 @@ export default {
             this.location_list[index].out_number = ''
         },
         output() {
-
-
             // handle every map_row's output
             let data = []
             this.location_list.forEach(item=>{
@@ -121,8 +119,6 @@ export default {
             })
 
             axios.post('/v1/stock/update_map_row', {data}).then(res=>{
-                console.log(res.data);
-
                 this.location_list = []
                 this.total_stock = 0
                 this.goods_id = ''
