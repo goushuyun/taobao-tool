@@ -105,9 +105,11 @@ export default {
         },
         output() {
             // handle every map_row's output
-            let data = []
+            let data = [], current_page_out = 0
             this.location_list.forEach(item=>{
                 if(item.check){
+                    current_page_out += item.out_number
+
                     data.push({
                         stock: item.out_number * (-1),
                         map_row_id: item.map_row_id,
@@ -116,6 +118,7 @@ export default {
                 }
             })
 
+            // 当前页面的
             axios.post('/v1/stock/update_map_row', {data}).then(res=>{
                 console.log(res.data);
 
@@ -130,7 +133,51 @@ export default {
                 // 提示出库成功
                 this.$message('出库成功')
                 this.isbn = ''
+
+
+                var still_need_out = this.total_out_number - current_page_out
+                if(still_need_out > 0){
+
+                    // 出完当前页面的库存，仍有期望的库存未出库
+                    let params = {
+                        goods_id: this.goods_id,
+                        page: 1,
+                        size: still_need_out
+                    }
+
+                    axios.post('/v1/stock/list_goods_all_locations', params).then(res=>{
+                        let to_out = []
+
+                        for (var i = 0; i < res.data.data.length; i++) {
+                            let item = res.data.data[i]
+                            let curret_count = still_need_out
+                            still_need_out -= item.stock
+
+                            if(still_need_out > 0){
+                                to_out.push({
+                                    stock: item.stock,
+                                    map_row_id: item.map_row_id
+                                })
+                            }else{
+                                to_out.push({
+                                    stock: curret_count,
+                                    map_row_id: item.map_row_id
+                                })
+                                break
+                            }
+
+                        }
+
+                        console.log('===================需要多余出库的=====================');
+                        console.log(to_out);
+                        console.log('========================================');
+
+                    })
+
+                }
+
             })
+
         },
         operate_book_dialog(){
             this.choose_book_visible = true
