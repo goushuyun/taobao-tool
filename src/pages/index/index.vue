@@ -15,7 +15,6 @@
             <el-menu theme="dark" :router="true" :default-active="menu_active" class="el-menu-vertical-demo" @select="menuSelect">
                 <el-menu-item index="stock" :route="{name:'out'}"><i class="fa fa-bars" aria-hidden="true"></i>库存</el-menu-item>
                 <el-menu-item index="book" :route="{name:'maintain'}"><i class="fa fa-book" aria-hidden="true"></i>图书</el-menu-item>
-                <el-menu-item index="setting" :route="{name:'export'}"><i class="fa fa-cog" aria-hidden="true"></i>设置</el-menu-item>
             </el-menu>
         </div>
         <transition name="el-zoom-in-center">

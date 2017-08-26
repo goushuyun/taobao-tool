@@ -34,11 +34,29 @@ export default {
     },
     methods: {
         handleCommand(command) {
-            if (command === 'exoprt_csv') {
-                this.$router.push({
-                    name: 'export'
-                })
+            switch (command) {
+                case 'export':
+                    this.exportCSV()
+                    break;
+                case 'setting':
+                    this.$router.push({
+                        name: 'csv_setting'
+                    })
+                    break;
+                case 'record':
+                    this.$router.push({
+                        name: 'csv_record'
+                    })
+                    break;
+                default:
+                    break;
             }
+        },
+        exportCSV() {
+            this.$message({
+                type: 'info',
+                message: '该功能即将上线!'
+            });
         },
         exportExcel() {
             var request = {
@@ -220,12 +238,6 @@ export default {
         handleCurrentChange(page) {
             this.page = page
             this.searchGoods()
-        },
-        exportCSV() {
-            this.$message({
-                type: 'info',
-                message: '该功能即将上线!'
-            });
         }
     }
 }
