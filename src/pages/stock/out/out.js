@@ -106,6 +106,9 @@ export default {
             this.location_list[index].out_number = ''
         },
         output() {
+            if(this.total_stock == 0 || !this.can_out) return false
+
+
             // handle every map_row's output
             let data = [], current_page_out = 0
             this.location_list.forEach(item=>{
