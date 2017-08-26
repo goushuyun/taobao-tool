@@ -246,6 +246,10 @@ export default {
                     this.$message.success('入库成功！')
                     this.isbn = ''
                     $('#isbn input').focus()
+
+                    // to play audio
+                    var input_audio = document.getElementById('input_audio')
+                    input_audio.play()
                 }
             })
         },

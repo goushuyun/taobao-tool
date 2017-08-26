@@ -13,6 +13,9 @@
             <el-autocomplete id="floor" size="small" class="inline-input" style="width: 100px;" v-model="floor" :disabled="floor_disabled" :fetch-suggestions="queryFloor" placeholder="层数" @select="selectFloor" @focus.native.capture="selectShelf"></el-autocomplete>
           </div>
           <div style="margin-top: 15px;">
+              <audio id="input_audio" src="http://taoimage.goushuyun.cn/assets/audio/input_success.mp3">
+
+              </audio>
             <label for="isbn" style="margin-right: 7px;">ISBN</label>
             <el-input id="isbn" size="small" v-model.trim="isbn" style="width: 281px;" @keyup.enter.native="getLocationId">
               <el-button slot="append" :disabled="btn_loading" :loading="btn_loading" @click="getLocationId">{{btn_loading ? '入库中' : '入库'}}</el-button>
