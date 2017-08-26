@@ -9,6 +9,8 @@
 
     <div class="content_inner">
         <div class="gsy-card">
+            <audio id="audio" src="http://taoimage.goushuyun.cn/assets/audio/output_success.mp3" preload>
+            </audio>
             <div class="gsy-header">
                 <label for="isbn_input" style="margin-right: 7px;">ISBN</label>
                 <el-input id="isbn_input" style="width: auto;" size="small" icon="search" autofocus :on-icon-click="isbn_search" v-model.trim="isbn" @keyup.enter.native="isbn_search"></el-input>
@@ -16,11 +18,11 @@
                 <span>{{total_stock}}</span>
                 <label for="isbn_input" style="margin: 0 7px 0 30px;">出库量：</label>
                 <el-input id="out_input" @input.native="total_out_number_change(total_out_number)" style="width: 80px;" size="small" v-model.trim.number="total_out_number" @keyup.enter.native="output"></el-input>
-                <el-button :disabled="total_stock == 0" style="margin-left: 15px;" size="small" type="primary" @click="output">出库</el-button>
+                <el-button :disabled="total_stock == 0 || !can_out " style="margin-left: 15px;" size="small" type="primary" @click="output">出库</el-button>
             </div>
             <el-row class="gsy-body" :gutter="10">
                 <el-col :span="17">
-                    <el-table ref="multipleTable" @selection-change="handleSelectionChange" stripe border style="width: 100%" :data="location_list">
+                    <el-table ref="multipleTable" @selection-change="handleSelectionChange" stripe border style="width: 100%" :data="location_list" v-loading="table_loading">
                         <el-table-column width="55">
                             <template scope="scope">
                                 <el-checkbox @change="handle_check_change(scope.$index)" :disabled="scope.row.out_number === 0" v-model="scope.row.check"></el-checkbox>
@@ -34,7 +36,7 @@
                         <el-table-column label="库存量" width="80" prop="stock"></el-table-column>
                         <el-table-column label="出货量">
                             <template scope="scope">
-                                <el-input size="mini" style="max-width: 100px;" type="number" v-model.trim.number="scope.row.out_number" @click="handle_click_input(scope.$index)" @blur="modify_out_number(scope.$index)">
+                                <el-input size="mini" style="max-width: 100px;" type="number" v-model.trim.number="scope.row.out_number" @click="handle_click_input(scope.$index)" @blur="modify_out_number(scope.$index)" min="0">
                                     <template slot="append">本</template>
                                 </el-input>
                             </template>
@@ -102,6 +104,9 @@ export default {
     mixins: [mixin],
     data() {
         return {
+            // loading animation
+            table_loading: false,
+
             // 图书信息
             book_info: {
                 title: '',
@@ -121,6 +126,11 @@ export default {
             goods_id: '', // current goods id
             total_stock: 0, // 总库存量
 
+            // *********当前页面数据***********
+            current_page_count: 0,
+            current_page_out_count: 0,
+            // ******************************
+
             total_out_number: '', // 总出库量
 
             // 库位罗列
@@ -132,6 +142,13 @@ export default {
         }
     },
     computed: {
+        // output button can use
+        can_out(){
+            if(this.total_out_number == '') return false
+
+            return true
+        },
+
         // actually total_out_number
         actual_total_out_number() {
             let total_out_number = 0

@@ -1,5 +1,6 @@
 import axios from "../../../config/http.js"
 
+
 export default {
     mounted() {
         //do something after creating vue instance
@@ -23,6 +24,7 @@ export default {
                   message: '库存已告罄',
                   type: 'warning'
                 });
+                this.table_loading = false
             }
         },
         total_out_number_change(total_out_number){
@@ -120,24 +122,25 @@ export default {
 
             // 当前页面的
             axios.post('/v1/stock/update_map_row', {data}).then(res=>{
-                console.log(res.data);
-
                 this.location_list = []
                 this.total_stock = 0
-                this.goods_id = ''
                 this.map_row_count = 0
-                this.total_out_number = ''
-
+                this.isbn = ''
                 $('#isbn_input input').focus()
 
-                // 提示出库成功
-                this.$message('出库成功')
-                this.isbn = ''
-
-
                 var still_need_out = this.total_out_number - current_page_out
-                if(still_need_out > 0){
+                if(still_need_out === 0){
+                    this.total_out_number = ''
+                    this.goods_id = ''
 
+                    // 提示出库成功
+                    this.$message('出库成功')
+                    var audio = document.getElementById('audio')
+                    audio.play()
+                    return
+                }
+
+                if(still_need_out > 0){
                     // 出完当前页面的库存，仍有期望的库存未出库
                     let params = {
                         goods_id: this.goods_id,
@@ -155,12 +158,12 @@ export default {
 
                             if(still_need_out > 0){
                                 to_out.push({
-                                    stock: item.stock,
+                                    stock: item.stock * -1,
                                     map_row_id: item.map_row_id
                                 })
                             }else{
                                 to_out.push({
-                                    stock: curret_count,
+                                    stock: curret_count * -1,
                                     map_row_id: item.map_row_id
                                 })
                                 break
@@ -168,9 +171,17 @@ export default {
 
                         }
 
-                        console.log('===================需要多余出库的=====================');
-                        console.log(to_out);
-                        console.log('========================================');
+                        axios.post('/v1/stock/update_map_row', {data: to_out}).then(res=>{
+                            this.total_out_number = ''
+                            this.goods_id = ''
+
+                            // 提示出库成功
+                            this.$message('出库成功')
+                            var audio = document.getElementById('audio')
+                            audio.play()
+                            return
+                        })
+
 
                     })
 
@@ -185,12 +196,11 @@ export default {
             console.log(this.choose_book_visible);
         },
         isbn_search() {
+            this.table_loading = true
+
             // split isbn and book_no
             var real_isbn = this.isbn.split('_')[0]
             var book_no = this.isbn.split('_')[1]
-
-            console.log(real_isbn);
-            console.log(book_no);
 
             // check isbn is corret or not
             let isbn = ISBN.parse(real_isbn)
@@ -199,6 +209,7 @@ export default {
                     message: 'ISBN 格式错误！',
                     type: 'warning'
                 })
+                this.table_loading = false
                 return
             }
 
@@ -211,6 +222,7 @@ export default {
                         message: "未找到该图书",
                         type: 'warning'
                     })
+                    this.table_loading = false
                     return
                 }
 
@@ -226,6 +238,7 @@ export default {
                           message: '库存已告罄',
                           type: 'warning'
                         });
+                        this.table_loading = false
                     }
                 }else{
                     if(book_no){
@@ -266,6 +279,8 @@ export default {
 
                 $('#out_input input').focus()   //focus on out input
                 this.total_out_number = ''
+
+                this.table_loading = false
             })
 
         },
