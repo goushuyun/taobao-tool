@@ -12,7 +12,7 @@ export default {
             select: 'isbn',
             total_count: 0,
             setting_info: {},
-            
+
             records: [],
             total_count: 0,
             page: 1,
@@ -23,7 +23,7 @@ export default {
         this.getRecords()
     },
     computed: {
-        qiniu_url(){
+        qiniu_url() {
             return config.image_url
         }
     },
@@ -34,15 +34,36 @@ export default {
                 "size": this.size
             }).then(resp => {
                 if (resp.data.message == 'ok') {
+                    var self = this
                     var data = resp.data.data.map(el => {
                         // el.create_at_str = moment(el.create_at * 1000).format('yyyy-mm-dd HH:mm:ss')
                         el.create_at_str = moment(el.create_at * 1000).format('YYYY-MM-DD HH:mm:ss')
+                        el.condition = self.getExportCondition(el)
                         return el
                     })
                     this.total_count = resp.data.total_count
                     this.records = data
                 }
             })
+        },
+        getExportCondition(data) {
+            var condition = ''
+            if (data.isbn != '') {
+                condition = 'ISBN：' + data.isbn
+            } else if (data.title != '') {
+                condition = '书名：' + data.title
+            } else if (data.author != '') {
+                condition = '作者：' + data.author
+            } else if (data.publisher != '') {
+                condition = '出版社：' + data.publisher
+            } else if (data.compare && data.stock) {
+                if (data.compare === 'greater') {
+                    condition = '库存量大于等于：' + data.stock
+                } else if (data.compare === 'less') {
+                    condition = '库存量小于：' + data.stock
+                }
+            }
+            return condition
         },
         download(file_url) {
             window.location.href = file_url

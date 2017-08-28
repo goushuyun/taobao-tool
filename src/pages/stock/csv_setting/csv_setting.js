@@ -3,6 +3,23 @@ import {
     priceFloat
 } from '../../../assets/script/utils.js'
 import axios from "../../../config/http.js"
+var product_describe = '<div style="font-size: 14px; color: #666;">\
+<div style="padding: 15px; line-height: 24px;"><prepend>{{prepend}}</prepend></div>\
+<div style="width: 100%;font-size: 18px; line-height: 36px; color: #e4393c; padding-left: 5px; border-bottom: 2px solid #e4393c; box-sizing: border-box;">基本信息</div>\
+<div style="padding: 15px; line-height: 24px; display: flex; flex-wrap: wrap;">\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">ISBN：{{isbn}}</div>\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">出版社：{{publisher}}</div>\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">作者：{{author}}</div>\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">版次：{{edition}}</div>\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">出版时间：{{pubdate}}</div>\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">页数：{{page}}</div>\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">包装：{{packing}}</div>\
+<div style="min-width: 220px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">开本：{{format}}</div></div>\
+<div style="width: 100%;font-size: 18px; line-height: 36px; color: #e4393c; padding-left: 5px; border-bottom: 2px solid #e4393c; box-sizing: border-box;">图书详细</div>\
+<div style="padding: 0 15px 18px 15px;width: 100%; border-bottom: 1.5px dashed #e4393c;box-sizing: border-box;">{{catalog}}</div>\
+<div style="padding: 0 15px 18px 15px; width: 100%; border-bottom: 1.5px dashed #e4393c; box-sizing: border-box;">{{abstract}}</div>\
+<div style="padding: 0 15px 18px 15px;box-sizing: border-box;">{{author_intro}}</div>\
+<div style="padding: 15px; line-height: 24px;"><append>{{append}}</append></div></div>'
 export default {
     data() {
         return {
@@ -27,7 +44,7 @@ export default {
 
                 reduce_stock_style: '1', // --1 拍下减库存 2 付款减库存
 
-                product_describe: '<div></div>',
+                product_describe: '',
                 prepend: '',
                 append: ''
             },
@@ -149,8 +166,8 @@ export default {
                     } else {
                         setting_info.express_type = '2'
                     }
-                    setting_info.prepend = ''
-                    setting_info.append = ''
+                    setting_info.prepend = /<prepend>.*<\/prepend>/.exec(data.product_describe).toString().replace(/<prepend>|<\/prepend>/g,'')
+                    setting_info.append = /<append>.*?<\/append>/.exec(data.product_describe).toString().replace(/<append>|<\/append>/g,'')
 
                     this.form = setting_info
 
@@ -174,8 +191,9 @@ export default {
                 "discount": parseInt(this.form.discount * 10), //45=4.5折
                 "supplemental_fee": priceInt(this.form.supplemental_fee), //400 = 4元
                 "reduce_stock_style": this.form.reduce_stock_style, //required 1拍下减库存   2 付款减库存
-                "product_describe": "<div></div>"
+                "product_describe": product_describe.replace(/{{prepend}}/g, this.form.prepend).replace(/{{append}}/g, this.form.append)
             }
+            console.log(request);
             switch (this.form.express_type) {
                 case '0': // 自定义模板
                     if (this.form.pingyou_fee && this.form.express_fee && this.form.ems_fee) {
