@@ -72,7 +72,7 @@ export default {
                 }],
                 discount: [{
                     required: true,
-                    message: '请输入折扣',
+                    message: '请输入大于 0 的折扣',
                     trigger: 'change'
                 }],
                 supplemental_fee: [{
@@ -129,10 +129,30 @@ export default {
         }
     },
     methods: {
+        inputTitle() {
+            this.edit = false
+            this.isbn = this.form.product_title.search(/{{isbn}}/g) > 0
+            this.title = this.form.product_title.search(/{{title}}/g) > 0
+            this.publisher = this.form.product_title.search(/{{publisher}}/g) > 0
+            this.author = this.form.product_title.search(/{{author}}/g) > 0
+            this.$nextTick(() => {
+                this.edit = true
+            })
+        },
         onSubmit(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.updateSetting()
+                    if (this.form.discount == 0) {
+                        this.$confirm('您当前设置的折扣为 0 折, 是否继续?', '提示', {
+                            confirmButtonText: '继续',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.updateSetting()
+                        }).catch(() => {});
+                    } else {
+                        this.updateSetting()
+                    }
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -150,7 +170,7 @@ export default {
                         province: data.province, // 省份
                         city: data.city, // 城市
                         discount: parseFloat(data.discount / 10).toFixed(1), //折扣
-                        supplemental_fee: data.supplemental_fee ? priceFloat(data.supplemental_fee) : '0', // 额外费用
+                        supplemental_fee: data.supplemental_fee ? priceFloat(data.supplemental_fee) : '0.00', // 额外费用
                         reduce_stock_style: data.reduce_stock_style, // --1 拍下减库存 2 付款减库存
                         product_describe: data.product_describe
                     }
@@ -200,8 +220,8 @@ export default {
                 "product_title": this.form.product_title,
                 "province": this.form.province,
                 "city": this.form.city,
-                "discount": parseInt(this.form.discount * 10), //45=4.5折
-                "supplemental_fee": priceInt(this.form.supplemental_fee), //400 = 4元
+                "discount": this.form.discount == 0 ? 0 : parseInt(this.form.discount * 10), //45=4.5折
+                "supplemental_fee": this.form.supplemental_fee == 0 ? 0 : priceInt(this.form.supplemental_fee), //400 = 4元
                 "reduce_stock_style": this.form.reduce_stock_style, //required 1拍下减库存   2 付款减库存
                 "product_describe": product_describe.replace(/{{prepend}}/g, this.form.prepend).replace(/{{append}}/g, this.form.append)
             }

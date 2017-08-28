@@ -6,7 +6,7 @@
         <el-row>
           <el-col style="width: 500px;">
             <el-form-item prop="product_title" label="宝贝名称：">
-              <el-input v-model="form.product_title" size="small" style="width: 370px;"></el-input><br/>
+              <el-input v-model="form.product_title" size="small" style="width: 370px;" @input="inputTitle"></el-input><br/>
               <label style="margin-right: 10px;">包含：</label>
               <el-checkbox v-model="isbn" label="isbn">ISBN</el-checkbox>
               <el-checkbox v-model="title" label="title">书名</el-checkbox>
