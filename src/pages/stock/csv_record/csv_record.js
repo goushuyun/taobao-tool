@@ -36,7 +36,6 @@ export default {
                 if (resp.data.message == 'ok') {
                     var self = this
                     var data = resp.data.data.map(el => {
-                        // el.create_at_str = moment(el.create_at * 1000).format('yyyy-mm-dd HH:mm:ss')
                         el.create_at_str = moment(el.create_at * 1000).format('YYYY-MM-DD HH:mm:ss')
                         el.condition = self.getExportCondition(el)
                         return el
@@ -63,7 +62,7 @@ export default {
                     condition = '库存量小于：' + data.stock
                 }
             } else {
-                condition = '全部'
+                condition = '全部数据'
             }
             return condition
         },
