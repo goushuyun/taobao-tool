@@ -19,8 +19,15 @@
             <el-button size="small" type="primary" @click="reset">重置</el-button>
             <span style="float: right;">
               <el-button v-if="pending_gatherd_total" type="text">当前有 <span style="color: #FF4949">{{pending_gatherd_total}}</span> 条数据正在采集中</el-button>
-              <el-button size="small" @click="exportExcel">导出库存EXCEL</el-button>
-              <el-button size="small" @click="exportCSV">导出淘宝CSV</el-button>
+              <el-button size="small" style="margin-right: 10px;" @click="exportExcel">导出库存EXCEL</el-button>
+              <el-dropdown @command="handleCommand">
+                <el-button size="small">导出淘宝CSV<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="export">直接导出</el-dropdown-item>
+                  <el-dropdown-item command="setting">导出设置</el-dropdown-item>
+                  <el-dropdown-item command="record">导出记录</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </span>
           </el-col>
         </el-row>

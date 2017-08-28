@@ -4,6 +4,23 @@
 ## 08.23
 1. 添加出库语音提醒
 
+## 2017.08.28（FZS）
+1. 新增导出CSV记录功能
+
+## 2017.08.26（FZS）
+1. 新增导出CSV请求功能
+
+## 2017.08.25（FZS）
+1. 新增导出CSV设置功能
+
+## 2017.08.24（FZS）
+1. 新增导出库存Excel功能
+2. 将 src/pages/stock/setting 修改为 src/pages/stock/warehouse
+3. 删除了 routes.js 中 的 path: '/stock/book'
+
+## 2017.08.23（WK）
+1. 添加出库语音提醒
+
 ## 2017.08.22（FZS）
 1. 美化了登录页面
 
