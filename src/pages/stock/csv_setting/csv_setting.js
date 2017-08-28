@@ -166,8 +166,20 @@ export default {
                     } else {
                         setting_info.express_type = '2'
                     }
-                    setting_info.prepend = /<prepend>.*<\/prepend>/.exec(data.product_describe).toString().replace(/<prepend>|<\/prepend>/g,'')
-                    setting_info.append = /<append>.*?<\/append>/.exec(data.product_describe).toString().replace(/<append>|<\/append>/g,'')
+
+                    setting_info.prepend = /<prepend>.*<\/prepend>/.exec(data.product_describe)
+                    if (setting_info.prepend != null) {
+                        setting_info.prepend = setting_info.prepend.toString().replace(/<prepend>|<\/prepend>/g, '')
+                    } else {
+                        setting_info.prepend = ''
+                    }
+
+                    setting_info.append = /<append>.*?<\/append>/.exec(data.product_describe)
+                    if (setting_info.append != null) {
+                        setting_info.append = setting_info.append.toString().replace(/<append>|<\/append>/g, '')
+                    } else {
+                        setting_info.append = ''
+                    }
 
                     this.form = setting_info
 
