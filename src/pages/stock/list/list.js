@@ -85,90 +85,101 @@ export default {
             })
         },
         exportCSV() {
-            var request = {
-                "page": this.page,
-                "size": this.size,
-                "order_by": "stock", // stock
-                "sequence": "asc" // desc: 数量从大到小  asc：数量从小到大
-            }
-            if (this.select === 'greater' || this.select === 'less') {
-                if (this.input == '') {
-                    this.$message.warning('请输入库存量！')
-                    return
-                }
-                request['compare'] = this.select
-                request['stock'] = this.input
-            } else if (this.select === 'isbn') {
-                var reg = /^978\d{10}_\d{2}$/
-                if (reg.test(this.input)) {
-                    var isbn_no = this.input.split('_')
-                    request.isbn = isbn_no[0]
-                    request.book_no = isbn_no[1]
-                    request.book_cate = 'poker'
-                } else {
-                    request.isbn = this.input
-                }
+            if (this.setting_info.product_title == '') {
+                this.$confirm('首次导出 CSV 之前需要进行导出设置！', '提示', {
+                    confirmButtonText: '去设置',
+                    cancelButtonText: '取消',
+                    type: 'info'
+                }).then(() => {
+                    this.handleCommand('setting')
+                }).catch(() => {});
             } else {
-                request[this.select] = this.input
-            }
-            axios.post('/v1/stock/search_goods', request).then(resp => {
-                if (resp.data.message == 'ok') {
-                    var data = resp.data.data.map(el => {
-                        el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
-                        el.price = priceFloat(el.price)
-                        return el
-                    })
-                    this.total_count = resp.data.total_count
-                    this.goods = data
-                    this.$confirm('即将导出当前筛选条件下的 ' + this.total_count + ' 条数据，该操作将在服务器端完成，请您稍后到“导出记录”页面进行下载！', '提示', {
-                        confirmButtonText: '导出',
-                        cancelButtonText: '取消',
-                        type: 'info'
-                    }).then(() => {
-                        var request1 = {
-                            "discount": this.setting_info.discount, //required   45=4.5折
-                            "supplemental_fee": this.setting_info.supplemental_fee, //required
-                            "province": this.setting_info.province, //required
-                            "city": this.setting_info.city, //required
-                            "product_title": this.setting_info.product_title,
-                            "product_describe": this.setting_info.product_describe,
-                            "reduce_stock_style": this.setting_info.reduce_stock_style //required 1拍下减库存   2 付款减库存
-                        }
-
-                        if (this.setting_info.pingyou_fee || this.setting_info.express_fee || this.setting_info.ems_fee) {
-                            request1.pingyou_fee = this.setting_info.pingyou_fee
-                            request1.express_fee = this.setting_info.express_fee
-                            request1.ems_fee = this.setting_info.ems_fee
-                        } else if (this.setting_info.express_template) {
-                            request1.express_template = this.setting_info.express_template
-                        }
-
-                        // 检索条件
-                        if (this.select === 'greater' || this.select === 'less') {
-                            request1['compare'] = this.select
-                            request1['stock'] = this.input
-                        } else if (this.select === 'isbn') {
-                            var reg = /^978\d{10}_\d{2}$/
-                            if (reg.test(this.input)) {
-                                var isbn_no = this.input.split('_')
-                                request1.isbn = isbn_no[0]
-                                request1.book_no = isbn_no[1]
-                                request1.book_cate = 'poker'
-                            } else {
-                                request1.isbn = this.input
-                            }
-                        } else {
-                            request1[this.select] = this.input
-                        }
-
-                        axios.post('/v1/stock/export_taobao_csv', request1).then(resp => {
-                            if (resp.data.message == 'ok') {
-                                this.$message.success('导出CSV请求已提交！')
-                            }
-                        })
-                    }).catch(() => {});
+                var request = {
+                    "page": this.page,
+                    "size": this.size,
+                    "order_by": "stock", // stock
+                    "sequence": "asc" // desc: 数量从大到小  asc：数量从小到大
                 }
-            })
+                if (this.select === 'greater' || this.select === 'less') {
+                    if (this.input == '') {
+                        this.$message.warning('请输入库存量！')
+                        return
+                    }
+                    request['compare'] = this.select
+                    request['stock'] = this.input
+                } else if (this.select === 'isbn') {
+                    var reg = /^978\d{10}_\d{2}$/
+                    if (reg.test(this.input)) {
+                        var isbn_no = this.input.split('_')
+                        request.isbn = isbn_no[0]
+                        request.book_no = isbn_no[1]
+                        request.book_cate = 'poker'
+                    } else {
+                        request.isbn = this.input
+                    }
+                } else {
+                    request[this.select] = this.input
+                }
+                axios.post('/v1/stock/search_goods', request).then(resp => {
+                    if (resp.data.message == 'ok') {
+                        var data = resp.data.data.map(el => {
+                            el.isbn_no = (el.book_no != '' && el.book_no != '00') ? (el.isbn + '_' + el.book_no) : el.isbn
+                            el.price = priceFloat(el.price)
+                            return el
+                        })
+                        this.total_count = resp.data.total_count
+                        this.goods = data
+                        this.$confirm('即将导出当前筛选条件下的 ' + this.total_count + ' 条数据，该操作将在服务器端完成，请您稍后到“导出记录”页面进行下载！', '提示', {
+                            confirmButtonText: '导出',
+                            cancelButtonText: '取消',
+                            type: 'info'
+                        }).then(() => {
+                            var request1 = {
+                                "discount": this.setting_info.discount, //required   45=4.5折
+                                "supplemental_fee": this.setting_info.supplemental_fee, //required
+                                "province": this.setting_info.province, //required
+                                "city": this.setting_info.city, //required
+                                "product_title": this.setting_info.product_title,
+                                "product_describe": this.setting_info.product_describe,
+                                "reduce_stock_style": this.setting_info.reduce_stock_style //required 1拍下减库存   2 付款减库存
+                            }
+
+                            if (this.setting_info.pingyou_fee || this.setting_info.express_fee || this.setting_info.ems_fee) {
+                                request1.pingyou_fee = this.setting_info.pingyou_fee
+                                request1.express_fee = this.setting_info.express_fee
+                                request1.ems_fee = this.setting_info.ems_fee
+                            } else if (this.setting_info.express_template) {
+                                request1.express_template = this.setting_info.express_template
+                            }
+
+                            // 检索条件
+                            if (this.select === 'greater' || this.select === 'less') {
+                                request1['compare'] = this.select
+                                request1['stock'] = this.input
+                            } else if (this.select === 'isbn') {
+                                var reg = /^978\d{10}_\d{2}$/
+                                if (reg.test(this.input)) {
+                                    var isbn_no = this.input.split('_')
+                                    request1.isbn = isbn_no[0]
+                                    request1.book_no = isbn_no[1]
+                                    request1.book_cate = 'poker'
+                                } else {
+                                    request1.isbn = this.input
+                                }
+                            } else {
+                                request1[this.select] = this.input
+                            }
+
+                            axios.post('/v1/stock/export_taobao_csv', request1).then(resp => {
+                                if (resp.data.message == 'ok') {
+                                    this.$message.success('导出CSV请求已提交！')
+                                    this.handleCommand('record')
+                                }
+                            })
+                        }).catch(() => {});
+                    }
+                })
+            }
         },
         exportExcel() {
             var request = {

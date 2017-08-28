@@ -30,13 +30,12 @@ axios.interceptors.response.use(function(response) {
 
     // relogin
     if (response.data.code == '11011' || response.data.code == '11012' || response.data.code == '11013' || response.data.code == '11014') {
-        app.$alert('您的登录已超时，请重新登录！', '提示', {
-            confirmButtonText: '确定',
-            type: 'warning',
-            callback: action => {
-                localStorage.removeItem('token')
-                window.location.href = conf.base_url + '#/login'
-            }
+        localStorage.removeItem('token')
+        window.location.href = (conf.environment == 'dev' ? 'http://localhost:8080/': conf.base_url) + '#/login'
+        app.$notify({
+            title: '提示',
+            message: '您的登录已超时，请重新登录！',
+            type: 'warning'
         });
     }
     //handler error

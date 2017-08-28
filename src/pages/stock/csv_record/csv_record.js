@@ -62,6 +62,8 @@ export default {
                 } else if (data.compare === 'less') {
                     condition = '库存量小于：' + data.stock
                 }
+            } else {
+                condition = '全部'
             }
             return condition
         },
