@@ -31,12 +31,7 @@ axios.interceptors.response.use(function(response) {
     // relogin
     if (response.data.code == '11011' || response.data.code == '11012' || response.data.code == '11013' || response.data.code == '11014') {
         localStorage.removeItem('token')
-        window.location.href = (conf.environment == 'dev' ? 'http://localhost:8080/': conf.base_url) + '#/login'
-        app.$notify({
-            title: '提示',
-            message: '您的登录已超时，请重新登录！',
-            type: 'warning'
-        });
+        window.location.href = (conf.environment == 'dev' ? 'http://localhost:8080/' : conf.base_url) + '#/relogin'
     }
     //handler error
     if (conf.environment == 'dev' && response.data.code != '00000') {

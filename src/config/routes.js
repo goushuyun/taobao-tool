@@ -25,6 +25,10 @@ export default [{
     name: 'login',
     component: login
 }, {
+    path: '/relogin',
+    name: 'relogin',
+    component: login
+}, {
     path: '/',
     name: 'index',
     component: index,

@@ -86,6 +86,13 @@ export default {
         }
     },
     mounted() {
+        if (this.$route.name == 'relogin') {
+            this.$notify({
+                title: '提示',
+                message: '您的登录已超时，请重新登录！',
+                type: 'warning'
+            });
+        }
         if (this.checkToken() === false) {
             $('.mobile input').focus()
         }
