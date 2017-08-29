@@ -4,8 +4,9 @@
     <div class="content_inner">
       <div class="gsy-card">
         <div class="gsy-header">
-          <el-tag type="primary">我们会在云端服务器帮您完成导出工作，在此期间您可以随意关闭此页面。过段时间后您回到此页面即可下载我们帮您导出的csv文件。</el-tag>
-          <el-button type="text" style="float: right; position: relative; top: -5px;" icon="caret-left" @click="goBack">返回</el-button>
+          <div class="gsy-tag">我们会在云端服务器帮您完成导出工作，<span style="font-weight: bold;">在此期间您可以随意关闭此页面</span>。过段时间后您回到此页面即可下载我们帮您导出的 csv 文件。
+          </div>
+          <el-button type="text" style="float: right; margin-right: 2px;" icon="caret-left" @click="goBack">返回</el-button>
         </div>
         <div class="gsy-body">
           <el-table :data="records" border style="width: 100%">
