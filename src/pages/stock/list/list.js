@@ -101,12 +101,12 @@ export default {
                     "sequence": "asc" // desc: 数量从大到小  asc：数量从小到大
                 }
                 if (this.select === 'greater' || this.select === 'less') {
-                    if (this.input == '') {
-                        this.$message.warning('请输入库存量！')
-                        return
+                    if (this.input) {
+                        request['compare'] = this.select
+                        request['stock'] = this.input
+                    } else {
+                        request.isbn = this.input
                     }
-                    request['compare'] = this.select
-                    request['stock'] = this.input
                 } else if (this.select === 'isbn') {
                     var reg = /^978\d{10}_\d{2}$/
                     if (reg.test(this.input)) {
@@ -219,12 +219,12 @@ export default {
                 "sequence": "asc" // desc: 数量从大到小  asc：数量从小到大
             }
             if (this.select === 'greater' || this.select === 'less') {
-                if (this.input == '') {
-                    this.$message.warning('请输入库存量！')
-                    return
+                if (this.input) {
+                    request['compare'] = this.select
+                    request['stock'] = this.input
+                } else {
+                    request.isbn = this.input
                 }
-                request['compare'] = this.select
-                request['stock'] = this.input
             } else if (this.select === 'isbn') {
                 var reg = /^978\d{10}_\d{2}$/
                 if (reg.test(this.input)) {

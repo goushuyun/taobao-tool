@@ -30,13 +30,13 @@
             <el-form-item label="图书售价：" required>
               <el-col :span="12">
                 <el-form-item prop="discount">
-                  <el-input v-model="form.discount" min="0" id="ipt_price" size="small" type="number" style="width: 140px;" placeholder="9 折填 9"></el-input>
+                  <el-input v-model="form.discount" @blur="blurDiscount" min="0" max="10" id="ipt_price" size="small" type="number" style="width: 140px;" placeholder="9 折填 9"></el-input>
                   <label for="ipt_price" style="margin-left: 10px;">折</label>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item prop="supplemental_fee">
-                  <el-input v-model="form.supplemental_fee" id="ipt_extra" size="small" type="number" style="width: 140px;">
+                  <el-input v-model="form.supplemental_fee" @blur="blurSupplemental" id="ipt_extra" size="small" type="number" style="width: 140px;">
                     <template slot="prepend">另加</template>
                   </el-input>
                   <label for="ipt_extra" style="margin-left: 10px;">元</label>

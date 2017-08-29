@@ -22,6 +22,16 @@ var product_describe = '<div style="font-size: 14px; color: #666;">\
 <div style="padding: 15px; line-height: 24px;"><append>{{append}}</append></div></div>'
 export default {
     data() {
+        var checkDiscount = (rule, value, callback) => {
+            if (!value) {
+                return callback(new Error('折扣不能为空'));
+            }
+            if (value < 0 || value > 10) {
+                callback(new Error('折扣应在 0-10 之间'));
+            } else {
+                callback();
+            }
+        };
         return {
             form: {
                 id: '',
@@ -71,8 +81,7 @@ export default {
                     trigger: 'change'
                 }],
                 discount: [{
-                    required: true,
-                    message: '请输入大于 0 的折扣',
+                    validator: checkDiscount,
                     trigger: 'change'
                 }],
                 supplemental_fee: [{
@@ -129,6 +138,12 @@ export default {
         }
     },
     methods: {
+        blurDiscount() {
+            this.form.discount = parseFloat(this.form.discount).toFixed(1)
+        },
+        blurSupplemental() {
+            this.form.supplemental_fee = parseFloat(this.form.supplemental_fee).toFixed(2)
+        },
         inputTitle() {
             this.edit = false
             this.isbn = this.form.product_title.search(/{{isbn}}/g) > 0
