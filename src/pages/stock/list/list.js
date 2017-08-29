@@ -129,11 +129,16 @@ export default {
                         })
                         this.total_count = resp.data.total_count
                         this.goods = data
-                        this.$confirm('即将导出当前筛选条件下的 ' + this.total_count + ' 条数据，该操作将在服务器端完成，请您稍后到“导出记录”页面进行下载！', '提示', {
-                            confirmButtonText: '导出',
+                        var exportCondition = this.getExportCondition(request)
+                        this.$confirm('您将导出' + exportCondition + '库存数据，共 ' + this.total_count + ' 条！' + (this.total_count == 0 ? '请重新输入筛选条件！' : ''), '提示', {
+                            confirmButtonText: this.total_count == 0 ? '确定' : '导出',
                             cancelButtonText: '取消',
+                            showCancelButton: this.total_count != 0,
                             type: 'info'
                         }).then(() => {
+                            if (this.total_count == 0) {
+                                return
+                            }
                             var request1 = {
                                 "discount": this.setting_info.discount, //required   45=4.5折
                                 "supplemental_fee": this.setting_info.supplemental_fee, //required
@@ -181,6 +186,31 @@ export default {
                 })
             }
         },
+        getExportCondition(data) {
+            var condition = ''
+            if (data.isbn) {
+                condition = '“ISBN为 ' + data.isbn
+                if (data.book_no) {
+                    condition += '_' + data.book_no
+                }
+                condition += '”的'
+            } else if (data.title) {
+                condition = '“书名为 ' + data.title + '”的'
+            } else if (data.author) {
+                condition = '“作者为 ' + data.author + '”的'
+            } else if (data.publisher) {
+                condition = '“出版社为 ' + data.publisher + '”的'
+            } else if (data.compare && data.stock) {
+                if (data.compare === 'greater') {
+                    condition = '“库存量大于等于 ' + data.stock + '”的'
+                } else if (data.compare === 'less') {
+                    condition = '“库存量小于 ' + data.stock + '”的'
+                }
+            } else {
+                condition = '全部'
+            }
+            return condition
+        },
         exportExcel() {
             var request = {
                 "page": this.page,
@@ -221,11 +251,16 @@ export default {
                     this.forecast_time = parseInt(seconds / 60) + ' 分 ' + parseInt(seconds % 60) + ' 秒 '
 
                     this.goods = data
-                    this.$confirm('即将导出当前筛选条件下的 ' + this.total_count + ' 条数据，预计要需 ' + this.forecast_time + ' ，请耐心等待，点击导出继续！', '提示', {
-                        confirmButtonText: '导出',
+                    var exportCondition = this.getExportCondition(request)
+                    this.$confirm('您将导出' + exportCondition + '库存数据，共 ' + this.total_count + ' 条！' + (this.total_count == 0 ? '请重新输入筛选条件！' : ''), '提示', {
+                        confirmButtonText: this.total_count == 0 ? '确定' : '导出',
                         cancelButtonText: '取消',
+                        showCancelButton: this.total_count != 0,
                         type: 'info'
                     }).then(() => {
+                        if (this.total_count == 0) {
+                            return
+                        }
                         this.exprot_excel_loading = true
                         var actual_time = 0
                         var self = this
