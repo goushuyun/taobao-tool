@@ -55,14 +55,14 @@
       <div v-show="show_detail" class="gsy-card">
         <el-row class="gsy-header">
           <el-col :span="24" class="goods">
-            <el-input size="small" placeholder="请输入内容" v-model="input" @keyup.enter.native="searchGoods">
+            <el-input size="small" placeholder="请输入内容" v-model="input" @blur="blurInput" @keyup.enter.native="searchGoods">
               <el-select v-model="select" slot="prepend" placeholder="请选择">
                 <el-option label="ISBN" value="isbn"></el-option>
                 <el-option label="书名" value="title"></el-option>
                 <el-option label="作者" value="author"></el-option>
                 <el-option label="出版社" value="publisher"></el-option>
                 <el-option label="库存量大于等于" value="greater"></el-option>
-                <el-option label="库存量小于" value="less"></el-option>
+                <!-- <el-option label="库存量小于" value="less"></el-option> -->
               </el-select>
             </el-input>
             <el-button size="small" type="primary" @click="searchGoods()">筛选</el-button>

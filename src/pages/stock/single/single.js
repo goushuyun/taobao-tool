@@ -153,8 +153,12 @@ export default {
                 this.btn_loading = false
                 return
             }
-            if (!this.isbn) {
-                this.$message.warning('请输入ISBN！')
+            this.isbn = this.isbn.replace(/\s+/g, "").replace(/-/g, "")
+            if (!/^978\d{10}_\d{2}$/.test(this.isbn) && !/^978\d{10}$/.test(this.isbn)) {
+                this.$message({
+                    message: 'ISBN 格式错误！',
+                    type: 'warning'
+                })
                 this.btn_loading = false
                 return
             }
@@ -181,6 +185,7 @@ export default {
                     }
                 } else {
                     this.btn_loading = false
+                    this.$message.warning('您输入的 isbn 不正确')
                 }
             })
         },
