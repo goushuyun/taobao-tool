@@ -75,6 +75,12 @@ export default {
         }
     },
     methods: {
+        blurInput() {
+            if (this.select === 'greater' && this.input < 1) {
+                this.input = 1
+                this.$message.warning('只能检索库存大于 0 的图书')
+            }
+        },
         focusWarehouse() {
             this.$nextTick(_ => {
                 $('#warehouse input').select()
@@ -196,11 +202,12 @@ export default {
                 "size": this.goods_size,
                 "order_by": "stock", // stock
                 "sequence": "asc", // desc: 数量从大到小  asc：数量从小到大
-                "location_id": this.location_id
+                "location_id": this.location_id,
+                "compare": 'greater',
+                "stock": 1
             }
-            if (this.select === 'greater' || this.select === 'less') {
-                request['compare'] = this.select
-                request['stock'] = this.input
+            if (this.select === 'greater' && this.input < 1) {
+                request['stock'] = 1
             } else if (this.select === 'isbn') {
                 var reg = /^978\d{10}_\d{2}$/
                 if (reg.test(this.input)) {
