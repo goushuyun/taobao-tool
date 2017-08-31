@@ -6,9 +6,12 @@
         <div class="gsy-header">
           <div class="gsy-tag">我们会在云端服务器帮您完成导出工作，<span style="font-weight: bold;">在此期间您可以随意关闭此页面</span>。过段时间后您回到此页面即可下载我们帮您导出的 csv 文件。
           </div>
-          <el-button type="text" style="float: right; margin-right: 2px;" icon="caret-left" @click="goBack">返回</el-button>
+          <span style="float: right; margin-right: 2px;">
+            <el-button size="small" @click="getRecords"><i class="fa fa-refresh" style="margin-right: 8px;" aria-hidden="true"></i>刷新本页</el-button>
+            <el-button size="small" icon="caret-left" @click="goBack">返回</el-button>
+          </span>
         </div>
-        <div class="gsy-body">
+        <div class="gsy-body" v-loading="loading" element-loading-text="拼命加载中">
           <el-table :data="records" border style="width: 100%">
             <el-table-column prop="create_at_str" label="导出时间" width="200"></el-table-column>
             <el-table-column prop="condition" label="导出条件"></el-table-column>

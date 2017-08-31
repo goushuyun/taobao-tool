@@ -16,7 +16,8 @@ export default {
             records: [],
             total_count: 0,
             page: 1,
-            size: 10
+            size: 10,
+            loading: false
         }
     },
     mounted() {
@@ -29,6 +30,7 @@ export default {
     },
     methods: {
         getRecords() {
+            this.loading = true
             axios.post('/v1/stock/get_exported_taobao_csv_record', {
                 "page": this.page,
                 "size": this.size
@@ -43,6 +45,7 @@ export default {
                     this.total_count = resp.data.total_count
                     this.records = data
                 }
+                this.loading = false
             })
         },
         getExportCondition(data) {
@@ -78,7 +81,9 @@ export default {
             this.getRecords()
         },
         goBack() {
-            this.$router.go(-1)
+            this.$router.push({
+                name: 'list'
+            })
         }
     }
 }
