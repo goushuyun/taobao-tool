@@ -57,7 +57,35 @@ export default {
         }
     },
     mounted() {
-        this.getLocationStock()
+        if (this.$route.params.recreat) {
+            this.getLocationStock()
+        } else {
+            var data = this.$store.state.warehouse
+            if (data.__ob__.value.warehouse != undefined) {
+                this.warehouse = data.warehouse
+                this.shelf = data.shelf
+                this.floor = data.floor
+                this.shelf_disabled = data.shelf_disabled
+                this.floor_disabled = data.floor_disabled
+                this.location_id = data.location_id
+                this.locations = data.locations
+                this.modify_dialog = data.modify_dialog
+                this.loading = data.loading
+                this.page = data.page
+                this.size = data.size
+                this.total = data.total
+                this.total_count = data.total_count
+                this.input = data.input
+                this.select = data.select
+                this.goods = data.goods
+                this.goods_page = data.goods_page
+                this.goods_size = data.goods_size
+                this.goods_total_count = data.goods_total_count
+                this.show_detail = data.show_detail
+            } else {
+                this.getLocationStock()
+            }
+        }
     },
     watch: {
         warehouse(value) {
@@ -260,6 +288,7 @@ export default {
             })
         },
         openBookDialog(index) {
+            this.$store.commit('setWarehouse', this.$data)
             var book = this.goods[index]
             this.$router.push({
                 name: 'detail',
