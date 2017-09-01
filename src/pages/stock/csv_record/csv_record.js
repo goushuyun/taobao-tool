@@ -45,7 +45,10 @@ export default {
                     this.total_count = resp.data.total_count
                     this.records = data
                 }
-                this.loading = false
+                var self = this
+                setTimeout(_ => {
+                    self.loading = false
+                }, 200)
             })
         },
         getExportCondition(data) {
