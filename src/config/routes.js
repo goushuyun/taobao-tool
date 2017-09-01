@@ -59,10 +59,11 @@ export default [{
         }, {
             path: '/stock/warehouse',
             name: 'warehouse',
-            component: warehouse,
-            meta: {
-                keepAlive: true
-            }
+            component: warehouse
+            // ,
+            // meta: {
+            //     keepAlive: true
+            // }
         }, {
             path: '/stock/record',
             name: 'record',
