@@ -108,7 +108,6 @@ export default {
         output() {
             if(this.total_stock == 0 || !this.can_out) return false
 
-
             // handle every map_row's output
             let data = [], current_page_out = 0
             this.location_list.forEach(item=>{
@@ -162,12 +161,14 @@ export default {
                             if(still_need_out > 0){
                                 to_out.push({
                                     stock: item.stock * -1,
-                                    map_row_id: item.map_row_id
+                                    map_row_id: item.map_row_id,
+                                    location_id: item.location_id
                                 })
                             }else{
                                 to_out.push({
                                     stock: curret_count * -1,
-                                    map_row_id: item.map_row_id
+                                    map_row_id: item.map_row_id,
+                                    location_id: item.location_id
                                 })
                                 break
                             }
