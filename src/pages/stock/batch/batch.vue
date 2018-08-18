@@ -129,7 +129,8 @@ export default {
 
             // upload data manage
             upload_num_per: 50,
-            need_upload_time: 0
+            need_upload_time: 0,
+            per_add_process: 0
         }
     }
 }

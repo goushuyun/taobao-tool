@@ -76,7 +76,7 @@ export default {
 				this.fail_data_num += res.failed_data.length
 				this.success_data_num += res.success_num
 				this.blur_data_num += res.pending_check_num
-				this.process += this.per_add_process
+				this.process = parseFloat((this.process + this.per_add_process).toFixed(1))
 
 				// upload it continue
 				this.upload_data(filename)
@@ -87,10 +87,20 @@ export default {
 		save_upload_record(record_params){
 			axios.post('/v1/stock/save_goods_batch_upload_record', record_params).then(res=>{
 				console.log(res.data);
-				this.process += 6
-				this.dialog_title = '数据导入完成'
+				this.process = 100
 				this.refresh_table()
-				this.visible = false
+
+				let _this = this
+				let timer = 5
+
+				let interval = setInterval(() => {
+          this.dialog_title = '数据导入完成(' + timer + '秒后关闭窗口)'
+					if (timer === 0) {
+						clearInterval(interval)
+            _this.visible = false
+					}
+          timer--
+				}, 1000)
 			})
 		}
 
