@@ -145,9 +145,9 @@ export default {
 				}
 
 
-				this.upload_num_per = 200
+				this.upload_num_per = 50
 				this.need_upload_time = Math.ceil(this.excel_json.length/this.upload_num_per)
-				this.per_add_process = parseFloat((84/this.need_upload_time).toFixed(1))
+				this.per_add_process = (84/parseFloat(this.need_upload_time)).toFixed(1)
 
 				// keys of upload
 				console.log('=============per_add_process==================');
