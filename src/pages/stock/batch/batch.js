@@ -7,7 +7,7 @@ export default {
 			this.correct_json = []
 
 			this.success_data_num = this.fail_data_num = this.blur_data_num = 0
-			this.process = 0,
+			this.process = 0
 
 			this.dialog_title = '正在导入数据...（请勿关闭弹框！！！）'
 		},
@@ -87,7 +87,7 @@ export default {
 
 			// start to handle upload data
 			this.visible = true
-			this.process += 2
+			this.process += 1
 
 			file = files[0];
 			$('#upload_excel_input').val('')
@@ -97,7 +97,6 @@ export default {
 
 			reader.onload = e => {
 				// file loaded
-				this.process += 2
 
 				// pre-process data
 				var binary = "";
@@ -147,7 +146,7 @@ export default {
 
 				this.upload_num_per = 50
 				this.need_upload_time = Math.ceil(this.excel_json.length/this.upload_num_per)
-				this.per_add_process = (84/parseFloat(this.need_upload_time)).toFixed(1)
+				this.per_add_process = parseFloat((99/this.need_upload_time).toFixed(1))
 
 				// keys of upload
 				console.log('=============per_add_process==================');
@@ -155,8 +154,6 @@ export default {
 				console.log('=============need_upload_time=================');
 				console.log(this.need_upload_time);
 				console.log('==============================================');
-
-				this.process += 2
 
 				// 上传数据
 				this.upload_data(file.name)
