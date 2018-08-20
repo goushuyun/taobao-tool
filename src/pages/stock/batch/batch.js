@@ -144,7 +144,7 @@ export default {
 				}
 
 
-				this.upload_num_per = 50
+				this.upload_num_per = 200
 				this.need_upload_time = Math.ceil(this.excel_json.length/this.upload_num_per)
 				this.per_add_process = parseFloat((99/this.need_upload_time).toFixed(1))
 
