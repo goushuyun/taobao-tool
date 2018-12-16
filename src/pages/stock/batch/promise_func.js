@@ -14,9 +14,7 @@ function batch_upload_data(data) {
 			} else {
 				reject(resp.data)
 			}
-
 		})
-
 	})
 }
 

@@ -102,11 +102,14 @@ export default {
             this.total_out_number = this.actual_total_out_number
         },
         handle_click_input(index){
-            console.log(index);f
+            console.log(index)
             this.location_list[index].out_number = ''
         },
         output() {
             if(this.total_stock == 0 || !this.can_out) return false
+
+            // start handle output
+            this.is_outputing = true
 
             // handle every map_row's output
             let data = [], current_page_out = 0
@@ -139,6 +142,7 @@ export default {
                     this.$message('出库成功')
                     var audio = document.getElementById('audio')
                     audio.play()
+                    this.is_outputing = false
                     return
                 }
 
@@ -183,6 +187,7 @@ export default {
                             this.$message('出库成功')
                             var audio = document.getElementById('audio')
                             audio.play()
+                            this.is_outputing = false
                             return
                         })
 
