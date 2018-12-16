@@ -28,9 +28,10 @@ export default {
             }
         },
         total_out_number_change(total_out_number){
-
             // 处理 <= 0
-            if(this.total_out_number <= 0){
+            // Add check if total_out_number is inputed by uncareful double shot
+            // For example, the user double shot and input a ISBN number into Input Box
+            if (this.total_out_number <= 0 || this.total_out_number > 99999){
                 this.total_out_number = 0
                 this.clearCheckAndStock()
                 return
