@@ -17,7 +17,7 @@
                 <label for="isbn_input" style="margin: 0 7px 0 50px;">库存总量：</label>
                 <span>{{total_stock}}</span>
                 <label for="isbn_input" style="margin: 0 7px 0 30px;">出库量：</label>
-                <el-input id="out_input" type="number" @change="total_out_number_change(total_out_number)" style="width: 80px;" size="small" v-model.trim.number="total_out_number"></el-input>
+                <el-input id="out_input" type="number" @keyup.enter.native="output" @change="total_out_number_change(total_out_number)" style="width: 80px;" size="small" v-model.trim.number="total_out_number"></el-input>
                 <el-button :disabled="total_stock == 0 || !can_out " style="margin-left: 15px;" size="small" type="primary" :loading="is_outputing" @click="output">出库</el-button>
             </div>
             <el-row class="gsy-body" :gutter="10">
