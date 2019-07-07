@@ -9,7 +9,7 @@
 <div class="page">
     <div class="left_bar">
         <div class="left_top">
-            <img :src="'http://image1.goushuyun.cn/goushuyun_logo.png'" class="shop_logo">
+            <img src="http://image1.goushuyun.cn/goushuyun_logo.png" class="shop_logo">
         </div>
         <div class="left_middle">
             <el-menu theme="dark" :router="true" :default-active="menu_active" class="el-menu-vertical-demo" @select="menuSelect">
@@ -20,7 +20,7 @@
         <transition name="el-zoom-in-center">
             <div v-show="show_btns" class="left_bottom" @mouseleave="show_btns = false">
                 <div class="btn_area" title="官网" @click="goToGoushuyun">
-                    <img src="http://okxy9gsls.bkt.clouddn.com/gsy_btn.png">
+                    <img src="http://image1.goushuyun.cn/goushuyun_logo.png">
                 </div>
                 <div class="btn_area" title="退出系统" @click="signOut">
                     <i class="fa fa-power-off icon" aria-hidden="true"></i>
