@@ -25,7 +25,7 @@
               <template scope="scope">
                 <el-button type="primary" size="small" @click="showDetail(scope.$index)">查看此层书籍</el-button>
                 <el-button type="primary" size="small" @click="preModifyLocation(scope.$index)">修改</el-button>
-                <el-button type="" size="small" @click="preDeleteLocation(scope.$index)">删除</el-button>
+                <el-button :loading="scope.row.loading" :disabled="scope.row.loading" size="small" @click="preDeleteLocation(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
