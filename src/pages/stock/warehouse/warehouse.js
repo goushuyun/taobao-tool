@@ -132,6 +132,7 @@ export default {
             })
         },
         getLocationStock() {
+            this.loading = true
             axios.post('/v1/stock/get_location_stock', {
                 "warehouse": this.warehouse, //仓库名称 optional
                 "shelf": this.shelf, //货架名称 optional
@@ -144,6 +145,7 @@ export default {
                     this.total = numberFormat(resp.data.total)
                     this.total_count = resp.data.total_count
                     this.locations = data
+                    this.loading = false
                 }
             })
         },
@@ -357,22 +359,22 @@ export default {
          * @param {Object} location 货架位置
          */
         preDeleteLocation(index, location) {
-            this.$confirm('货架信息删除后，此货架中的书籍也将全部删除，且不可恢复，确定删除？', '删除', {
+            let location_name = `${location.warehouse}-${location.shelf}-${location.floor}`
+            this.$confirm(`即将删除货架位「${location_name}」并清除该货架位已上架的书籍，该操作不可撤销，点击确定继续?`, '删除提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
                 this.$set(location, 'loading', 1);
-                this.delete_location(location.location_id).then(() => {
-                    let location_name = `${location.warehouse}-${location.shelf}-${location.floor}`
+                this.deleteLocation(location.location_id).then(() => {
                     this.locations.splice(index, 1)
-                    this.$message.success(`位置 ${location_name} 的信息已删除`)
+                    this.$message.success(`货架位「${location_name}」的信息已删除`)
                 }).catch(() => {
                     this.$message.error('删除过程中遇到一些问题，请重试')
                 })
-            }).catch();
+            }).catch(() => {});
         },
-        delete_location(location_id) {
+        deleteLocation(location_id) {
             return new Promise((resolve, reject) => {
                 axios.post('/v1/stock/del_location', {location_id}).then(resp => {
                     if (resp.data.code == '00000') {
