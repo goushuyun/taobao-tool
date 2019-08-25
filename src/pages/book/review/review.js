@@ -412,11 +412,11 @@ export default {
         },
         handleSizeChange(size) {
             this.size = size
-            this.getAuditList()
+            this.getOrganizedAuditList()
         },
         handleCurrentChange(page) {
             this.page = page
-            this.getAuditList()
+            this.getOrganizedAuditList()
         },
         handleDetailSizeChange(size) {
             this.detail_dialog.size = size
