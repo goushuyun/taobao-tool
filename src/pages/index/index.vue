@@ -20,7 +20,7 @@
         <transition name="el-zoom-in-center">
             <div v-show="show_btns" class="left_bottom" @mouseleave="show_btns = false">
                 <div class="btn_area" title="官网" @click="goToGoushuyun">
-                    <img src="http://images.goushuyun.cn/static/logo-s.jpeg">
+                    <img src="http://images.goushuyun.cn/static/logo-s-circle.png">
                 </div>
                 <div class="btn_area" title="退出系统" @click="signOut">
                     <i class="fa fa-power-off icon" aria-hidden="true"></i>
